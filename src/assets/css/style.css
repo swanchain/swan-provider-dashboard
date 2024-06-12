@@ -1,0 +1,434 @@
+@font-face {
+    font-family: 'HELVETICA-ROMAN';
+    src: url('../font/HELVETICA NEUE CE 55 ROMAN.TTF');
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    background-color: #f3f6ff;
+    font-size: 100px;
+    color: #000;
+}
+
+*,
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+    margin: 0;
+    padding: 0;
+    cursor: inherit;
+}
+
+body {
+    padding: 0;
+    /* font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif; */
+    /* font-family: 'Merriweather Sans'; */
+    /* font-family: 'Roboto,sans-serif';
+    font-family: 'Lumanosimo', cursive;
+    font-family: 'Tektur', cursive;
+    font-family: 'VT323', monospace; */
+    font-family: 'Raleway', sans-serif;
+    font-family: 'HELVETICA-ROMAN';
+}
+
+/* body::-webkit-scrollbar-track, #app::-webkit-scrollbar-track {
+    background: #f7f7f7;
+}
+body::-webkit-scrollbar, #app::-webkit-scrollbar {
+    width: 6px;
+    background: #ccc;
+}
+body::-webkit-scrollbar-thumb, #app::-webkit-scrollbar-thumb {
+    background: #ccc;
+} */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+fieldset {
+    border: none;
+}
+
+img {
+    border: none;
+}
+
+ul,
+li,
+dd,
+dl,
+dt {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
+a:active,
+a:visited,
+a:link,
+a:hover {
+    border: 0;
+    border-color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:focus {
+    outline: none;
+    /* -moz-outline-style:none; */
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.el-message {
+    max-width: 95%;
+    word-break: break-word;
+}
+
+.el-message .el-icon {
+    font-size: 24px;
+}
+
+.el-message .el-message__closeBtn {
+    font-size: 18px;
+}
+
+.el-message .el-message__closeBtn .icon {
+    width: 20px;
+    height: 20px;
+    color: #303133;
+    cursor: pointer;
+}
+
+.color-free {
+  color: #51b75f;
+}
+.color-total {
+  color: #447dff;
+}
+.color-used {
+  color: #d24747;
+}
+.color-available {
+  color: #51b75f;
+}
+.color-occupied {
+  color: #d34848;
+}
+
+.landing {
+    /* width: 16.6rem; */
+    max-width: 100%;
+    margin: auto;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes run1 {
+    from {
+        transform: translateX(-100%)
+    }
+    to {
+        transform: translateX(100%)
+    }
+}
+
+@keyframes run2 {
+    from {
+        transform: translateY(-100%)
+    }
+    to {
+        transform: translateY(100%)
+    }
+}
+
+@keyframes run3 {
+    from {
+        transform: translateX(100%)
+    }
+    to {
+        transform: translateX(-100%)
+    }
+}
+
+@keyframes run4 {
+    from {
+        transform: translateY(100%)
+    }
+    to {
+        transform: translateY(-100%)
+    }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 10px #447dff, 0 0 20px #447dff, 0 0 30px #447dff, 0 0 40px #447dff;
+    }
+    100% {
+        box-shadow: 0 0 15px #447dff, 0 0 25px #447dff, 0 0 35px #447dff, 0 0 45px #447dff;
+    }
+}
+
+@-webkit-keyframes glow {
+    0% {
+        box-shadow: 0 0 10px #447dff, 0 0 20px #447dff, 0 0 30px #447dff, 0 0 40px #447dff;
+    }
+    100% {
+        box-shadow: 0 0 15px #447dff, 0 0 25px #447dff, 0 0 35px #447dff, 0 0 45px #447dff;
+    }
+}
+
+@keyframes hiddening {
+    0% {
+        max-height: unset;
+    }
+    20% {
+        max-height: 250px;
+    }
+    40% {
+        max-height: 180px;
+    }
+    60% {
+        max-height: 120px;
+    }
+    70% {
+        max-height: 60px;
+    }
+    100% {
+        max-height: 0;
+    }
+}
+
+@-webkit-keyframes hiddening {
+    0% {
+        max-height: unset;
+    }
+    20% {
+        max-height: 250px;
+    }
+    40% {
+        max-height: 180px;
+    }
+    60% {
+        max-height: 120px;
+    }
+    70% {
+        max-height: 60px;
+    }
+    100% {
+        max-height: 0;
+    }
+}
+
+@keyframes showing {
+    0% {
+        max-height: 0;
+    }
+    20% {
+        max-height: 60px;
+    }
+    40% {
+        max-height: 120px;
+    }
+    60% {
+        max-height: 180px;
+    }
+    70% {
+        max-height: 250px;
+    }
+    100% {
+        max-height: unset;
+    }
+}
+
+@-webkit-keyframes showing {
+    0% {
+        max-height: 0;
+    }
+    20% {
+        max-height: 60px;
+    }
+    40% {
+        max-height: 120px;
+    }
+    60% {
+        max-height: 180px;
+    }
+    70% {
+        max-height: 250px;
+    }
+    100% {
+        max-height: unset;
+    }
+}
+
+@media screen and (min-width:2160px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 112.5px;
+    }
+}
+
+@media screen and (min-width:2664px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 139px;
+    }
+}
+
+@media screen and (min-width:3070px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 160px;
+    }
+}
+
+@media screen and (max-width:1800px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 93.75px;
+    }
+}
+
+@media screen and (max-width:1600px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 83.33px;
+    }
+}
+
+@media screen and (max-width:1540px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 80px;
+    }
+}
+
+@media screen and (max-width:1440px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 75px;
+    }
+}
+
+@media screen and (max-width:1390px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 72px;
+    }
+}
+
+@media screen and (max-width:1366px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 71px;
+    }
+}
+
+@media screen and (max-width:1260px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 65.6px;
+    }
+}
+
+@media screen and (max-width:1024px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 53.33px;
+    }
+}
+
+@media screen and (max-width:768px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 55px;
+    }
+}
+
+/* @media screen and (max-width:640px) {
+    html,
+    body,
+    #app,
+    .wrapper {
+        font-size: 42px;
+    }
+} */

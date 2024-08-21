@@ -1,0 +1,314 @@
+/* @font-face {
+  font-family: 'gilroy-Regular';
+  src: url('./Gilroy/gilroy-regular-3.otf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'gilroy-bold';
+  src: url('./Gilroy/gilroy-bold-4.otf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+} */
+
+@font-face {
+  font-family: 'HELVETICA-ROMAN';
+  src: url('../font/HELVETICA/HELVETICA NEUE CE 55 ROMAN.TTF');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  --font-20: 20px;
+  --font-18: 18px;
+  --font-16: 16px;
+  --font-14: 14px;
+  --font-12: 12px;
+}
+
+.font-bold{
+  /* font-family: 'gilroy-bold'; */
+  font-weight: bold;
+}
+
+.font-10 {
+  font-size: 10px;
+}
+
+.font-12 {
+  font-size: 12px;
+}
+
+.font-13 {
+  font-size: 13px !important;
+}
+
+.font-14 {
+  font-size: 14px;
+}
+
+.font-16 {
+  font-size: var(--font-16);
+}
+
+.font-18 {
+  font-size: var(--font-18);
+}
+
+.font-20 {
+  font-size: var(--font-20);
+}
+
+.font-22 {
+  font-size: 22px;
+}
+
+.font-24 {
+  font-size: 24px;
+}
+
+.font-26 {
+  font-size: 26px;
+}
+
+.font-28 {
+  font-size: 28px;
+}
+
+.font-30 {
+  font-size: 30px;
+}
+
+.font-32 {
+  font-size: 32px;
+}
+
+.font-34 {
+  font-size: 34px;
+}
+
+.font-36 {
+  font-size: 36px;
+}
+
+.font-38 {
+  font-size: 38px;
+}
+
+.font-40 {
+  font-size: 40px;
+}
+
+.font-42 {
+  font-size: 42px;
+}
+
+.font-44 {
+  font-size: 44px;
+}
+
+.font-46 {
+  font-size: 46px;
+}
+
+.font-48 {
+  font-size: 48px;
+}
+
+.font-50 {
+  font-size: 50px;
+}
+
+.font-52 {
+  font-size: 0.52rem;
+}
+
+.font-54 {
+  font-size: 0.54rem;
+}
+
+.font-56 {
+  font-size: 0.56rem;
+}
+
+.font-58 {
+  font-size: 0.58rem;
+}
+
+.font-60 {
+  font-size: 0.6rem;
+}
+
+.font-62 {
+  font-size: 0.62rem;
+}
+
+.font-64 {
+  font-size: 0.64rem;
+}
+
+.font-66 {
+  font-size: 0.66rem;
+}
+
+.font-68 {
+  font-size: 0.68rem;
+}
+
+.font-70 {
+  font-size: 0.7rem;
+}
+
+.font-80 {
+  font-size: 0.8rem;
+}
+
+.font-90 {
+  font-size: 0.9rem;
+}
+
+.font-100 {
+  font-size: 1rem;
+}
+
+.font-weight-4{
+  font-weight: 400;
+}
+
+.font-weight-5{
+  font-weight: 500;
+}
+
+.font-weight-6{
+  font-weight: 600;
+}
+
+.font-weight-9{
+  font-weight: 900;
+}
+
+@media screen and (min-width: 2000px) {
+  :root {
+    --font-20: 24px !important;
+    --font-18: 22px !important;
+    --font-16: 20px !important;
+    --font-14: 18px !important;
+    --font-12: 16px !important;
+  }
+  .font-12 {
+    font-size: 16px !important;
+  }
+  .font-13 {
+    font-size: 17px !important;
+  }
+  .font-14 {
+    font-size: 18px !important;
+  }
+  .font-16 {
+    font-size: 20px !important;
+  }
+  .font-18 {
+    font-size: 22px !important;
+  }
+  .font-20 {
+    font-size: 24px !important;
+  }
+  .font-22 {
+    font-size: 26px !important;
+  }
+  .font-24 {
+    font-size: 28px !important;
+  }
+  .font-26 {
+    font-size: 30px !important;
+  }
+  .font-28 {
+    font-size: 32px !important;
+  }
+  .font-30 {
+    font-size: 34px !important;
+  }
+  .font-32 {
+    font-size: 36px !important;
+  }
+  .font-34 {
+    font-size: 38px !important;
+  }
+  .font-36 {
+    font-size: 40px !important;
+  }
+  .font-38 {
+    font-size: 42px !important;
+  }
+  .font-40 {
+    font-size: 44px !important;
+  }
+  .font-64 {
+    font-size: 68px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --font-20: 12px !important;
+    --font-18: 12px !important;
+    --font-16: 12px !important;
+    --font-14: 10px !important;
+    --font-12: 10px !important;
+  }
+  .font-12 {
+    font-size: 10px !important;
+  }
+  .font-13 {
+    font-size: 10px !important;
+  }
+  .font-14 {
+    font-size: 10px !important;
+  }
+  .font-16 {
+    font-size: 12px !important;
+  }
+  .font-18 {
+    font-size: 12px !important;
+  }
+  .font-20 {
+    font-size: 12px !important;
+  }
+  .font-22 {
+    font-size: 12px !important;
+  }
+  .font-24 {
+    font-size: 13px !important;
+  }
+  .font-26 {
+    font-size: 13px !important;
+  }
+  .font-28 {
+    font-size: 14px !important;
+  }
+  .font-30 {
+    font-size: 14px !important;
+  }
+  .font-32 {
+    font-size: 15px !important;
+  }
+  .font-34 {
+    font-size: 16px !important;
+  }
+  .font-36 {
+    font-size: 17px !important;
+  }
+  .font-38 {
+    font-size: 18px !important;
+  }
+  .font-40 {
+    font-size: 20px !important;
+  }
+  .font-64 {
+    font-size: 28px !important;
+  }
+}

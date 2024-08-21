@@ -215,8 +215,8 @@ const rules = reactive({
 })
 const collateralAddress = import.meta.env.VITE_COLLATERAL_CONTACT
 const collateralContract = new web3Init.eth.Contract(CollateralABI, collateralAddress)
-const fcpContract = new web3Init.eth.Contract(fcpABI, fcpDeposit)
-const ecpContract = new web3Init.eth.Contract(ecpABI, ecpDeposit)
+const fcpContract = new web3Init.eth.Contract(fcpABI, fcpDeposit.value)
+const ecpContract = new web3Init.eth.Contract(ecpABI, ecpDeposit.value)
 const tokenContract = new web3Init.eth.Contract(tokenABI, import.meta.env.VITE_MAINNET_SWANTOKEN_ADDRESS_PROXIMA)
 
 const emits = defineEmits(['hardClose'])
@@ -238,11 +238,11 @@ async function cpDeposit () {
     const amount = web3Init.utils.toWei(String(ruleForm.amount), 'ether')
 
     let approveGasLimit = await tokenContract.methods
-      .approve(props.list.type === 'FCP' ? fcpDeposit : ecpDeposit, amount)
+      .approve(props.list.type === 'FCP' ? fcpDeposit.value : ecpDeposit.value, amount)
       .estimateGas({ from: metaAddress.value })
 
     const approve_tx = await tokenContract.methods
-      .approve(props.list.type === 'FCP' ? fcpDeposit : ecpDeposit, amount)
+      .approve(props.list.type === 'FCP' ? fcpDeposit.value : ecpDeposit.value, amount)
       .send({
         from: metaAddress.value, gasLimit: Math.floor(approveGasLimit * 1.5)
       })

@@ -20,12 +20,14 @@
     <el-table :data="tableData" style="width: 100%" v-loading="dataLoad">
       <el-table-column prop="hash" label="Transaction Hash">
         <template #default="scope">
-          <a :href="`${explorerLink}tx/${scope.row.hash}`" target="_blank" class="name-style font-14">{{hiddAddress(scope.row.hash)}}</a>
+          <a v-if="scope.row.hash" :href="`${explorerLink}tx/${scope.row.hash}`" target="_blank" class="name-style font-14">{{hiddAddress(scope.row.hash)}}</a>
+          <span v-else></span>
         </template>
       </el-table-column>
       <el-table-column prop="height" label="Height">
         <template #default="scope">
-          <span>{{scope.row.height ?? '-'}}</span>
+          <span v-if="scope.row.block_number" @click="openPage(`${explorerLink}block/${scope.row.block_number}`)" class="pointer">{{scope.row.block_number ?? '-'}}</span>
+          <span v-else></span>
         </template>
       </el-table-column>
       <el-table-column prop="timestamp" label="Time">
@@ -141,7 +143,8 @@ async function getAllData() {
     const dataRes = await getCPsTxnsData(params, route.params.cp_addr)
     tableData.value = dataRes?.data?.list ?? []
     pagin.total = dataRes?.data?.total ?? 0
-    const method = compact(dataRes?.data?.methods)
+    const valuesArray = Object.keys(dataRes?.data?.methods).flatMap(key => dataRes?.data?.methods[key])
+    const method = compact(valuesArray)
     searchList.options = ['All'].concat(method)
     searchList.options = searchList.options.filter((item, index) => searchList.options.indexOf(item) === index);
   } catch{console.error}

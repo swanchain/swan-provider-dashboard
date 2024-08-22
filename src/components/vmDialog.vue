@@ -260,6 +260,7 @@ async function cpDeposit () {
         console.log('receipt:', receipt)
         messageTip('success', 'Deposit success. Please refresh page to view account balance.')
         ruleForm.show = false
+        closeHandle()
       })
       .on('error', () => ruleForm.show = false)
   } catch (err: any) {

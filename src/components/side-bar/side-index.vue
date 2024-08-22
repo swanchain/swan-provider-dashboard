@@ -79,7 +79,7 @@ import { metaAddress, token } from '@/utils/storage'
       else if (nameMenu.indexOf('rankingsECP') > -1 || nameMenu.indexOf('rankings/ecp') > -1) activeIndex.value = 'rankings-ecp'
       else if (nameMenu.indexOf('aarFCP') > -1 || nameMenu.indexOf('campaign/fcp') > -1) activeIndex.value = 'aar-fcp'
       else if (nameMenu.indexOf('aarECP') > -1 || nameMenu.indexOf('campaign/ecp') > -1) activeIndex.value = 'aar-ecp'
-      else if (nameMenu.indexOf('accountInfo') > -1 || nameMenu.indexOf('cp-profile') > -1) activeIndex.value = 'accountInfo'
+      else if (nameMenu.indexOf('accountInfo') > -1 || nameMenu.indexOf('cp') > -1) activeIndex.value = 'accountInfo'
       else if (nameMenu.indexOf('resource') > -1) activeIndex.value = 'resource'
       else activeIndex.value = nameMenu
 

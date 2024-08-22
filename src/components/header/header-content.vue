@@ -562,7 +562,7 @@ const contractAddress = ref('')
       .el-tooltip__trigger {
         margin: 0;
         width: auto;
-        height: auto;
+        height: 32px;
         padding: 0.04rem 0.22rem 0.04rem 0.12rem;
         background-color: transparent;
         font-size: inherit;
@@ -570,8 +570,12 @@ const contractAddress = ref('')
         border: 1px solid var(--color-light);
         border-radius: 0.3rem;
         box-shadow: none;
+        line-height: 32px;
         @media screen and (max-width: 767px) {
           padding: 0.04rem 0.1rem;
+        }
+        * {
+          line-height: 32px;
         }
         .el-select__prefix {
           margin: 0 0.06rem 0 0;

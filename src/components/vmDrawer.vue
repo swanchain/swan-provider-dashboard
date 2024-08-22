@@ -632,12 +632,12 @@ const props = withDefaults(
               .machines-style {
                 flex-wrap: wrap;
                 span {
-                  padding: 3px 10px 1px;
+                  padding: 1px 10px 0;
                   margin: 3px 5px 3px 0;
                   background-color: var(--color-primary);
                   border-radius: 45px;
                   word-break: break-word;
-                  line-height: 1;
+                  line-height: 15px;
                   color: var(--color-light);
                 }
               }

@@ -80,3 +80,12 @@ export function getCPsFCPListData(params: any) {
       params
   })
 }
+
+export function getCampaignFCPListData(params: any) {
+  return request({
+      headers: {},
+      url: `${import.meta.env.VITE_BASE_URL}v1/campaign/mainnet/fcps`,
+      method: 'get',
+      params
+  })
+}

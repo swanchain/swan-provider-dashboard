@@ -30,7 +30,7 @@
           <span v-else></span>
         </template>
       </el-table-column>
-      <el-table-column prop="timestamp" label="Time">
+      <el-table-column prop="timestamp" label="Time" min-with="140">
         <template #default="scope">
           <span>
             {{ momentFun(scope.row.timestamp) }}
@@ -40,7 +40,7 @@
       <el-table-column prop="from" label="From">
         <template #default="scope">
           <div class="flex flex-ai-center flex-jc-center nowrap copy-style" v-if="scope.row.from">
-            <a :href="`${explorerLink}address/${scope.row.from}`" target="_blank" class="name-style w font-14">{{hiddAddress(scope.row.from)}}</a>
+            <div @click="openPage(`${explorerLink}address/${scope.row.from}`)" class="w font-14">{{hiddAddress(scope.row.from)}}</div>
             <svg @click="copyContent(scope.row.from, 'Copied')" t="1717142367802" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6467" width="16" height="16">
               <path d="M809.19 310.68H398.37a87.79 87.79 0 0 0-87.69 87.69v410.82a87.79 87.79 0 0 0 87.69 87.69h410.82a87.79 87.79 0 0 0 87.69-87.69V398.37a87.79 87.79 0 0 0-87.69-87.69z m29.69 498.51a29.73 29.73 0 0 1-29.69 29.69H398.37a29.73 29.73 0 0 1-29.69-29.69V398.37a29.73 29.73 0 0 1 29.69-29.69h410.82a29.73 29.73 0 0 1 29.69 29.69z"
                 fill="#3d3d3d" p-id="6468"></path>
@@ -55,7 +55,7 @@
         <template #default="scope">
           <span>
           <div class="flex flex-ai-center flex-jc-center nowrap copy-style" v-if="scope.row.to">
-            <a :href="`${explorerLink}address/${scope.row.to}`" target="_blank" class="name-style w font-14">{{hiddAddress(scope.row.to)}}</a>
+            <div @click="openPage(`${explorerLink}address/${scope.row.to}`)" class="w font-14">{{hiddAddress(scope.row.to)}}</div>
             <svg @click="copyContent(scope.row.to, 'Copied')" t="1717142367802" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6467" width="16" height="16">
               <path d="M809.19 310.68H398.37a87.79 87.79 0 0 0-87.69 87.69v410.82a87.79 87.79 0 0 0 87.69 87.69h410.82a87.79 87.79 0 0 0 87.69-87.69V398.37a87.79 87.79 0 0 0-87.69-87.69z m29.69 498.51a29.73 29.73 0 0 1-29.69 29.69H398.37a29.73 29.73 0 0 1-29.69-29.69V398.37a29.73 29.73 0 0 1 29.69-29.69h410.82a29.73 29.73 0 0 1 29.69 29.69z"
                 fill="#3d3d3d" p-id="6468"></path>
@@ -69,12 +69,15 @@
       </el-table-column>
       <el-table-column prop="method" label="Method">
         <template #default="scope">
-          <span :class="`${scope.row.method?'method-style':''}`">
-            {{ scope.row.method }}
-          </span>
+          <div :class="`${scope.row.method?'method-style':''}`">
+            {{ scope.row.method }} 
+            <small v-if="scope.row.type && scope.row.type.indexOf('FCP') > -1">(Orchestrator)</small>
+            <small v-else-if="scope.row.type && scope.row.type.indexOf('ECP') > -1">(ZK-engine)</small>
+            <small v-else>({{ scope.row.type }})</small>
+          </div>
         </template>
       </el-table-column>
-      <el-table-column prop="value" label="Value">
+      <el-table-column prop="value" label="Value" width="80">
         <template #default="scope">
           <span>
             {{ scope.row.value }}

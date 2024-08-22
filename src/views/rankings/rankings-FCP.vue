@@ -130,18 +130,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="region" min-width="100" column-key="region" filterable :filters="regionFilters" filter-placement="bottom-end" :filter-multiple="false">
-            <template #header>
-              <div class="font-14 weight-4">Region</div>
-            </template>
-            <template #default="scope">
-              <el-popover placement="top" effect="dark" popper-class="popup-content" popper-style="word-break: break-word; text-align: center;font-size:12px;" trigger="hover" :content="scope.row.region">
-                <template #reference>
-                  <div class="name-style black">{{scope.row.region ?? '-'}}</div>
-                </template>
-              </el-popover>
-            </template>
-          </el-table-column>
+          <el-table-column prop="region" label="Region" min-width="110" />
           <el-table-column prop="uptime" min-width="150">
             <template #header>
               <div class="font-14 weight-4">Uptime</div>

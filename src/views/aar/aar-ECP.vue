@@ -40,9 +40,9 @@
             </template>
             <template #default="scope">
               <div class="badge flex flex-ai-center flex-jc-center">
-                <img v-if="scope.$index === 0 && paginZK.pageNo <= 1" :src="badgeIcon01" alt="">
-                <img v-else-if="scope.$index === 1 && paginZK.pageNo <= 1" :src="badgeIcon02" alt="">
-                <img v-else-if="scope.$index === 2 && paginZK.pageNo <= 1" :src="badgeIcon03" alt="">
+                <img v-if="scope.$index === 0 && paginZK.pageNo <= 1 && !((networkZK.cp_addr || networkZK.name) && networkZK.searchFor)" :src="badgeIcon01" alt="">
+                <img v-else-if="scope.$index === 1 && paginZK.pageNo <= 1 && !((networkZK.cp_addr || networkZK.name) && networkZK.searchFor)" :src="badgeIcon02" alt="">
+                <img v-else-if="scope.$index === 2 && paginZK.pageNo <= 1 && !((networkZK.cp_addr || networkZK.name) && networkZK.searchFor)" :src="badgeIcon03" alt="">
                 <span v-else>{{ paginZK.pageNo > 0 ? (paginZK.pageNo - 1) * paginZK.pageSize + scope.$index + 1 : scope.$index + 1 }}</span>
               </div>
             </template>
@@ -50,7 +50,7 @@
           <el-table-column prop="contract_addr" label="CP Account Address" min-width="140">
             <template #default="scope">
               <div class="badge flex flex-ai-center flex-jc-center">
-                <div class="flex flex-ai-center flex-jc-center copy-style">
+                <div class="flex flex-ai-center flex-jc-center copy-style" v-if="scope.row.contract_addr">
                   <router-link :to="{ name: 'accountInfo', params: {cp_addr: scope.row.contract_addr} }">{{hiddAddress(scope.row.contract_addr)}}</router-link>
                   <svg @click="copyContent(scope.row.contract_addr, 'Copied')" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2309" width="18" height="18">
                     <path d="M720 192h-544A80.096 80.096 0 0 0 96 272v608C96 924.128 131.904 960 176 960h544c44.128 0 80-35.872 80-80v-608C800 227.904 764.128 192 720 192z m16 688c0 8.8-7.2 16-16 16h-544a16 16 0 0 1-16-16v-608a16 16 0 0 1 16-16h544a16 16 0 0 1 16 16v608z"
@@ -59,6 +59,7 @@
                     <path d="M608 360H288a32 32 0 0 0 0 64h320a32 32 0 1 0 0-64zM608 520H288a32 32 0 1 0 0 64h320a32 32 0 1 0 0-64zM480 678.656H288a32 32 0 1 0 0 64h192a32 32 0 1 0 0-64z" p-id="2312" fill="#b5b7c8"></path>
                   </svg>
                 </div>
+                <span v-else>-</span>
               </div>
             </template>
           </el-table-column>

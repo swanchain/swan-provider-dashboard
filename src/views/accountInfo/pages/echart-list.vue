@@ -200,6 +200,11 @@ const changetype = async (data: any) => {
 
   const fcpCollateralData = await dataCpData(data.fcp_collateral, 'total')
   const fcpEscrowData = await dataCpData(data.fcp_collateral, 'active')
+  const fcpCollaMax = Math.max(Math.max(...fcpCollateralData.datum), Math.max(...fcpEscrowData.datum))
+  const fcpCollateralMax = Math.ceil(fcpCollaMax*1.1)
+  const fcpCollaMin = Math.min(Math.min(...fcpCollateralData.datum), Math.min(...fcpEscrowData.datum))
+  const fcpEscrowNumber = fcpCollaMin >= 0 ? 0.9 : 1.1
+  const fcpCollateralMin = Math.floor(fcpCollaMin*fcpEscrowNumber)
 
   const ecpCountsData = await dataCpData(data.ecp_task, 'total')
   const ecpGrowthData = await dataDelta(data.ecp_task, 'delta')
@@ -437,6 +442,8 @@ const changetype = async (data: any) => {
         color: '#7c889b',
         //   formatter: '{value}'
       },
+      max: fcpCollateralMax,
+      min: fcpCollateralMin
     },
     series: [
       {

@@ -14,7 +14,7 @@
                 <div class="items-center text-right">{{chip.name}}</div>
                 <div class="flex flex-ai-center flex-jc-left nowrap items-number">
                   <div class="absolute" :style="'width:' + (chip.value / chipDataAll.gpuMaxData * 100) + '%;'"></div>
-                  <div class="text-data color-light ml-4 mr-2">{{replaceFormat(chip.value)}}</div>
+                  <div class="text-data color-dark ml-4 mr-2">{{replaceFormat(chip.value)}}</div>
                 </div>
               </div>
             </template>
@@ -39,7 +39,7 @@
                   <div class="items-center text-right">{{chip.name}}</div>
                   <div class="flex flex-ai-center flex-jc-left nowrap items-number">
                     <div class="absolute" :style="'width:' + (chip.value / chipDataAll.cpuMaxData * 100) + '%;'"></div>
-                    <div class="text-data color-light ml-4 mr-2">{{replaceFormat(chip.value)}}</div>
+                    <div class="text-data color-dark ml-4 mr-2">{{replaceFormat(chip.value)}}</div>
                   </div>
                 </div>
               </template>
@@ -55,7 +55,7 @@
                   <div class="items-center text-right">{{chip.name}}</div>
                   <div class="flex flex-ai-center flex-jc-left nowrap items-number">
                     <div class="absolute" :style="'width:' + (chip.value / chipDataAll.memoryMaxData * 100) + '%;'"></div>
-                    <div class="text-data color-light ml-4 mr-2">{{byteTBStorage(chip.value)}}</div>
+                    <div class="text-data color-dark ml-4 mr-2">{{byteTBStorage(chip.value)}}</div>
                   </div>
                 </div>
               </template>
@@ -71,7 +71,7 @@
                   <div class="items-center text-right">{{chip.name}}</div>
                   <div class="flex flex-ai-center flex-jc-left nowrap items-number">
                     <div class="absolute" :style="'width:' + (chip.value / chipDataAll.storageMaxData * 100) + '%;'"></div>
-                    <div class="text-data color-light ml-4 mr-2">{{byteTBStorage(chip.value)}}</div>
+                    <div class="text-data color-dark ml-4 mr-2">{{byteTBStorage(chip.value)}}</div>
                   </div>
                 </div>
               </template>
@@ -363,9 +363,9 @@ watch(() => props.echartData, () => {
               }
               .text-data {
                 padding: 0 2px;
-                background-color: #567aee;
-                border-radius: 2px;
-                z-index: 1;
+                background-color: var(--color-light);
+                // border-radius: 2px;
+                // z-index: 1;
               }
             }
             .items-center {

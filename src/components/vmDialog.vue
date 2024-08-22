@@ -146,7 +146,7 @@
         <div class="dialog-footer flex flex-ai-center flex-jc-right font-14">
           <el-button @click="closeHandle()">Cancel</el-button>
           <!-- !ruleForm.amount ||  -->
-          <el-button @click="cpCollateral" :disabled="props.list.type === 'claimAccount'" type="primary">Submit</el-button>
+          <el-button @click="cpCollateral" :disabled="ruleForm.chainError || props.list.type === 'claimAccount'" type="primary">Submit</el-button>
         </div>
       </template>
     </el-dialog>
@@ -154,20 +154,14 @@
 </template>
 
 <script setup lang="ts">
-import {
-  Warning
-} from '@element-plus/icons-vue'
 import * as echarts from "echarts"
 import CollateralABI from '@/utils/abi/CollateralContract.json'
 import fcpABI from '@/utils/abi/FCP-Collateral.json'
-import fcpProximaABI from '@/utils/abi/fcp-CollateralV2.json'
 import ecpABI from '@/utils/abi/ECPCollateral.json'
-import ecpProximaABI from '@/utils/abi/ECPCollateral-proxima.json'
 import tokenABI from '@/utils/abi/SwanToken.json'
-import tokenProximaABI from '@/utils/abi/tokenLLL.json'
-import { ecpDeposit, fcpDeposit, metaAddress } from '@/utils/storage';
+import { ecpDeposit, fcpDeposit, metaAddress, tokenSwan } from '@/utils/storage';
 import { copyContent, getDateTime, messageTip } from '@/utils/common';
-import web3Init from '@/utils/login';
+import web3Init, { getChain } from '@/utils/login';
 
 const props = withDefaults(
   defineProps<{
@@ -195,7 +189,8 @@ const ruleForm = reactive({
   signature: '',
   amount: props.list.type === 'FCP' ? 5 : 150,
   show: false,
-  tx_hash: ''
+  tx_hash: '',
+  chainError: false
 })
 const rules = reactive({
   name: [
@@ -213,17 +208,17 @@ const rules = reactive({
     { required: true, message: 'This field is required.', trigger: 'blur' },
   ]
 })
-const collateralAddress = import.meta.env.VITE_COLLATERAL_CONTACT
-const collateralContract = new web3Init.eth.Contract(CollateralABI, collateralAddress)
+// const collateralAddress = import.meta.env.VITE_COLLATERAL_CONTACT
+// const collateralContract = new web3Init.eth.Contract(CollateralABI, collateralAddress)
 const fcpContract = new web3Init.eth.Contract(fcpABI, fcpDeposit)
 const ecpContract = new web3Init.eth.Contract(ecpABI, ecpDeposit)
-const tokenContract = new web3Init.eth.Contract(tokenABI, import.meta.env.VITE_MAINNET_SWANTOKEN_ADDRESS)
+const tokenContract = new web3Init.eth.Contract(tokenABI, tokenSwan)
 
 const emits = defineEmits(['hardClose'])
 function closeHandle () {
   emits('hardClose', false)
 }
-function cpCollateral() {
+async function cpCollateral() {
   if(props.list.type === 'claimAccount') return
   ruleForm.show = true
   try {
@@ -237,28 +232,33 @@ async function cpDeposit () {
   try {
     const amount = web3Init.utils.toWei(String(ruleForm.amount), 'ether')
 
-    let approveGasLimit = await tokenContract.methods
-      .approve(props.list.type === 'FCP' ? fcpDeposit : ecpDeposit, amount)
-      .estimateGas({ from: metaAddress.value })
+    // find the user's allowance
+    let allowanceMethod = tokenContract.methods.allowance(metaAddress.value, props.list.type === 'FCP' ? fcpDeposit : ecpDeposit)
+    let allowance = await allowanceMethod.call()
+    console.log('allowance:', allowance, amount)
 
-    const approve_tx = await tokenContract.methods
-      .approve(props.list.type === 'FCP' ? fcpDeposit : ecpDeposit, amount)
-      .send({
-        from: metaAddress.value, gasLimit: Math.floor(approveGasLimit * 1.5)
+    // approve spending token if neccessary
+    if (allowance < amount) {
+      let approveMethod = tokenContract.methods.approve(props.list.type === 'FCP' ? fcpDeposit : ecpDeposit, amount)
+      const approve_tx = await approveMethod.send({ from: metaAddress.value })
+      .on('transactionHash', async (transactionHash: any) => {
+        console.log('approve transactionHash:', transactionHash)
       })
+    }
       
     let payMethod = props.list.type === 'FCP' ?
-      fcpContract.methods.deposit(route.params.cp_addr) :
+      fcpContract.methods.deposit(route.params.cp_addr, amount) :
       ecpContract.methods.deposit(route.params.cp_addr, amount)
 
     let payGasLimit = await payMethod.estimateGas({ from: metaAddress.value })
-    const tx = await payMethod.send({ from: metaAddress.value, gasLimit: Math.floor(payGasLimit * 1.5), value: amount })
+    const tx = await payMethod.send({ from: metaAddress.value, gasLimit: Math.floor(payGasLimit * 1.5) })
       .on('transactionHash', async (transactionHash: any) => {
         console.log('transactionHash:', transactionHash)
         ruleForm.tx_hash = transactionHash
       })
       .on('receipt', (receipt: any) => {
         console.log('receipt:', receipt)
+        messageTip('success', 'Deposit success. Please refresh page to view account balance.')
         ruleForm.show = false
       })
       .on('error', () => ruleForm.show = false)
@@ -269,6 +269,12 @@ async function cpDeposit () {
   }
 }
 onMounted(async () => {
+  try {
+    const chain_id = await getChain()
+    ruleForm.chainError = chain_id
+  } catch {
+    ruleForm.chainError = false
+  }
   // const rightnow = (Date.now() / 1000).toFixed(0)
   // sortanow.value = rightnow - (rightnow % 600)
   sortanow.value = getDateTime()

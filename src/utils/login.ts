@@ -31,6 +31,11 @@ if (typeof (window as any)?.ethereum === 'undefined') {
 
 export default web3Init
 
+export async function getChain() { 
+  const chainId = await providerInit.request({ method: 'eth_chainId' })
+  return parseInt(chainId, 16) !== 254 ? true :false
+}
+
 export async function login () {
   if (!metaAddress.value || metaAddress.value === undefined) {
     const accounts = await providerInit.request({

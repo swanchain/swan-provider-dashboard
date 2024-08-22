@@ -9,8 +9,9 @@ export const signature = ref('')
 export const locationAll = ref([])
 export const explorerLink = ref(currentNetwork.value === 'Proxima' ? ELINK.PROXIMAEXPLORER : ELINK.MAINNETEXPLORER)
 export const baseurl = currentNetwork.value === 'Mainnet' ? import.meta.env.VITE_BASEAPI : import.meta.env.VITE_BASEAPI_PROXIMA
-export const fcpDeposit = import.meta.env.VITE_FCP_DEPOSIT_ADDRESS
-export const ecpDeposit = import.meta.env.VITE_ECP_DEPOSIT_ADDRESS
+export const fcpDeposit = import.meta.env.VITE_FCP_DEPOSIT_ADDRESS // _PROXIMA
+export const ecpDeposit = import.meta.env.VITE_ECP_DEPOSIT_ADDRESS // _PROXIMA
+export const tokenSwan = import.meta.env.VITE_MAINNET_SWANTOKEN_ADDRESS // _PROXIMA
 export const addCollateral = ref(false)
 
 export function removeStorage(key: string) {

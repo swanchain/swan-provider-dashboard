@@ -46,7 +46,6 @@ declare module 'vue' {
     SideIndex: typeof import('./src/components/side-bar/side-index.vue')['default']
     VmDialog: typeof import('./src/components/vmDialog.vue')['default']
     VmDrawer: typeof import('./src/components/vmDrawer.vue')['default']
-    'VmDrawer copy': typeof import('./src/components/vmDrawer copy.vue')['default']
     Web3Modal: typeof import('./src/components/web3-modal.vue')['default']
   }
   export interface ComponentCustomProperties {

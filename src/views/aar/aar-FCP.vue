@@ -1,7 +1,7 @@
 <template>
   <section id="aarFCP-container">
     <div class="flex flex-ai-center header-title">
-      <h1 class="font-20 font-bold">Fog Computing Provider Rankings</h1>
+      <h1 class="font-20 font-bold">FCP Leaderboard</h1>
       <a :href="'https://docs.swanchain.io/computing-provider/fog-computing-provider-fcp'" target="_blank" class="font-14">Learn more about FCP</a>
     </div>
 

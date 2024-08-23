@@ -1,7 +1,7 @@
 <template>
   <section id="aarECP-container">
     <div class="flex flex-ai-center header-title">
-      <h1 class="font-20 font-bold">Edge Computing Provider Rankings</h1>
+      <h1 class="font-20 font-bold">ECP Leaderboard</h1>
       <a :href="'https://docs.swanchain.io/computing-provider/edge-computing-provider-ecp'" target="_blank" class="font-14">Learn more about ECP</a>
     </div>
 

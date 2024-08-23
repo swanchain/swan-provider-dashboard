@@ -134,7 +134,7 @@
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon"></i>
-                        <span>FCP Ranking</span>
+                        <span>FCP Leaderboard</span>
                       </div>
                     </div>
                   </el-dropdown-item>
@@ -142,7 +142,7 @@
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon"></i>
-                        <span>ECP Ranking</span>
+                        <span>ECP Leaderboard</span>
                       </div>
                     </div>
                   </el-dropdown-item>

@@ -43,10 +43,10 @@
             </span>
           </template>
           <el-menu-item index="aar-fcp">
-            <span class="font-14">FCP Ranking</span>
+            <span class="font-14">FCP Leaderboard</span>
           </el-menu-item>
           <el-menu-item index="aar-ecp">
-            <span class="font-14">ECP Ranking</span>
+            <span class="font-14">ECP Leaderboard</span>
           </el-menu-item>
         </el-sub-menu>
       </el-menu>

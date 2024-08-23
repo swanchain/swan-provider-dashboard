@@ -35,7 +35,7 @@
           </el-table-column>
           <el-table-column prop="active_deployments" min-width="120">
             <template #header>
-              <div class="font-14 weight-4">Active Deployments</div>
+              <div class="font-14 weight-4">Total Deployments</div>
             </template>
             <template #default="scope">
               <div>{{ replaceFormat(scope.row.active_deployments) }}</div>

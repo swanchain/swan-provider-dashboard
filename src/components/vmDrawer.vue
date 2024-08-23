@@ -14,7 +14,7 @@
             <p class="color">{{props.list.owner_addr || props.list.name || '-'}}</p>
           </el-col>
           <el-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="flex flex-ai-center baseline">
-            <p>Active Deployments:</p>
+            <p>Total Deployments:</p>
           </el-col>
           <el-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="flex flex-ai-center baseline">
             <p class="color" v-if="props.list.computer_provider">{{props.list.computer_provider.active_deployment || '-'}}</p>
@@ -637,7 +637,7 @@ const props = withDefaults(
                   background-color: var(--color-primary);
                   border-radius: 45px;
                   word-break: break-word;
-                  line-height: 15px;
+                  line-height: 18px;
                   color: var(--color-light);
                 }
               }

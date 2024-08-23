@@ -109,10 +109,6 @@
             </span>
           </template>
         </el-table-column>
-        <!-- column-key="status" filterable :filters="[
-                { text: 'Reward Claimed', value: 'Reward Claimed' },
-                { text: 'Pending', value: 'Pending' },
-                { text: 'Claim Reward', value: 'Claim Reward' }]" filter-placement="bottom-end" :filter-multiple="false" -->
         <el-table-column prop="status" min-width="120">
           <template #header>
             <div class="font-14 weight-4 flex flex-ai-center">

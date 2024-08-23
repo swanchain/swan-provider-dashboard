@@ -8,4 +8,6 @@ export enum ELINK {
   EMAIL = 'contact@swanchain.io',
   PROXIMAEXPLORER = 'https://proxima-explorer.swanchain.io',
   MAINNETEXPLORER = 'https://mainnet-explorer.swanchain.io/',
+  ECPLEARNMORELINK = 'https://docs.swanchain.io/computing-provider/edge-computing-provider-ecp',
+  FCPLEARNMORELINK = 'https://docs.swanchain.io/computing-provider/fog-computing-provider-fcp'
 }

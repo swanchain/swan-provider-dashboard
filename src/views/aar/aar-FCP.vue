@@ -1,8 +1,8 @@
 <template>
   <section id="aarFCP-container">
     <div class="flex flex-ai-center header-title">
-      <h1 class="font-20 font-bold">FCP Leaderboard</h1>
-      <a :href="'https://docs.swanchain.io/computing-provider/fog-computing-provider-fcp'" target="_blank" class="font-14">Learn more about FCP</a>
+      <h1 class="font-20 font-bold">Fog Computing Provider Leaderboard</h1>
+      <a :href="ELINK.FCPLEARNMORELINK" target="_blank" class="font-14">Learn more</a>
     </div>
 
     <div class="providers-network font-14">
@@ -76,7 +76,7 @@
             </template>
           </el-table-column>
           <!-- <el-table-column prop="country" label="Country" /> -->
-          <el-table-column prop="active_deployments" label="Active Deployments" min-width="130" />
+          <el-table-column prop="active_deployments" label="Total Deployments" min-width="130" />
           <!-- <el-table-column prop="score" label="Score" width="120" /> -->
           <el-table-column prop="gpus" label="GPU" min-width="140">
             <template #default="scope">
@@ -153,6 +153,7 @@ import badgeIcon02 from "@/assets/images/icons/badge-2.png"
 import badgeIcon03 from "@/assets/images/icons/badge-3.png"
 import { copyContent, debounce, hiddAddress, paginationWidth, replaceFormat, unifyNumber } from "@/utils/common";
 import { getCampaignFCPListData } from "@/api/overview";
+import { ELINK } from '@/constant/envLink';
 
 const providersLoad = ref(false)
 const providersTableLoad = ref(false)

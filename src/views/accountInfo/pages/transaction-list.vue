@@ -23,13 +23,13 @@
       <el-table-column prop="hash" label="Transaction Hash">
         <template #default="scope">
           <a v-if="scope.row.hash" :href="`${explorerLink}tx/${scope.row.hash}`" target="_blank" class="name-style font-14">{{hiddAddress(scope.row.hash)}}</a>
-          <span v-else></span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column prop="height" label="Height">
         <template #default="scope">
           <span v-if="scope.row.block_number" @click="openPage(`${explorerLink}block/${scope.row.block_number}`)" class="pointer">{{scope.row.block_number ?? '-'}}</span>
-          <span v-else></span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column prop="timestamp" label="Time" min-with="140">
@@ -73,7 +73,7 @@
         <template #default="scope">
           <div :class="`${scope.row.method?'method-style':''}`">
             {{ scope.row.method }} 
-            <small v-if="scope.row.type && scope.row.method.indexOf('reated') > -1"></small>
+            <small v-if="scope.row.type && (scope.row.method.indexOf('reated') > -1 || scope.row.type === 'CP')"></small>
             <small v-else-if="scope.row.type && scope.row.type.indexOf('FCP') > -1">(Orchestrator)</small>
             <small v-else-if="scope.row.type && scope.row.type.indexOf('ECP') > -1">(ZK-engine)</small>
             <small v-else-if="scope.row.type">({{ scope.row.type }})</small>
@@ -116,7 +116,7 @@ const searchList = reactive({
   value: 'All',
   options: [],
   default: [{
-    key: 'All',
+    key: '',
     value: ['All']
   }]
 })

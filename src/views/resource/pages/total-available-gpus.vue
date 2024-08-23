@@ -91,7 +91,7 @@
                 </el-row>
             </el-col>
             <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10" class="flex flex-ai-end">
-              <a :href="gpu.rentnow ? 'javascript:void(0);' : 'https://lagrangedao.org/'" target="_blank" class="font-12 text-center" :class="{'is-disabled': gpu.rentnow}">RENT NOW</a>
+              <a :href="gpu.rentnow ? 'javascript:void(0);' : 'https://lagrange.computer'" target="_blank" class="font-12 text-center" :class="{'is-disabled': gpu.rentnow}">RENT NOW</a>
             </el-col>
           </el-row>
         </div>

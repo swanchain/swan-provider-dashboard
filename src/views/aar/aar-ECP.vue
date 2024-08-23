@@ -1,8 +1,8 @@
 <template>
   <section id="aarECP-container">
     <div class="flex flex-ai-center header-title">
-      <h1 class="font-20 font-bold">ECP Leaderboard</h1>
-      <a :href="'https://docs.swanchain.io/computing-provider/edge-computing-provider-ecp'" target="_blank" class="font-14">Learn more about ECP</a>
+      <h1 class="font-20 font-bold">Edge Computing Provider Leaderboard</h1>
+      <a :href="ELINK.ECPLEARNMORELINK" target="_blank" class="font-14">Learn more</a>
     </div>
 
     <div class="providers-network font-14">
@@ -155,6 +155,7 @@ import badgeIcon02 from "@/assets/images/icons/badge-2.png"
 import badgeIcon03 from "@/assets/images/icons/badge-3.png"
 import { copyContent, debounce, fixedformat, hiddAddress, paginationWidth, replaceFormat, sizeChange } from "@/utils/common";
 import { getOverViewECP, getOverviewECPData } from "@/api/overview";
+import { ELINK } from '@/constant/envLink';
 
 const route = useRoute()
 const router = useRouter()

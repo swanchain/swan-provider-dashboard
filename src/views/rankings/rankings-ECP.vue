@@ -2,7 +2,7 @@
   <section id="rankingECP-container">
     <div class="flex flex-ai-center header-title">
       <h1 class="font-20 font-bold">Edge Computing Provider List</h1>
-      <a :href="'https://docs.swanchain.io/computing-provider/edge-computing-provider-ecp'" target="_blank" class="font-14">Learn more about ECP</a>
+      <a :href="ELINK.ECPLEARNMORELINK" target="_blank" class="font-14">Learn more</a>
     </div>
 
     <div class="providers-network font-14">
@@ -174,6 +174,7 @@
 
 <script setup lang="ts">
 import { getCPsECPListData, statsOverviewData } from "@/api/overview";
+import { ELINK } from "@/constant/envLink";
 import { EStorage } from "@/constant/storage";
 import { copyContent, debounce, hiddAddress, paginationWidth, replaceFormat, unifyNumber } from "@/utils/common";
 import { getLocation, setLocation } from "@/utils/storage";

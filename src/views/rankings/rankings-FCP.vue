@@ -2,7 +2,7 @@
   <section id="rankingFCP-container">
     <div class="flex flex-ai-center header-title">
       <h1 class="font-20 font-bold">Fog Computing Provider List</h1>
-      <a :href="'https://docs.swanchain.io/computing-provider/fog-computing-provider-fcp'" target="_blank" class="font-14">Learn more about FCP</a>
+      <a :href="ELINK.FCPLEARNMORELINK" target="_blank" class="font-14">Learn more</a>
     </div>
 
     <div class="providers-network font-14">
@@ -103,7 +103,7 @@
           </el-table-column>
           <el-table-column prop="deployments" sortable="custom" min-width="130">
             <template #header>
-              <div class="font-14 weight-4">Active Deployments</div>
+              <div class="font-14 weight-4">Total Deployments</div>
             </template>
             <template #default="scope">
               <div>{{ replaceFormat(scope.row.active_deployments) }}</div>
@@ -157,6 +157,7 @@
 
 <script setup lang="ts">
 import { getCPsFCPListData, statsOverviewData } from "@/api/overview";
+import { ELINK } from "@/constant/envLink";
 import { copyContent, debounce, hiddAddress, paginationWidth, replaceFormat, unifyNumber } from "@/utils/common";
 import { getLocation, setLocation } from "@/utils/storage";
 import {

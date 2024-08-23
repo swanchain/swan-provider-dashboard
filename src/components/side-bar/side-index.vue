@@ -43,10 +43,10 @@
             </span>
           </template>
           <el-menu-item index="aar-fcp">
-            <span class="font-14">FCP Leaderboard</span>
+            <span class="font-14 l">FCP Leaderboard</span>
           </el-menu-item>
           <el-menu-item index="aar-ecp">
-            <span class="font-14">ECP Leaderboard</span>
+            <span class="font-14 l">ECP Leaderboard</span>
           </el-menu-item>
         </el-sub-menu>
       </el-menu>
@@ -96,7 +96,7 @@ import { metaAddress, token } from '@/utils/storage'
 <style  lang="less" scoped>
 .aside {
   height: calc(100% - 0.65rem);
-  padding: 0.4rem 0.15rem 0.25rem;
+  padding: 0.4rem 0.12rem 0.25rem;
   align-items: start;
   align-content: space-between;
   line-height: 1.2;
@@ -223,8 +223,12 @@ import { metaAddress, token } from '@/utils/storage'
           color: var(--color-primary);
         }
         span {
-          width: calc(100% - 0.33rem - 7px);
+          width: calc(100% - 0.23rem - 7px);
           margin: 0 0 0 0.1rem;
+          &.l {
+            width: 100%;
+            margin: 0;
+          }
         }
       }
       .el-sub-menu {

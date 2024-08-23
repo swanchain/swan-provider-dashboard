@@ -27,9 +27,9 @@
             <div class="font-14 weight-4">Task ID</div>
           </template>
         </el-table-column>
-        <el-table-column prop="hash" label="Transaction Hash">
+        <el-table-column prop="tx_hash" label="Transaction Hash">
           <template #default="scope">
-            <a v-if="scope.row.hash" :href="`${explorerLink}tx/${scope.row.hash}`" target="_blank" class="name-style font-14">{{hiddAddress(scope.row.hash)}}</a>
+            <a v-if="scope.row.tx_hash" :href="`${explorerLink}tx/${scope.row.tx_hash}`" target="_blank" class="name-style font-14">{{hiddAddress(scope.row.tx_hash)}}</a>
             <span v-else>-</span>
           </template>
         </el-table-column>
@@ -64,15 +64,15 @@
           </template>
         </el-table-column>
         <!-- sortable -->
-        <el-table-column prop="started_at" min-width="135">
+        <el-table-column prop="timestamp" min-width="135">
           <template #header>
             <div class="font-14 weight-4">Time</div>
           </template>
           <template #default="scope">
-            <span>{{momentFun(scope.row.started_at)}}</span>
+            <span>{{momentFun(scope.row.timestamp)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="from" label="From">
+        <el-table-column prop="from" label="From" min-width="120">
           <template #default="scope">
             <div class="flex flex-ai-center flex-jc-center nowrap copy-style" v-if="scope.row.from">
               <div @click="openPage(`${explorerLink}address/${scope.row.from}`)" class="w font-14">{{hiddAddress(scope.row.from)}}</div>
@@ -86,7 +86,7 @@
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column prop="to" label="To">
+        <el-table-column prop="to" label="To" min-width="120">
           <template #default="scope">
             <span>
             <div class="flex flex-ai-center flex-jc-center nowrap copy-style" v-if="scope.row.to">
@@ -102,9 +102,9 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="address" label="Status">
+        <el-table-column prop="tx_status" label="Status">
           <template #default="scope">
-            <span v-if="scope.row.status === 1">OK</span>
+            <span v-if="scope.row.tx_status === 1">OK</span>
             <span v-else>Failed</span>
           </template>
         </el-table-column>

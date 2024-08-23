@@ -1,8 +1,8 @@
 <template>
   <section id="rankingECP-container">
-    <div class="flex flex-ai-center header-title">
+    <div class="flex flex-ai-end header-title">
       <h1 class="font-20 font-bold">Edge Computing Provider List</h1>
-      <a :href="ELINK.ECPLEARNMORELINK" target="_blank" class="font-14">Learn more</a>
+      <a :href="ELINK.ECPLEARNMORELINK" target="_blank" class="font-14 n">Learn more</a>
     </div>
 
     <div class="providers-network font-14">

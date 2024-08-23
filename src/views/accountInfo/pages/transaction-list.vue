@@ -83,7 +83,7 @@
       <el-table-column prop="value" label="Value" width="80">
         <template #default="scope">
           <span>
-            {{ scope.row.value }}
+            {{ NumFormat(scope.row.value) }}
           </span>
         </template>
       </el-table-column>
@@ -106,7 +106,7 @@
 <script setup lang="ts">
 import { getCPsTxnsData } from '@/api/cp-profile';
 import { openPage } from '@/hooks/router';
-import { copyContent, hiddAddress, momentFun, paginationWidth } from '@/utils/common';
+import { NumFormat, copyContent, hiddAddress, momentFun, paginationWidth } from '@/utils/common';
 import { explorerLink } from '@/utils/storage';
 
 const route = useRoute()

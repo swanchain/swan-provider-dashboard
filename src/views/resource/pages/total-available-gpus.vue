@@ -161,8 +161,8 @@ const interfaceList = reactive({
 const networkInput = ref('')
 const gpuList = ref<any>([
   {
-    name: '100',
-    total: 54,
+    name: 'H100',
+    total: 64,
     used: 40,
     available: true,
     vRAM: '80Gi',
@@ -172,59 +172,59 @@ const gpuList = ref<any>([
     rentnow: false
   },
   {
-    name: 'RTX 3090Ti',
-    total: 54,
-    used: 40,
+    name: 'A100',
+    total: 12,
+    used: 10,
     available: true,
-    vRAM: '80Gi',
+    vRAM: '40Gi',
     Interface: 'PCIe',
-    Price: '$1.2 ～1.4',
+    Price: '$1.2',
     tip: 'tip',
     rentnow: false
   },
   {
-    name: 'T4',
-    total: 54,
-    used: 40,
+    name: 'RTX 4090',
+    total: 43,
+    used: 32,
     available: true,
-    vRAM: '80Gi',
+    vRAM: '24Gi',
     Interface: 'PCIe',
-    Price: '$1.2 ～1.4',
+    Price: '$0.39',
+    tip: 'tip',
+    rentnow: false
+  },
+  {
+    name: 'A6000',
+    total: 56,
+    used: 55,
+    available: true,
+    vRAM: '48Gi',
+    Interface: 'PCIe',
+    Price: '$0.31 ～0.41',
     tip: 'tip',
     rentnow: true
   },
   {
-    name: '100',
-    total: 54,
-    used: 40,
+    name: 'RTX 3090',
+    total: 14,
+    used: 10,
     available: true,
-    vRAM: '80Gi',
+    vRAM: '24Gi',
     Interface: 'PCIe',
-    Price: '$1.2 ～1.4',
+    Price: '$0.23 ～0.28',
     tip: 'tip',
     rentnow: false
   },
   {
-    name: 'RTX 3090Ti',
-    total: 54,
-    used: 40,
+    name: 'RTX 3070',
+    total: 20,
+    used: 18,
     available: true,
-    vRAM: '80Gi',
+    vRAM: '8Gi',
     Interface: 'PCIe',
-    Price: '$1.2 ～1.4',
+    Price: '$0.14 ～0.19',
     tip: 'tip',
     rentnow: false
-  },
-  {
-    name: 'T4',
-    total: 54,
-    used: 40,
-    available: true,
-    vRAM: '80Gi',
-    Interface: 'PCIe',
-    Price: '$1.2 ～1.4',
-    tip: 'tip',
-    rentnow: true
   }
 ])
 const providersLoad = ref(false)

@@ -1,8 +1,8 @@
 <template>
   <section id="rankingFCP-container">
-    <div class="flex flex-ai-center header-title">
+    <div class="flex flex-ai-end header-title">
       <h1 class="font-20 font-bold">Fog Computing Provider List</h1>
-      <a :href="ELINK.FCPLEARNMORELINK" target="_blank" class="font-14">Learn more</a>
+      <a :href="ELINK.FCPLEARNMORELINK" target="_blank" class="font-14 n">Learn more</a>
     </div>
 
     <div class="providers-network font-14">

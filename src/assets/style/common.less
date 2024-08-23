@@ -162,7 +162,7 @@ dt {
 } */
 
 #app {
-  font-size: 0.14rem;
+  font-size: var(--font-14);
 }
 
 *,
@@ -444,7 +444,7 @@ dt {
   .el-select-dropdown__wrap,
   .el-select-dropdown__list,
   .el-select-dropdown__item {
-    font-size: 0.14rem;
+    font-size: var(--font-14);
     li {
       @media screen and (max-width: 768px) {
         height: auto;
@@ -460,6 +460,12 @@ dt {
   .el-select-dropdown__item{
     display: flex;
     align-items: center;
+    line-height: 20px;
+  }
+  .el-select-group__title {
+    padding: 0 10px;
+    font-size: var(--font-10);
+    line-height: 20px;
   }
   .el-menu--vertical {
     .el-menu {

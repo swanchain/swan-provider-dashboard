@@ -12,7 +12,7 @@
           <div class="content">
             <router-view v-slot="{ Component }">
               <transition name="move" mode="out-in">
-                <keep-alive>
+                <keep-alive :key="route.fullPath">
                   <component :is="Component" />
                 </keep-alive>
               </transition>
@@ -33,6 +33,7 @@ import vHead from '@/components/header/header-content.vue'
 import vAside from '@/components/side-bar/side-index.vue'
 import vFoot from '@/components/footer/footer-index.vue'
 
+const route = useRoute()
 const bodyWidth = ref(document.body.clientWidth > 768 ? false : true)
 const backtopMargin = ref(document.body.clientWidth > 768 ? 50 : 150)
 </script>

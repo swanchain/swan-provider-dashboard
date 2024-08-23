@@ -118,11 +118,13 @@ const changetype = async (data: any) => {
 
   const gpuData = await dataGPU(data.gpu, 'active')
   const gpuTotalData = await dataGPU(data.gpu, 'total')
-  const gpuDataMax = Math.ceil(Math.max(...gpuData.datum)*1.1)
+  const gpuDataNumberMax = Math.max(...gpuData.datum) >= 0 ? 1.1 : 0.9
+  const gpuDataMax = Math.ceil(Math.max(...gpuData.datum)*gpuDataNumberMax)
   const gpuNumber = Math.min(...gpuData.datum) >= 0 ? 0.9 : 1.1
   const gpuDataMin = Math.floor(Math.min(...gpuData.datum)*gpuNumber)
   const gpuDataInterval = Math.ceil((gpuDataMax-gpuDataMin)/(gpuDataMin===0?4:5))
-  const gpuTotalMax = Math.ceil(Math.max(...gpuTotalData.datum)*1.1)
+  const gpuTotalNumberMax = Math.max(...gpuTotalData.datum) >= 0 ? 1.1 : 0.9
+  const gpuTotalMax = Math.ceil(Math.max(...gpuTotalData.datum)*gpuTotalNumberMax)
   const gpuTotalNumber = Math.min(...gpuTotalData.datum) >= 0 ? 0.9 : 1.1
   const gpuTotalMin = Math.floor(Math.min(...gpuTotalData.datum)*gpuTotalNumber)
   const gpuTotalInterval = Math.ceil((gpuTotalMax - gpuTotalMin) / 5)
@@ -133,21 +135,25 @@ const changetype = async (data: any) => {
 
   const fcpData = await dataDelta(data.fcp, 'total')
   const fcpDeltaData = await dataDelta(data.fcp, 'delta')
-  const fcpMax = Math.ceil(Math.max(...fcpData.datum) * 1.1)
+  const fcpNumberMax = Math.max(...fcpData.datum) >= 0 ? 1.1 : 0.9
+  const fcpMax = Math.ceil(Math.max(...fcpData.datum) * fcpNumberMax)
   const fcpNumber = Math.min(...fcpData.datum) >= 0 ? 0.9 : 1.1
   const fcpMin = Math.floor(Math.min(...fcpData.datum)*fcpNumber)
   const fcpInterval = Math.ceil((fcpMax-fcpMin)/(fcpMin===0?4:5))
-  const fcpDeltaMax = Math.ceil(Math.max(...fcpDeltaData.datum)*1.1);
+  const fcpDeltaNumberMax = Math.max(...fcpDeltaData.datum) >= 0 ? 1.1 : 0.9
+  const fcpDeltaMax = Math.ceil(Math.max(...fcpDeltaData.datum)*fcpDeltaNumberMax)
   const fcpDeltaNumber = Math.min(...fcpDeltaData.datum) >= 0 ? 0.9 : 1.1
   const fcpDeltaMin = Math.floor(Math.min(...fcpDeltaData.datum)*fcpDeltaNumber)
 
   const ecpData = await dataDelta(data.ecp, 'total')
   const ecpDeltaData = await dataDelta(data.ecp, 'delta')
-  const ecpMax = Math.ceil(Math.max(...ecpData.datum) * 1.1)
+  const ecpNumberMax = Math.max(...ecpData.datum) >= 0 ? 1.1 : 0.9
+  const ecpMax = Math.ceil(Math.max(...ecpData.datum) * ecpNumberMax)
   const ecpNumber = Math.min(...ecpData.datum) >= 0 ? 0.9 : 1.1
   const ecpMin = Math.floor(Math.min(...ecpData.datum)*ecpNumber)
   const ecpInterval = Math.ceil((ecpMax-ecpMin)/(ecpMin===0?4:5))
-  const ecpDeltaMax = Math.ceil(Math.max(...ecpDeltaData.datum)*1.1)
+  const ecpDeltaNumberMax = Math.max(...ecpDeltaData.datum) >= 0 ? 1.1 : 0.9
+  const ecpDeltaMax = Math.ceil(Math.max(...ecpDeltaData.datum)*ecpDeltaNumberMax)
   const ecpDeltaNumber = Math.min(...ecpDeltaData.datum) >= 0 ? 0.9 : 1.1
   const ecpDeltaMin = Math.floor(Math.min(...ecpDeltaData.datum) * ecpDeltaNumber)
 

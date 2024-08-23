@@ -9,9 +9,11 @@
       <el-col :xs="24" :sm="12" :md="24" :lg="4" :xl="4">
         <div class="flex flex-ai-center flex-jc-right nowrap child mb-16">
           <el-select v-model="searchList.value" placeholder="Select" size="small" @change="handleZKCurrentChange(1)">
-            <el-option v-for="item in searchList.options" :key="item" :label="item" :value="item">
-              <div class="flex flex-ai-center font-12">{{item}}</div>
-            </el-option>
+            <el-option-group v-for="group in searchList.options" :key="group.key" :label="group.key">
+              <el-option v-for="item in group.value" :key="item" :label="item" :value="`${item}·${group.key}`">
+                <div class="flex flex-ai-center font-12">{{ item }}</div>
+              </el-option>
+            </el-option-group>
           </el-select>
         </div>
       </el-col>
@@ -71,9 +73,10 @@
         <template #default="scope">
           <div :class="`${scope.row.method?'method-style':''}`">
             {{ scope.row.method }} 
-            <small v-if="scope.row.type && scope.row.type.indexOf('FCP') > -1">(Orchestrator)</small>
+            <small v-if="scope.row.type && scope.row.method.indexOf('reated') > -1"></small>
+            <small v-else-if="scope.row.type && scope.row.type.indexOf('FCP') > -1">(Orchestrator)</small>
             <small v-else-if="scope.row.type && scope.row.type.indexOf('ECP') > -1">(ZK-engine)</small>
-            <small v-else>({{ scope.row.type }})</small>
+            <small v-else-if="scope.row.type">({{ scope.row.type }})</small>
           </div>
         </template>
       </el-table-column>
@@ -111,7 +114,11 @@ const dataLoad = ref(false)
 const tableData = ref<any>([])
 const searchList = reactive({
   value: 'All',
-  options: ['All']
+  options: [],
+  default: [{
+    key: 'All',
+    value: ['All']
+  }]
 })
 const pagin = reactive({
   pageSize: 20,
@@ -138,18 +145,21 @@ async function getAllData() {
   dataLoad.value = true
   try {
     const page = pagin.pageNo > 0 ? pagin.pageNo - 1 : 0
+    const m = searchList.value.split('·')
     let params = {
       page_size: pagin.pageSize,
       page_no: page,
-      method: searchList.value === 'All' ? '' : searchList.value
+      method: m[0] === 'All' ? '' : m[0],
+      type: m[1] === 'All' ? '' : m[1]
     }
     const dataRes = await getCPsTxnsData(params, route.params.cp_addr)
     tableData.value = dataRes?.data?.list ?? []
     pagin.total = dataRes?.data?.total ?? 0
-    const valuesArray = Object.keys(dataRes?.data?.methods).flatMap(key => dataRes?.data?.methods[key])
-    const method = compact(valuesArray)
-    searchList.options = ['All'].concat(method)
-    searchList.options = searchList.options.filter((item, index) => searchList.options.indexOf(item) === index);
+    // const valuesArray = Object.keys(dataRes?.data?.methods).flatMap(key => dataRes?.data?.methods[key])
+    // const method = compact(valuesArray)
+    const method = Object.keys(dataRes?.data?.methods).map(key => ({ key, value: dataRes?.data?.methods[key] }))
+    searchList.options = [...searchList.default, ...method]
+    // searchList.options = searchList.options.filter((item, index) => searchList.options.indexOf(item) === index);
   } catch{console.error}
   dataLoad.value = false
 }

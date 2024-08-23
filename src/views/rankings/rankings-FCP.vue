@@ -2,6 +2,7 @@
   <section id="rankingFCP-container">
     <div class="flex flex-ai-center header-title">
       <h1 class="font-20 font-bold">Fog Computing Provider List</h1>
+      <a :href="'https://docs.swanchain.io/computing-provider/fog-computing-provider-fcp'" target="_blank" class="font-14">Learn more about FCP</a>
     </div>
 
     <div class="providers-network font-14">

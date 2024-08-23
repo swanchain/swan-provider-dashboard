@@ -188,11 +188,13 @@ const changetype = async (data: any) => {
   
   const fcpCountsData = await dataCpData(data.fcp_job, 'total')
   const fcpRunningData = await dataDelta(data.fcp_job, 'delta')
-  const fcpCountsMax = Math.ceil(Math.max(...fcpCountsData.datum)*1.1)
+  const fcpCountsNumberMax = Math.max(...fcpCountsData.datum) >= 0 ? 1.1 : 0.9
+  const fcpCountsMax = Math.ceil(Math.max(...fcpCountsData.datum)*fcpCountsNumberMax)
   const fcpCountsNumber = Math.min(...fcpCountsData.datum) >= 0 ? 0.9 : 1.1
   const fcpCountsMin = Math.floor(Math.min(...fcpCountsData.datum)*fcpCountsNumber)
   const fcpCountsInterval = Math.ceil((fcpCountsMax-fcpCountsMin)/(fcpCountsMin===0?4:5))
-  const fcpRunningMax = Math.ceil(Math.max(...fcpRunningData.datum)*1.1)
+  const fcpRunningNumberMax = Math.max(...fcpRunningData.datum) >= 0 ? 1.1 : 0.9
+  const fcpRunningMax = Math.ceil(Math.max(...fcpRunningData.datum)*fcpRunningNumberMax)
   const fcpRunningNumber = Math.min(...fcpRunningData.datum) >= 0 ? 0.9 : 1.1
   const fcpRunningMin = Math.floor(Math.min(...fcpRunningData.datum)*fcpRunningNumber)
   const fcpRunningInterval = Math.ceil((fcpRunningMax-fcpRunningMin)/(fcpRunningMin===0?4:5))
@@ -201,17 +203,20 @@ const changetype = async (data: any) => {
   const fcpCollateralData = await dataCpData(data.fcp_collateral, 'total')
   const fcpEscrowData = await dataCpData(data.fcp_collateral, 'active')
   const fcpCollaMax = Math.max(Math.max(...fcpCollateralData.datum), Math.max(...fcpEscrowData.datum))
-  const fcpCollateralMax = Math.ceil(fcpCollaMax*1.1)
+  const fcpCollaNumberMax = fcpCollaMax >= 0 ? 1.1 : 0.9
+  const fcpCollateralMax = Math.ceil(fcpCollaMax*fcpCollaNumberMax)
   const fcpCollaMin = Math.min(Math.min(...fcpCollateralData.datum), Math.min(...fcpEscrowData.datum))
   const fcpEscrowNumber = fcpCollaMin >= 0 ? 0.9 : 1.1
   const fcpCollateralMin = Math.floor(fcpCollaMin*fcpEscrowNumber)
 
   const ecpCountsData = await dataCpData(data.ecp_task, 'total')
   const ecpGrowthData = await dataDelta(data.ecp_task, 'delta')
-  const ecpCountMax = Math.ceil(Math.max(...ecpCountsData.datum)*1.1)
+  const ecpCountNumberMax = Math.max(...ecpCountsData.datum) >= 0 ? 1.1 : 0.9
+  const ecpCountMax = Math.ceil(Math.max(...ecpCountsData.datum)*ecpCountNumberMax)
   const ecpCountNumber = Math.min(...ecpCountsData.datum) >= 0 ? 0.9 : 1.1
   const ecpCountMin = Math.floor(Math.min(...ecpCountsData.datum)*ecpCountNumber)
-  const ecpGrowthMax = Math.ceil(Math.max(...ecpGrowthData.datum)*1.1)
+  const ecpGrowthNumberMax = Math.max(...ecpGrowthData.datum) >= 0 ? 1.1 : 0.9
+  const ecpGrowthMax = Math.ceil(Math.max(...ecpGrowthData.datum)*ecpGrowthNumberMax)
   const ecpGrowthNumber = Math.min(...ecpGrowthData.datum) >= 0 ? 0.9 : 1.1
   const ecpGrowthMin = Math.floor(Math.min(...ecpGrowthData.datum)*ecpGrowthNumber)
   const ecpCountsInterval = Math.ceil((ecpCountMax-ecpCountMin)/(ecpCountMin===0?4:5))
@@ -222,12 +227,13 @@ const changetype = async (data: any) => {
   const ecpCollateralData = await dataCpData(data.ecp_collateral, 'total')
   const ecpEscrowData = await dataCpData(data.ecp_collateral, 'active')
   const ecpCollaMax = Math.max(Math.max(...ecpCollateralData.datum), Math.max(...ecpEscrowData.datum))
-  const ecpCollateralMax = Math.ceil(ecpCollaMax*1.1)
+  const ecpCollateralMax = Math.ceil(ecpCollaMax*(ecpCollaMax>=0?1.1:0.9))
   const ecpCollaMin = Math.min(Math.min(...ecpEscrowData.datum), Math.min(...ecpCollateralData.datum))
   const ecpEscrowNumber = ecpCollaMin >= 0 ? 0.9 : 1.1
   const ecpCollateralMin = Math.floor(ecpCollaMin*ecpEscrowNumber)
   const ecpSequencerData = await dataCpData(data.sequencer, 'total')
-  const ecpSequencerMax = (Math.max(...ecpSequencerData.datum)*1.05).toFixed(5)
+  const ecpSequenceNumberMax = Math.max(...ecpSequencerData.datum) >= 0 ? 1.05 : 0.9
+  const ecpSequencerMax = (Math.max(...ecpSequencerData.datum)*ecpSequenceNumberMax).toFixed(5)
   const ecpSequenceNumber = Math.min(...ecpSequencerData.datum) >= 0 ? 0.95 : 1.05
   const ecpSequencerMin = (Math.min(...ecpSequencerData.datum)*ecpSequenceNumber).toFixed(5);
 

@@ -70,9 +70,9 @@
                     <h6 class="font-12 weight-4 text-center">Total GPU hours</h6>
                     <template v-if="overviewData.value.fcp.length>0">
                       <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
-                        {{replaceFormat(Number(overviewData.value.fcp[0].gpu_hours))}}
+                        {{replaceFormat(timeFormat(overviewData.value.fcp[0].gpu_hours))}}
                       </b>
-                      <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].gpu_hours - overviewData.value.fcp[1].gpu_hours))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours)?'+':''}}{{replaceFormat(timeFormat(Number(overviewData.value.fcp[0].gpu_hours - overviewData.value.fcp[1].gpu_hours)))}}</h6>
                       <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                     </template>
                   </div>
@@ -150,9 +150,9 @@
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total GPU hours</h6>
                     <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
-                      {{replaceFormat(Number(overviewData.value.fcp[0].gpu_hours))}}
+                      {{replaceFormat(timeFormat(overviewData.value.fcp[0].gpu_hours))}}
                     </b>
-                    <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].gpu_hours - overviewData.value.fcp[1].gpu_hours))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours)?'+':''}}{{replaceFormat(timeFormat(Number(overviewData.value.fcp[0].gpu_hours - overviewData.value.fcp[1].gpu_hours)))}}</h6>
                     <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                   </div>
                 </el-col>
@@ -160,9 +160,9 @@
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total CPU hours</h6>
                     <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
-                      {{replaceFormat(Number(overviewData.value.fcp[0].cpu_hours))}}
+                      {{replaceFormat(timeFormat(overviewData.value.fcp[0].cpu_hours))}}
                     </b>
-                    <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].cpu_hours) >= Number(overviewData.value.fcp[1].cpu_hours) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].cpu_hours) >= Number(overviewData.value.fcp[1].cpu_hours)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].cpu_hours - overviewData.value.fcp[1].cpu_hours))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].cpu_hours) >= Number(overviewData.value.fcp[1].cpu_hours) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].cpu_hours) >= Number(overviewData.value.fcp[1].cpu_hours)?'+':''}}{{replaceFormat(timeFormat(Number(overviewData.value.fcp[0].cpu_hours - overviewData.value.fcp[1].cpu_hours)))}}</h6>
                     <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                   </div>
                 </el-col>
@@ -363,7 +363,7 @@
 import * as echarts from "echarts"
 import worldGeoJSON from '@/assets/js/world.ts'
 import { statsOverviewData } from "@/api/overview"
-import { replaceFormat } from '@/utils/common';
+import { replaceFormat, timeFormat } from '@/utils/common';
 import { locationAll, setLocation } from "@/utils/storage";
 
 const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)

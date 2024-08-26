@@ -280,7 +280,8 @@ export function floorFormat (num: any) {
 
 export function NumFormat (num: any) {
   try {
-    if (num) return parseFloat(num).toFixed(6)
+    if (Number(num) === 0) return 0
+    else if (num) return parseFloat(num).toFixed(6)
     else return '-'
   } catch {
     return '-'

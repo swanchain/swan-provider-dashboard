@@ -74,8 +74,8 @@
           <div :class="`${scope.row.method?'method-style':''}`">
             {{ scope.row.method }} 
             <small v-if="scope.row.type && (scope.row.method.indexOf('reated') > -1 || scope.row.type === 'CP')"></small>
-            <small v-else-if="scope.row.type && scope.row.type.indexOf('FCP') > -1">(Orchestrator)</small>
-            <small v-else-if="scope.row.type && scope.row.type.indexOf('ECP') > -1">(ZK-engine)</small>
+            <!-- <small v-else-if="scope.row.type && scope.row.type.indexOf('FCP') > -1">(Orchestrator)</small>
+            <small v-else-if="scope.row.type && scope.row.type.indexOf('ECP') > -1">(ZK-engine)</small> -->
             <small v-else-if="scope.row.type">({{ scope.row.type }})</small>
           </div>
         </template>

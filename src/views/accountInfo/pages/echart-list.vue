@@ -791,7 +791,7 @@ const changePietype = async (data: any) => {
         return [point[0] + 10, point[1] - 10]; 
       },
       formatter: function (params: any) {
-          return `${params.seriesName}<br/><div class="flex flex-ai-center">${params.marker}${params.data.name}: ${params.data.value}</div>`;
+          return `${params.seriesName}<br/><div class="flex flex-ai-center">${params.marker}${params.data.name}: ${replaceDecimalsFormat(params.data.value)}</div>`;
       },
       backgroundColor: 'rgba(0, 0, 0, 1)',
       color: '#fff',
@@ -831,8 +831,8 @@ const changePietype = async (data: any) => {
           show: false
         },
         data: [
-          { value: replaceDecimalsFormat(fcpBalance), name: 'Collateral' },
-          { value: replaceDecimalsFormat(fcpLocked), name: 'Escrow' }
+          { value: fcpBalance, name: 'Collateral' },
+          { value: fcpLocked, name: 'Escrow' }
         ]
       }
     ]
@@ -844,7 +844,7 @@ const changePietype = async (data: any) => {
         return [point[0] + 10, point[1] - 10]; 
       },
       formatter: function (params: any) {
-          return `${params.seriesName}<br/><div class="flex flex-ai-center">${params.marker}${params.data.name}: ${params.data.value}</div>`;
+          return `${params.seriesName}<br/><div class="flex flex-ai-center">${params.marker}${params.data.name}: ${replaceDecimalsFormat(params.data.value)}</div>`;
       },
       backgroundColor: 'rgba(0, 0, 0, 1)',
       color: '#fff',
@@ -883,8 +883,8 @@ const changePietype = async (data: any) => {
           show: false
         },
         data: [
-          { value: replaceDecimalsFormat(ecpBalance), name: 'Collateral' },
-          { value: replaceDecimalsFormat(ecpLocked), name: 'Escrow' }
+          { value: ecpBalance, name: 'Collateral' },
+          { value: ecpLocked, name: 'Escrow' }
         ]
       }
     ]

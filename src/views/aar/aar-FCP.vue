@@ -100,7 +100,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="region" label="Region" min-width="110" />
+          <el-table-column prop="region" label="Region" column-key="region" filterable :filters="regionFilters" filter-placement="bottom-end" :filter-multiple="false" min-width="110" />
           <el-table-column prop="uptime" label="Uptime" min-width="110" >
             <template #default="scope">
               <div v-if="scope.row.uptime === null">Waiting for calculation</div>
@@ -152,8 +152,9 @@ import badgeIcon01 from "@/assets/images/icons/badge-1.png"
 import badgeIcon02 from "@/assets/images/icons/badge-2.png"
 import badgeIcon03 from "@/assets/images/icons/badge-3.png"
 import { copyContent, debounce, hiddAddress, paginationWidth, replaceFormat, unifyNumber } from "@/utils/common";
-import { getCampaignFCPListData } from "@/api/overview";
+import { getCampaignFCPListData, statsOverviewData } from "@/api/overview";
 import { ELINK } from '@/constant/envLink';
+import { getLocation, setLocation } from '@/utils/storage';
 
 const providersLoad = ref(false)
 const providersTableLoad = ref(false)
@@ -174,10 +175,12 @@ const networkInput = reactive({
 })
 const paramsFilter = reactive({
   data: {
-    status: ''
+    status: '',
+    region: ''
   }
 })
 const singleTableRef = ref()
+const regionFilters = ref<any>([])
 
 function handleSizeChange (val:number) {
   pagin.pageSize = val
@@ -201,7 +204,7 @@ async function init () {
       // "node_id": networkInput.node_id,
       // "order": networkInput.order,
       // "desc": networkInput.desc,
-      // "region": networkInput.region,
+      "region": paramsFilter.data.region,
       "status": paramsFilter.data.status
     }
     const providerFCPRes = await getCampaignFCPListData(paramsCont)
@@ -215,6 +218,9 @@ const handleFilterChange = (filters:any) => {
     if (key === 'status') {
       const result = filters.status[0] ?? ''
       paramsFilter.data.status = result
+    } else if (key === 'region') {
+      const result = filters.region[0] ?? ''
+      paramsFilter.data.region = result
     }
   }
   handleCurrentChange(1)
@@ -222,6 +228,7 @@ const handleFilterChange = (filters:any) => {
 const searchProvider = async function () {
   singleTableRef.value!.clearFilter()
   paramsFilter.data.status = ''
+  paramsFilter.data.region = ''
   networkInput.searchFor = !networkInput.contract_address ? false : true
   handleCurrentChange(1)
 }
@@ -249,7 +256,32 @@ function reset (type:string) {
   networkInput.contract_address = ''
   init()
 }
+async function getLocationList () {
+  try{
+    providersTableLoad.value = true
+    const overviewRes = await statsOverviewData()
+    const location = overviewRes?.data?.location ?? []
+    setLocation(location)
+    regionList(JSON.stringify(location))
+  }catch{providersTableLoad.value = false}
+}
+function regionList(data: any) {
+  const location = JSON.parse(data)
+  location.map((item: any) => {
+    regionFilters.value.push({
+      text: item.name ?? '',
+      value: item.name ?? ''
+    })
+  })
+  init()
+}
+async function getLocationInit() {
+  let l = await getLocation()
+  if (l.toString() === '[]' || l.toString() === '') getLocationList()
+  else regionList(l)
+}
 onMounted(async () => {
+  getLocationInit()
   reset('init')
 })
 </script>

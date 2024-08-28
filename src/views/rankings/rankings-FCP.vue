@@ -131,7 +131,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="region" label="Region" min-width="110" />
+          <el-table-column prop="region" label="Region" column-key="region" filterable :filters="regionFilters" filter-placement="bottom-end" :filter-multiple="false" min-width="110" />
           <el-table-column prop="uptime" min-width="150">
             <template #header>
               <div class="font-14 weight-4">Uptime</div>

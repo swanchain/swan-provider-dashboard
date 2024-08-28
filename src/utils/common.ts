@@ -132,6 +132,14 @@ window.addEventListener("resize", function () {
   if (newParams !== paginationWidth) window.location.reload()
 })
 
+
+export function formatDate(dateString:string) {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  return `${month}/${day}`;
+}
+
 export function dataGPU (data: any, type:string) {
   // console.log(data)
   const datum = [], timeArr = []
@@ -139,10 +147,8 @@ export function dataGPU (data: any, type:string) {
     return itema.timestamp - itemb.timestamp
   })
   data.forEach((item:any) => {
-    // let time_end = momentFun(item.timestamp)
-    // let time = new Date(parseInt(item.timestamp) * 1000)
-    // let time_end = addZero(time.getFullYear()) + '-' + addZero(time.getMonth() + 1) + '-' + addZero(time.getDate())
-    const time_end = getDateTime(parseInt(item.timestamp) * 1000)
+    // const time_end = getDateTime(parseInt(item.timestamp) * 1000)
+    const time_end = formatDate(item.date)
     // if (timeArr.indexOf(time_end) === -1) {
       timeArr.push(time_end)
       datum.push(type === 'active' ? item['total'] - item[type] : item[type])
@@ -163,7 +169,8 @@ export function dataDelta (data: any, type:string) {
     return itema.timestamp - itemb.timestamp
   })
   data.forEach((item:any, index:number) => {
-    const time_end = getDateTime(parseInt(item.timestamp) * 1000)
+    // const time_end = getDateTime(parseInt(item.timestamp) * 1000)
+    const time_end = formatDate(item.date)
     // if (timeArr.indexOf(time_end) === -1) {
       timeArr.push(time_end)
       if(type === 'delta' && index > 0) datum.push(item.total - data[index-1].total)
@@ -185,7 +192,8 @@ export function dataResource (data: any, type:string) {
     return itema.timestamp - itemb.timestamp
   })
   data.forEach((item:any) => {
-    const time_end = getDateTime(parseInt(item.timestamp) * 1000)
+    // const time_end = getDateTime(parseInt(item.timestamp) * 1000)
+    const time_end = formatDate(item.date)
     // if (timeArr.indexOf(time_end) === -1) {
       timeArr.push(time_end)
       datum.push({
@@ -209,10 +217,8 @@ export function dataCpData (data: any, type:string) {
     return itema.timestamp - itemb.timestamp
   })
   data.forEach((item:any) => {
-    // let time_end = momentFun(item.timestamp)
-    // let time = new Date(parseInt(item.timestamp) * 1000)
-    // let time_end = addZero(time.getFullYear()) + '-' + addZero(time.getMonth() + 1) + '-' + addZero(time.getDate())
-    const time_end = getDateTime(parseInt(item.timestamp) * 1000)
+    // const time_end = getDateTime(parseInt(item.timestamp) * 1000)
+    const time_end = formatDate(item.date)
     // if (timeArr.indexOf(time_end) === -1) {
       timeArr.push(time_end)
       datum.push(type === 'failed' ? Number(item['total'] - item['active']) : item[type])

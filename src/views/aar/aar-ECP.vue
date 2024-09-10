@@ -63,11 +63,13 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="Name" min-width="120">
+          <el-table-column prop="name" label="Name" min-width="180">
             <template #default="scope">
-              <div class="auth-container flex flex-ai-center flex-jc-center ml-8" v-if="scope.row.account_name">
-                <div class="font-14 font-bold text-style">{{ scope.row.account_name }}</div>
-                <svg class="icon ml-4" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7319" width="18" height="18"><path d="M512 48.761905a463.238095 463.238095 0 1 1 0 926.47619 463.238095 463.238095 0 0 1 0-926.47619zM451.291429 341.333333H294.863238v40.96h44.665905L416.768 828.952381l388.388571-487.619048h-149.016381l-178.468571 243.809524-26.38019-243.809524z" fill="#077CFF" p-id="7320"></path></svg>
+              <div class="auth-container flex flex-ai-center flex-jc-center" v-if="scope.row.account_name">
+                <div class="bg flex flex-ai-center flex-jc-center">
+                  <div class="font-14 font-bold text-style">{{ scope.row.account_name }}</div>
+                  <svg class="icon ml-4" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7319" width="20" height="20"><path d="M512 48.761905a463.238095 463.238095 0 1 1 0 926.47619 463.238095 463.238095 0 0 1 0-926.47619zM451.291429 341.333333H294.863238v40.96h44.665905L416.768 828.952381l388.388571-487.619048h-149.016381l-178.468571 243.809524-26.38019-243.809524z" fill="#077CFF" p-id="7320"></path></svg>
+                </div>
               </div>
               <div v-else-if="scope.row.name" class="badge flex flex-ai-center flex-jc-center">
                 {{scope.row.name}}
@@ -89,10 +91,10 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="gpu_tags" label="GPU" min-width="120">
+          <el-table-column prop="gpu_tags" label="GPU" min-width="130">
             <template #default="scope">
-              <div class="badge">
-                <div class="flex flex-ai-center flex-jc-left machines-style text-left font-13">
+              <div class="badge flex-jc-center">
+                <div class="flex flex-ai-center flex-jc-center machines-style text-left font-13">
                   <span v-for="(gpu, g) in scope.row.gpu_tags" :key="g">
                     {{gpu}}
                   </span>

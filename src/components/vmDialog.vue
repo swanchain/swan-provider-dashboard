@@ -69,7 +69,7 @@
               <template #label>
                 <div class="flex flex-ai-center font-16 text-capitalize">Sign code</div>
               </template>
-              <div class="flex flex-ai-center nowrap copy-style width">
+              <div class="flex flex-ai-center nowrap copy-style copy-style-server width">
                 <div class="server sign-code font-14">{{'computing-provider wallet sign '}}{{props.list.owner_addr}} {{ stringToHex(`Signing message for ${route.params.cp_addr} on Swan Provider Dashboard at ${sortanow}`) }}</div>
                 <svg @click="copyContent(`computing-provider wallet sign ${props.list.owner_addr} ${stringToHex(`Signing message for ${route.params.cp_addr} on Swan Provider Dashboard at ${sortanow}`)}`, 'Copied')" t="1717142367802" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6467" width="16"
                   height="16">
@@ -474,6 +474,10 @@ onMounted(async () => {
         .copy-style {
           cursor: pointer;
           flex-wrap: wrap;
+          &.copy-style-server {
+            background-color: #e5e7ed;
+            border-radius: 6px;
+          }
           svg {
             margin: 0 0 0 0.05rem;
           }
@@ -488,9 +492,10 @@ onMounted(async () => {
           &.sign-code {
             width: calc(100% - 50px);
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            cursor: text;
+            overflow-x: auto;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+            // cursor: text;
           }
           b {
             padding: 0 0 0 6px;

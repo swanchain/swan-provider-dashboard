@@ -13,8 +13,10 @@
       </div>
       <span v-else>-</span>
       <div class="auth-container flex flex-ai-center flex-jc-center ml-8" v-if="cpsData?.account_name">
-        <div class="font-16 font-bold text-style l">{{ cpsData?.account_name }}</div>
-        <svg class="icon ml-4" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7319" width="20" height="20"><path d="M512 48.761905a463.238095 463.238095 0 1 1 0 926.47619 463.238095 463.238095 0 0 1 0-926.47619zM451.291429 341.333333H294.863238v40.96h44.665905L416.768 828.952381l388.388571-487.619048h-149.016381l-178.468571 243.809524-26.38019-243.809524z" fill="#077CFF" p-id="7320"></path></svg>
+        <div class="bg flex flex-ai-center flex-jc-center">
+          <div class="font-16 font-bold text-style l">{{ cpsData?.account_name }}</div>
+          <svg class="icon ml-4" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7319" width="22" height="22"><path d="M512 48.761905a463.238095 463.238095 0 1 1 0 926.47619 463.238095 463.238095 0 0 1 0-926.47619zM451.291429 341.333333H294.863238v40.96h44.665905L416.768 828.952381l388.388571-487.619048h-149.016381l-178.468571 243.809524-26.38019-243.809524z" fill="#077CFF" p-id="7320"></path></svg>
+        </div>
       </div>
       <div class="flex name-title">
         <a @click="handleSelect('claimAccount', cpsData, 'claimAccount')" :class="{'is-disabled': cpsLoad, 'pointer': true}">Claim Account</a>

@@ -110,7 +110,7 @@
                       free: <span class="green">{{ gpu.free ?? '-' }}</span> 
                     </p>
                     <p class="color text-left mlr-10">
-                      used: <span class="green">{{ (gpu.total - gpu.free) ?? '-' }}</span> 
+                      used: <span class="green">{{ (gpu.total - gpu.free) || '-' }}</span> 
                     </p>
                     <p class="color text-left">
                       total: <span class="green">{{ gpu.total ?? '-' }}</span> 

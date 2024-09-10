@@ -70,3 +70,12 @@ export function getCPsfcpRewardsData(params: any, addr: any) {
       params
   })
 }
+
+export function getCPsClaimData(data: any, addr: any) {
+  return request({
+      headers: {},
+      url: `${import.meta.env.VITE_BASE_URL}v1/cps/${addr}/claim`,
+      method: 'post',
+      data
+  })
+}

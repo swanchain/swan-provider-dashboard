@@ -99,10 +99,23 @@
                 </div>
               </el-col>
               <el-col :xs="24" :sm="12" :md="17" :lg="17" :xl="17" class="flex flex-ai-center baseline">
-                <div class="flex flex-ai-center flex-jc-center machines-style">
-                  <span v-for="(gpu, g) in machines.gpu.gpus" :key="g" class="span-blue">
-                    {{gpu.model}}
-                  </span>
+                <div class="flex flex-ai-center flex-jc-left w-100" v-for="(gpu, g) in machines.gpu.gpus" :key="g">
+                  <div class="machines-style">
+                    <span class="span-blue">
+                      {{gpu.model}}
+                    </span>
+                  </div>
+                  <div class="flex flex-ai-center">
+                    <p class="color text-left">
+                      free: <span class="green">{{ gpu.free ?? '-' }}</span> 
+                    </p>
+                    <p class="color text-left mlr-10">
+                      used: <span class="green">{{ (gpu.total - gpu.free) ?? '-' }}</span> 
+                    </p>
+                    <p class="color text-left">
+                      total: <span class="green">{{ gpu.total ?? '-' }}</span> 
+                    </p>
+                  </div>
                 </div>
               </el-col>
               <!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center flex-jc-right">

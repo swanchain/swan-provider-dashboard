@@ -11,7 +11,7 @@
 
       <div class="dialog-content font-14">
         <div v-if="props.list.type === 'claimAccount'">
-          <el-form ref="ruleAddRef" :model="ruleForm" :rules="rules" label-position="top" class="demo-ruleForm font-14" status-icon @submit.native.prevent>
+          <el-form v-loading="ruleForm.cpsLoad" ref="ruleAddRef" :model="ruleForm" :rules="rules" label-position="top" class="demo-ruleForm font-14" status-icon @submit.native.prevent>
             <el-form-item prop="owner_address">
               <template #label>
                 <div class="flex flex-ai-center font-16 text-capitalize">Owner Address</div>
@@ -40,7 +40,7 @@
               </template>
               <label class="label" for="name">
                 <div class="flex flex-ai-center">
-                  <el-input v-model="ruleForm.name" placeholder=" " />
+                  <el-input v-model="ruleForm.name" placeholder=" " show-word-limit maxlength="20" />
                 </div>
               </label>
             </el-form-item>
@@ -52,7 +52,7 @@
               </template>
               <label class="label" for="email">
                 <div class="flex flex-ai-center">
-                  <el-input v-model="ruleForm.email" placeholder=" " />
+                  <el-input v-model="ruleForm.email" placeholder=" " maxlength="40" />
                 </div>
               </label>
             </el-form-item>
@@ -70,8 +70,8 @@
                 <div class="flex flex-ai-center font-16 text-capitalize">Sign code</div>
               </template>
               <div class="flex flex-ai-center nowrap copy-style width">
-                <div class="server sign-code font-14">{{'computing-provider wallet sign '}}{{props.list.owner_addr}}</div>
-                <svg @click="copyContent(`computing-provider wallet sign ${props.list.owner_addr}`, 'Copied')" t="1717142367802" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6467" width="16"
+                <div class="server sign-code font-14">{{'computing-provider wallet sign '}}{{props.list.owner_addr}} {{ stringToHex(`Signing message for ${route.params.cp_addr} on Swan Provider Dashboard at ${sortanow}`) }}</div>
+                <svg @click="copyContent(`computing-provider wallet sign ${props.list.owner_addr} ${stringToHex(`Signing message for ${route.params.cp_addr} on Swan Provider Dashboard at ${sortanow}`)}`, 'Copied')" t="1717142367802" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6467" width="16"
                   height="16">
                   <path d="M809.19 310.68H398.37a87.79 87.79 0 0 0-87.69 87.69v410.82a87.79 87.79 0 0 0 87.69 87.69h410.82a87.79 87.79 0 0 0 87.69-87.69V398.37a87.79 87.79 0 0 0-87.69-87.69z m29.69 498.51a29.73 29.73 0 0 1-29.69 29.69H398.37a29.73 29.73 0 0 1-29.69-29.69V398.37a29.73 29.73 0 0 1 29.69-29.69h410.82a29.73 29.73 0 0 1 29.69 29.69z"
                     fill="#3d3d3d" p-id="6468"></path>
@@ -146,7 +146,8 @@
         <div class="dialog-footer flex flex-ai-center flex-jc-right font-14">
           <el-button @click="closeHandle()">Cancel</el-button>
           <!-- !ruleForm.amount ||  -->
-          <el-button @click="cpCollateral" :disabled="ruleForm.chainError || props.list.type === 'claimAccount'" type="primary">Submit</el-button>
+          <el-button @click="claimMethod(ruleAddRef)" v-if="props.list.type === 'claimAccount'" type="primary">Submit</el-button>
+          <el-button @click="cpCollateral" v-else :disabled="ruleForm.chainError" type="primary">Submit</el-button>
         </div>
       </template>
     </el-dialog>
@@ -160,8 +161,9 @@ import fcpABI from '@/utils/abi/FCP-Collateral.json'
 import ecpABI from '@/utils/abi/ECPCollateral.json'
 import tokenABI from '@/utils/abi/SwanToken.json'
 import { ecpDeposit, fcpDeposit, metaAddress, tokenSwan } from '@/utils/storage';
-import { copyContent, getDateTime, messageTip } from '@/utils/common';
+import { copyContent, getDateTime, messageTip, stringToHex } from '@/utils/common';
 import web3Init, { getChain } from '@/utils/login';
+import { getCPsClaimData } from "@/api/cp-profile"
 
 const props = withDefaults(
   defineProps<{
@@ -180,7 +182,7 @@ const props = withDefaults(
 )
   
 const route = useRoute()
-const cpLoad = ref(false)
+const ruleAddRef = ref()
 const sortanow = ref('')
 const ruleForm = reactive({
   name: '',
@@ -190,7 +192,8 @@ const ruleForm = reactive({
   amount: props.list.type === 'FCP' ? 5 : 150,
   show: false,
   tx_hash: '',
-  chainError: false
+  chainError: false,
+  cpsLoad: false
 })
 const rules = reactive({
   name: [
@@ -218,8 +221,31 @@ const emits = defineEmits(['hardClose'])
 function closeHandle () {
   emits('hardClose', false)
 }
+
+async function claimMethod(formEl: any) {
+  if (!formEl) return
+  await formEl.validate(async (valid: any, fields: any) => {
+    if (valid) {
+      ruleForm.cpsLoad = true
+      try {
+        const params = {
+          "name": ruleForm.name,
+          "email": ruleForm.email,
+          "msg": stringToHex(`Signing message for ${route.params.cp_addr} on Swan Provider Dashboard at ${sortanow.value}`),
+          "sign": ruleForm.signature
+        }
+        const cpsRes = await getCPsClaimData(params, route.params.cp_addr)
+        if (cpsRes?.msg) messageTip('success', cpsRes.msg)
+        emits('hardClose', false, true)
+      }catch{console.error}
+      ruleForm.cpsLoad = false
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
 async function cpCollateral() {
-  if(props.list.type === 'claimAccount') return
+  if (props.list.type === 'claimAccount') return false
   ruleForm.show = true
   try {
     if (Number(ruleForm.amount) >= 0) cpDeposit()

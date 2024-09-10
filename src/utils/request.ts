@@ -47,6 +47,6 @@ instance.interceptors.response.use(
   }
 )
 
-type Req = <R = { status: string; data: any; message: string; code: number; list_projects_cnt: number }>(config: AxiosRequestConfig<any>) => Promise<R>
+type Req = <R = { status: string; data: any; message: string; msg: string; code: number; list_projects_cnt: number }>(config: AxiosRequestConfig<any>) => Promise<R>
 
 export const request: Req = instance

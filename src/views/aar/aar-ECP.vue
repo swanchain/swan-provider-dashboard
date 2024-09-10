@@ -11,13 +11,13 @@
           <el-col :xs="24" :sm="12" :md="12" :lg="10" :xl="10">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">Name: </span>
-              <el-input class="zk-input" v-model="networkZK.name" @input="clearChangeProvider()" placeholder="please enter name" />
+              <el-input class="zk-input" v-model="networkZK.name" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter name" />
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="10" :xl="10">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">Contract Address: </span>
-              <el-input class="zk-input" v-model="networkZK.cp_addr" @input="clearChangeProvider()" placeholder="please enter CP Account Address" />
+              <el-input class="zk-input" v-model="networkZK.cp_addr" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter CP Account Address" />
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="3" :xl="3">
@@ -65,9 +65,14 @@
           </el-table-column>
           <el-table-column prop="name" label="Name" min-width="120">
             <template #default="scope">
-              <div class="badge flex flex-ai-center flex-jc-center">
+              <div class="auth-container flex flex-ai-center flex-jc-center ml-8" v-if="scope.row.account_name">
+                <div class="font-14 font-bold text-style">{{ scope.row.account_name }}</div>
+                <svg class="icon ml-4" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7319" width="18" height="18"><path d="M512 48.761905a463.238095 463.238095 0 1 1 0 926.47619 463.238095 463.238095 0 0 1 0-926.47619zM451.291429 341.333333H294.863238v40.96h44.665905L416.768 828.952381l388.388571-487.619048h-149.016381l-178.468571 243.809524-26.38019-243.809524z" fill="#077CFF" p-id="7320"></path></svg>
+              </div>
+              <div v-else-if="scope.row.name" class="badge flex flex-ai-center flex-jc-center">
                 {{scope.row.name}}
               </div>
+              <span v-else>-</span>
             </template>
           </el-table-column>
           <!-- <el-table-column prop="country" label="Country" /> -->

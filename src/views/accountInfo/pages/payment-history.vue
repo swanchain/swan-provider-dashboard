@@ -5,7 +5,7 @@
         <el-col :xs="24" :sm="12" :md="24" :lg="7" :xl="7">
           <div class="flex flex-ai-center nowrap child mb-16">
             <span class="font-14">Task UUID: </span>
-            <el-input class="zk-input" v-model="networkZK.owner_addr" @input="clearChangeProvider()" placeholder="please enter Task UUID" />
+            <el-input class="zk-input" v-model="networkZK.owner_addr" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter Task UUID" />
           </div>
         </el-col>
         <el-col :xs="24" :sm="12" :md="24" :lg="4" :xl="4">

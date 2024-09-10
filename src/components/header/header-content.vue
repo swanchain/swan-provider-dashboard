@@ -11,6 +11,7 @@
             v-model="contractAddress"
             placeholder="Contract Address"
             class="input-with-select mr-10"
+            @change="toCPProfile"
           >
             <template #append>
               <el-button :disabled="!contractAddress" @click="toCPProfile">

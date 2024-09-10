@@ -931,6 +931,7 @@ async function getCPsBalanceData() {
   try{
     const balanceRes = await getCPsBalancesData(route.params.cp_addr)
     balanceData.value = balanceRes?.data ?? {}
+    changePietype(balanceData.value)
   }catch{console.error}
   balanceLoad.value = false
 }

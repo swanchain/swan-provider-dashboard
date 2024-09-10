@@ -99,7 +99,7 @@
                 </div>
               </el-col>
               <el-col :xs="24" :sm="12" :md="17" :lg="17" :xl="17" class="flex flex-ai-center baseline">
-                <div class="flex flex-ai-center flex-jc-left w-100" v-for="(gpu, g) in machines.gpu.gpus" :key="g">
+                <div v-for="(gpu, g) in machines.gpu.gpus" :key="g" :class="`flex flex-ai-center flex-jc-left w-100 ${g>0?'mt-4':''}`">
                   <div class="machines-style">
                     <span class="span-blue">
                       {{gpu.model}}
@@ -107,13 +107,13 @@
                   </div>
                   <div class="flex flex-ai-center">
                     <p class="color text-left">
-                      free: <span class="green">{{ gpu.free ?? '-' }}</span> 
+                      free: <span class="green">{{ replaceFormat(gpu.free) }}</span> 
                     </p>
                     <p class="color text-left mlr-10">
-                      used: <span class="green">{{ (gpu.total - gpu.free) || '-' }}</span> 
+                      used: <span class="green">{{ replaceFormat(gpu.total - gpu.free) }}</span> 
                     </p>
                     <p class="color text-left">
-                      total: <span class="green">{{ gpu.total ?? '-' }}</span> 
+                      total: <span class="green">{{ replaceFormat(gpu.total) }}</span> 
                     </p>
                   </div>
                 </div>

@@ -290,7 +290,7 @@
                 <span class="font-12">Swan Chain</span>
               </template>
               <el-row :gutter="10" v-if="overviewData.value.swan && overviewData.value.swan.length>0">
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total Addresses</h6>
                     <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
@@ -300,7 +300,7 @@
                     <h6 v-if="overviewData.value.swan.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                   </div>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total Contracts(24H)</h6>
                     <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
@@ -310,7 +310,7 @@
                     <h6 v-if="overviewData.value.swan.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                   </div>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Transactions Today</h6>
                     <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
@@ -318,7 +318,7 @@
                     </b>
                   </div>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total Transactions</h6>
                     <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
@@ -328,7 +328,7 @@
                     <h6 v-if="overviewData.value.swan.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                   </div>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total Accounts</h6>
                     <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
@@ -418,7 +418,7 @@ async function init () {
     overviewData.value = overviewRes?.data ?? {}
     overviewLoad.value = false
     const location = overviewRes?.data?.location ?? []
-    overviewData.totalLocation = location.reduce((sum:any, item:any) => sum + item.count, 0);
+    overviewData.totalLocation = location.length ?? 0
     setLocation(location)
     drawChart(location)
   }catch{overviewLoad.value = false}

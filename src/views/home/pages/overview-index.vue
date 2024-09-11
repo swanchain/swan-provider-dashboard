@@ -55,6 +55,26 @@
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Provider Locations</h6>
+                    <template v-if="overviewData.value.fcp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                        {{replaceFormat(overviewData.totalLocation)}}
+                      </b>
+                    </template>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total GPU Number</h6>
+                    <template v-if="overviewData.value.fcp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                        {{replaceFormat(gpuNum)}}
+                      </b>
+                    </template>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total ZK tasks</h6>
                     <template v-if="overviewData.value.ecp.length>0">
                       <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
@@ -62,16 +82,6 @@
                       </b>
                       <h6 v-if="overviewData.value.ecp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.ecp[0].tasks) >= Number(overviewData.value.ecp[1].tasks) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].tasks) >= Number(overviewData.value.ecp[1].tasks)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].tasks - overviewData.value.ecp[1].tasks))}}</h6>
                       <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
-                    </template>
-                  </div>
-                </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
-                  <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">Provider Locations</h6>
-                    <template v-if="overviewData.value.fcp.length>0">
-                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
-                        {{replaceFormat(overviewData.totalLocation)}}
-                      </b>
                     </template>
                   </div>
                 </el-col>
@@ -83,18 +93,6 @@
                     </b>
                     <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].deployments) >= Number(overviewData.value.fcp[1].deployments) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].deployments) >= Number(overviewData.value.fcp[1].deployments)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].deployments - overviewData.value.fcp[1].deployments))}}</h6>
                     <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
-                  </div>
-                </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
-                  <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">Total GPU hours</h6>
-                    <template v-if="overviewData.value.fcp.length>0">
-                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
-                        {{replaceFormat(timeFormat(overviewData.value.fcp[0].gpu_hours))}}
-                      </b>
-                      <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours)?'+':''}}{{replaceFormat(timeFormat(Number(overviewData.value.fcp[0].gpu_hours - overviewData.value.fcp[1].gpu_hours)))}}</h6>
-                      <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
-                    </template>
                   </div>
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
@@ -599,10 +597,22 @@ function drawChart (dataArr: any) {
   })
   providersLoad.value = false
 }
+
+const gpuNum = ref()
+const props = withDefaults(
+  defineProps<{
+    gpuNumber?: number
+  }>(),
+  {
+    gpuNumber: 0
+  }
+)
 onMounted(async () => {
   echarts.registerMap('worldHq', worldGeoJSON)
   init()
+  gpuNum.value = props.gpuNumber
 })
+watch(() => props.gpuNumber, () => gpuNum.value = props.gpuNumber)
 </script>
 
 <style lang="less" scoped>

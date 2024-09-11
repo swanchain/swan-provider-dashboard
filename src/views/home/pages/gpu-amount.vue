@@ -1,11 +1,16 @@
 <template>
   <section class="module-container mtb-10 font-14">
-    <div class="title flex flex-ai-center mb-10">
-      <i class="icon icon-t-gpu"></i>
-      <span class="font-16 weight-4">GPU Types and Amount</span>
+    <div class="title flex flex-ai-center flex-jc-between mb-10">
+      <div class="flex flex-ai-center">
+        <i class="icon icon-t-gpu"></i>
+        <span class="font-16 weight-4">GPU Types and Amount</span>
+      </div>
+      <router-link :to="{name: 'resource'}" class="font-12 flex flex-ai-center">more &nbsp;
+        <small>&gt;&gt;</small>
+      </router-link>
     </div>
     <el-row :gutter="bodyWidth" class="small-row" v-if="providersData && providersData.length > 0">
-      <template v-for="gpu in providersData" :key="gpu">
+      <template v-for="gpu in providersData.slice(0,8)" :key="gpu">
         <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <div class="grid-content">
             <div class="top flex flex-ai-center flex-jc-between">
@@ -30,11 +35,15 @@ const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
 const providersLoad = ref(false)
 const providersData = ref([])
 
+const emits = defineEmits(['handGPUCount'])
 async function initResource () {
   try{
     providersLoad.value = true
     const echartsRes = await getStatsResourceData()
     providersData.value = echartsRes?.data?.gpu?.models ?? []
+
+    const gpuTotal = echartsRes?.data?.gpu?.total ?? 0
+    emits('handGPUCount', gpuTotal)
   }catch{providersLoad.value = false}
 }
 onMounted(() => initResource())

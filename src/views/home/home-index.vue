@@ -11,9 +11,9 @@
     </div>
 
     <div class="providers-overview">
-      <overview-index></overview-index>
+      <overview-index :gpuNumber="gpuNumber"></overview-index>
       <echarts-index></echarts-index>
-      <gpu-amount></gpu-amount>
+      <gpu-amount @handGPUCount="handGPUCount"></gpu-amount>
       <table-list></table-list>
     </div>
   </section>
@@ -25,6 +25,11 @@ import echartsIndex from './pages/echarts-index.vue'
 import gpuAmount from './pages/gpu-amount.vue'
 import tableList from './pages/table-list.vue'
 import { currentNetwork, explorerLink } from '@/utils/storage'
+
+const gpuNumber = ref()
+function handGPUCount(num: number) {
+  gpuNumber.value = num
+}
 </script>
 
 <style lang="less" scoped>

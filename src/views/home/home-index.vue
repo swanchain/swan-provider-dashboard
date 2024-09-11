@@ -13,6 +13,7 @@
     <div class="providers-overview">
       <overview-index></overview-index>
       <echarts-index></echarts-index>
+      <gpu-amount></gpu-amount>
       <table-list></table-list>
     </div>
   </section>
@@ -21,6 +22,7 @@
 <script setup lang="ts">
 import overviewIndex from './pages/overview-index.vue'
 import echartsIndex from './pages/echarts-index.vue'
+import gpuAmount from './pages/gpu-amount.vue'
 import tableList from './pages/table-list.vue'
 import { currentNetwork, explorerLink } from '@/utils/storage'
 </script>

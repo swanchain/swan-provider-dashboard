@@ -14,7 +14,7 @@
               <el-input class="zk-input" v-model="networkInput.contract_address" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter Contract Address" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="24" :lg="4" :xl="4">
+          <el-col :xs="24" :sm="12" :md="24" :lg="5" :xl="5">
             <div class="flex flex-ai-center nowrap child">
               <el-button type="info" :disabled="!networkInput.contract_address ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchProvider">
@@ -82,9 +82,9 @@
             </template>
           </el-table-column>
           <!-- <el-table-column prop="country" label="Country" /> -->
-          <el-table-column prop="active_deployments" label="Deployments" min-width="110" />
+          <el-table-column prop="active_deployments" label="Deployments" min-width="95" />
           <!-- <el-table-column prop="score" label="Score" width="120" /> -->
-          <el-table-column prop="gpus" label="GPU" min-width="140">
+          <el-table-column prop="gpus" label="GPU" min-width="155">
             <template #default="scope">
               <div class="badge flex-jc-center">
                 <div class="flex flex-ai-center flex-jc-center machines-style text-left font-13">

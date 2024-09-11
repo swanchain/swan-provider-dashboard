@@ -8,19 +8,19 @@
     <div class="providers-network font-14">
       <div class="module-container">
         <el-row class="search-body flex flex-ai-center font-14">
-          <el-col :xs="24" :sm="12" :md="12" :lg="10" :xl="10">
+          <el-col :xs="24" :sm="12" :md="12" :lg="9" :xl="9">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">Name: </span>
               <el-input class="zk-input" v-model="networkZK.name" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter name" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="10" :xl="10">
+          <el-col :xs="24" :sm="12" :md="12" :lg="9" :xl="9">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">Contract Address: </span>
               <el-input class="zk-input" v-model="networkZK.cp_addr" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter CP Account Address" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="3" :xl="3">
+          <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
             <div class="flex flex-ai-center nowrap child">
               <el-button type="info" :disabled="!networkZK.cp_addr && !networkZK.name ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchZKProvider">
@@ -91,7 +91,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="gpu_tags" label="GPU" min-width="130">
+          <el-table-column prop="gpu_tags" label="GPU" min-width="140">
             <template #default="scope">
               <div class="badge flex-jc-center">
                 <div class="flex flex-ai-center flex-jc-center machines-style text-left font-13">

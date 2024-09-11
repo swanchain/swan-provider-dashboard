@@ -8,7 +8,7 @@
     <div class="providers-network font-14">
       <div class="module-container">
         <el-row class="search-body flex flex-ai-center font-14">
-          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
+          <el-col :xs="24" :sm="12" :md="12" :lg="7" :xl="7">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">Contract Address: </span>
               <el-input class="zk-input" v-model="networkInput.contract_address" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter Contract Address" />
@@ -20,13 +20,13 @@
               <el-input class="zk-input" v-model="networkInput.owner_addr" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter CP name" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="7" :xl="7">
+          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">NodeID: </span>
               <el-input class="zk-input" v-model="networkInput.node_id" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter NodeID" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="3" :xl="3">
+          <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
             <div class="flex flex-ai-center nowrap child">
               <el-button type="info" :disabled="!networkInput.contract_address && !networkInput.owner_addr && !networkInput.node_id  ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchProvider">
@@ -123,7 +123,7 @@
               <div>{{ replaceFormat(scope.row.score) }}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="gpu_list" min-width="130">
+          <el-table-column prop="gpu_list" min-width="140">
             <template #header>
               <div class="font-14 weight-4">GPU</div>
             </template>

@@ -17,7 +17,19 @@
                 <span class="font-12">Overview Data</span>
               </template>
               <el-row :gutter="10">
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Computing Provider</h6>
+                    <template v-if="overviewData.value.fcp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].active_cps)+Number(overviewData.value.ecp[0].cps))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1 || overviewData.value.ecp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].active_cps+overviewData.value.ecp[0].cps) >= Number(overviewData.value.fcp[1].active_cps+overviewData.value.ecp[1].cps) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].active_cps+overviewData.value.ecp[0].cps) >= Number(overviewData.value.fcp[1].active_cps+overviewData.value.ecp[1].cps)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].active_cps + overviewData.value.ecp[0].cps - overviewData.value.fcp[1].active_cps - overviewData.value.ecp[1].cps))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1 || overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Active FCP Number</h6>
                     <template v-if="overviewData.value.fcp.length>0">
@@ -29,7 +41,7 @@
                     </template>
                   </div>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Active ECP numbers</h6>
                     <template v-if="overviewData.value.ecp.length>0">
@@ -41,7 +53,7 @@
                     </template>
                   </div>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total ZK tasks</h6>
                     <template v-if="overviewData.value.ecp.length>0">
@@ -53,19 +65,27 @@
                     </template>
                   </div>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">Total Applications</h6>
+                    <h6 class="font-12 weight-4 text-center">Provider Locations</h6>
                     <template v-if="overviewData.value.fcp.length>0">
                       <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
-                        {{replaceFormat(Number(overviewData.value.fcp[0].active_applications))}}
+                        {{replaceFormat(overviewData.totalLocation)}}
                       </b>
-                      <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].active_applications) >= Number(overviewData.value.fcp[1].active_applications) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].active_applications) >= Number(overviewData.value.fcp[1].active_applications)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].active_applications - overviewData.value.fcp[1].active_applications))}}</h6>
-                      <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                     </template>
                   </div>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6" v-if="overviewData.value.fcp && overviewData.value.fcp.length>0">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Deployments</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0].deployments))}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].deployments) >= Number(overviewData.value.fcp[1].deployments) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].deployments) >= Number(overviewData.value.fcp[1].deployments)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].deployments - overviewData.value.fcp[1].deployments))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total GPU hours</h6>
                     <template v-if="overviewData.value.fcp.length>0">
@@ -77,7 +97,7 @@
                     </template>
                   </div>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total ZK rewards</h6>
                     <template v-if="overviewData.value.fcp.length>0">
@@ -123,16 +143,6 @@
                       {{replaceFormat(Number(overviewData.value.fcp[0].deployments))}}
                     </b>
                     <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].deployments) >= Number(overviewData.value.fcp[1].deployments) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].deployments) >= Number(overviewData.value.fcp[1].deployments)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].deployments - overviewData.value.fcp[1].deployments))}}</h6>
-                    <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
-                  </div>
-                </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
-                  <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">Total jobs</h6>
-                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
-                      {{replaceFormat(Number(overviewData.value.fcp[0].jobs))}}
-                    </b>
-                    <h6 v-if="overviewData.value.fcp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].jobs) >= Number(overviewData.value.fcp[1].jobs) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].jobs) >= Number(overviewData.value.fcp[1].jobs)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].jobs - overviewData.value.fcp[1].jobs))}}</h6>
                     <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                   </div>
                 </el-col>
@@ -373,7 +383,8 @@ const overviewData = reactive({
     ecp: [],
     location: [],
     swan: []
-  }
+  },
+  totalLocation: 0
 })
 const overviewLoad = ref(false)
 const providersLoad = ref(false)
@@ -407,6 +418,7 @@ async function init () {
     overviewData.value = overviewRes?.data ?? {}
     overviewLoad.value = false
     const location = overviewRes?.data?.location ?? []
+    overviewData.totalLocation = location.reduce((sum:any, item:any) => sum + item.count, 0);
     setLocation(location)
     drawChart(location)
   }catch{overviewLoad.value = false}
@@ -690,7 +702,7 @@ onMounted(async () => {
     .grid-content {
       position: relative;
       height: calc(100% - 0.36rem);
-      padding: 0.18rem 0.14rem;
+      padding: 0.18rem 0.08rem;
       background: var(--color-light);
       border-radius: 0.18rem;
       // box-shadow: 0 0 12px #e6e7eb;

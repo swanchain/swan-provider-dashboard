@@ -164,6 +164,8 @@ import { ecpDeposit, fcpDeposit, metaAddress, tokenSwan } from '@/utils/storage'
 import { copyContent, getDateTime, messageTip, stringToHex } from '@/utils/common';
 import web3Init, { getChain } from '@/utils/login';
 import { getCPsClaimData } from "@/api/cp-profile"
+import { watchContractEvent } from '@wagmi/core'
+import config from '@/utils/config.js'
 
 const props = withDefaults(
   defineProps<{
@@ -213,9 +215,6 @@ const rules = reactive({
 })
 // const collateralAddress = import.meta.env.VITE_COLLATERAL_CONTACT
 // const collateralContract = new web3Init.eth.Contract(CollateralABI, collateralAddress)
-const fcpContract = new web3Init.eth.Contract(fcpABI, fcpDeposit)
-const ecpContract = new web3Init.eth.Contract(ecpABI, ecpDeposit)
-const tokenContract = new web3Init.eth.Contract(tokenABI, tokenSwan)
 
 const emits = defineEmits(['hardClose'])
 function closeHandle () {
@@ -256,6 +255,25 @@ async function cpCollateral() {
 }
 async function cpDeposit () {
   try {
+    // watchContractEvent(config.config, {
+    //   tokenABI,
+    //   address: tokenSwan,
+    //   eventName: 'allowance',
+    //   args: { 
+    //     owner: metaAddress.value,
+    //     spender: props.list.type === 'FCP' ? fcpDeposit : ecpDeposit
+    //   }, 
+    //   onLogs(logs) {
+    //     console.log('Logs changed!', logs)
+    //   },
+    //   onError(error) { 
+    //     console.error('Logs error', error) 
+    //   }, 
+    // })
+    const fcpContract = new web3Init.eth.Contract(fcpABI, fcpDeposit)
+    const ecpContract = new web3Init.eth.Contract(ecpABI, ecpDeposit)
+    const tokenContract = new web3Init.eth.Contract(tokenABI, tokenSwan)
+
     const amount = web3Init.utils.toWei(String(ruleForm.amount), 'ether')
 
     // find the user's allowance

@@ -1,4 +1,4 @@
-import { mainnet, arbitrum } from 'viem/chains'
+import { mainnet, sepolia } from 'viem/chains'
 import { defaultWagmiConfig } from '@web3modal/wagmi/vue'
 
 const SWAN_MAINNET = {
@@ -24,6 +24,30 @@ const SWAN_MAINNET = {
         },
     },
     testnet: true,
+}
+const SWAN_PROXIMA = {
+  id: Number(20241133), //Number(process.env.NEXT_PUBLIC_L2_PROXIMA_CHAIN_ID),
+  name: 'Proxima',
+  network: 'SWAN',
+  iconUrl: 'https://i.imgur.com/Q3oIdip.png',
+  iconBackground: '#000000',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Swan ETH',
+    symbol: 'sETH',
+  },
+  rpcUrls: {
+    default: {
+      http: [String('https://rpc-proxima.swanchain.io')], // [String(process.env.NEXT_PUBLIC_L2_PROXIMA_RPC_URL)],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Swan Testnet Explorer',
+      url: 'https://proxima-explorer.swanchain.io' || '', // process.env.NEXT_PUBLIC_L2_PROXIMA_EXPLORER_URL || '',
+    },
+  },
+  testnet: true,
 }
 
 // 1. Define constants

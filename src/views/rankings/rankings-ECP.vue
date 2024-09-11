@@ -8,7 +8,7 @@
     <div class="providers-network font-14">
       <div class="module-container">
         <el-row class="search-body flex flex-ai-center font-14">
-          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
+          <el-col :xs="24" :sm="12" :md="12" :lg="7" :xl="7">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">Contract Address: </span>
               <el-input class="zk-input" v-model="networkZK.contract_address" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter Contract Address" />
@@ -20,13 +20,13 @@
               <el-input class="zk-input" v-model="networkZK.owner_addr" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter CP name" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="7" :xl="7">
+          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">NodeID: </span>
               <el-input class="zk-input" v-model="networkZK.node_id" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter NodeID" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="3" :xl="3">
+          <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
             <div class="flex flex-ai-center nowrap child">
               <el-button type="info" :disabled="!networkZK.contract_address && !networkZK.owner_addr && !networkZK.node_id  ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchZKProvider">

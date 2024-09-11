@@ -299,10 +299,9 @@ const contractAddress = ref('')
     })
     const txLink = import.meta.env.VITE_ATOMBLOCKURL
     const tokenAddress = import.meta.env.VITE_OPSWAN_SWANTOKEN_ADDRESS
-    let tokenContract
+    let tokenContract: any
     const collateralAddress = import.meta.env.VITE_COLLATERAL_CONTACT
-    let collateralContract
-
+    let collateralContract: any
 
     function toCPProfile() {
       if (!contractAddress.value) return
@@ -431,7 +430,6 @@ const contractAddress = ref('')
         // const approve_tx = await approveMethod.send({
         //   from: metaAddress.value, gasLimit: approveGasLimit
         // })
-
         let payMethod = collateralContract.methods.deposit(metaAddress.value)
         let payGasLimit = await payMethod.estimateGas({ from: metaAddress.value })
         const tx = await payMethod.send({ from: metaAddress.value, gasLimit: Math.floor(payGasLimit * 5), value: amount })
@@ -471,7 +469,12 @@ const contractAddress = ref('')
       currentNetwork.value = key
       window.location.reload()
     }
-    onMounted(async () => { })
+    onMounted(async () => { 
+      try {
+        collateralContract = new web3Init.eth.Contract(CollateralABI, collateralAddress)
+        tokenContract = new web3Init.eth.Contract(SpaceTokenABI, tokenAddress)
+      } catch {console.error}
+    })
     watch(route, (to, from) => {
       window.scrollTo(0, 0)
     })

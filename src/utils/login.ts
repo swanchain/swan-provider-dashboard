@@ -1,8 +1,10 @@
 import { Buffer } from "buffer"
 import { metaAddress, setMetaAddress } from "./storage"
-import { chainIdSWAN } from "./common"
+import { chainIdSWAN, messageTip, timeout } from "./common"
 import { setSignature } from './storage.js'
 import { performSignin } from '@/api/login'
+import { getAccount, signMessage, switchChain } from '@wagmi/core'
+import config from './config.js'
 
 let web3Init: any
 let web3: any
@@ -38,10 +40,8 @@ export async function getChain() {
 
 export async function login () {
   if (!metaAddress.value || metaAddress.value === undefined) {
-    const accounts = await providerInit.request({
-      method: 'eth_requestAccounts'
-    })
-    setMetaAddress(accounts[0])
+    const account = getAccount(config.config)
+    setMetaAddress(account?.address)
   }
   const time = await throttle()
   if (!time) return [false, '']
@@ -58,32 +58,8 @@ export async function Init(callback: any) {
     window.open('https://metamask.io/download.html')
     alert("Consider installing MetaMask!");
   } else {
-    providerInit
-      .request({
-        method: 'eth_requestAccounts'
-      })
-      .then((accounts: any) => {
-        if (!accounts) {
-          return false
-        }
-        web3Init.eth.getAccounts().then(async (webAccounts: any) => {
-          // console.log('webAccounts:',webAccounts)
-          callback(webAccounts[0])
-        })
-          .catch(async () => {
-            callback(accounts[0])
-          })
-      })
-      .catch((error: any) => {
-        if (error !== "User rejected provider access") {
-          alert("Please unlock MetaMask and switch to the correct network.");
-          return false
-        }
-        console.error(
-          `Error fetching accounts: ${error.message}.
-        Code: ${error.code}. Data: ${error.data}`
-        );
-      });
+    const account = getAccount(config.config)
+    callback(account?.address)
   }
 }
 
@@ -93,19 +69,14 @@ export async function sign() {
   const local = import.meta.env.VITE_DOMAIM_NAME
   const buff = Buffer.from("Signing in to " + local + " at " + sortanow, 'utf-8')
   let signature = null
-  let signErr = ''
-  await providerInit.request({
-    method: 'personal_sign',
-    params: [buff.toString('hex'), metaAddress.value]
-  }).then((sig:any) => {
-    signErr = ''
-    signature = sig
-  }).catch(async (err:any) => {
-    console.log(err)
-    signature = ''
-    signErr = err?.message || 'error'
-  })
-  return [signature, signErr]
+  const signErr = ''
+  try {
+    // const signatureMessage = await signMessage(config.config, { message: buff.toString('hex') })
+    signature = await signMessage(config.config, { message: "Signing in to " + local + " at " + sortanow })
+    return [signature, signErr]
+  } catch {
+    return [signature, 'error']
+  }
 }
 
 let lastTime = 0
@@ -135,26 +106,20 @@ export async function walletChain (chainId: number) {
       break
   }
   try {
-    await providerInit.request({
-      method: 'wallet_addEthereumChain',
-      params: [
-        text
-      ]
+    const result = await switchChain(config.config, {
+      chainId: chainId
     })
     await timeout(500)
-    if (chainIdSWAN !== 20241133) {
-      router.push({
-        name: 'dashboard'
-      })
+    if (chainIdSWAN.value !== 20241133) {
       await login()
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err.message) messageTip('error', err.message)
   }
 }
 
 export async function checkNetwork () {
-  if (chainIdSWAN !== 20241133) {
+  if (chainIdSWAN.value !== 20241133) {
     walletChain(20241133)
     return true
   } else return false

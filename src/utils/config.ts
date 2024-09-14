@@ -21,7 +21,7 @@ const SWAN_MAINNET = {
     blockExplorers: {
         default: {
             name: 'Swan Mainnet Explorer',
-            url: 'http://172.16.200.36/' || '',
+            url: 'https://mainnet-explorer.swanchain.io/' || '',
         },
     },
     testnet: true,
@@ -45,7 +45,7 @@ const SWAN_PROXIMA = {
   blockExplorers: {
     default: {
       name: 'Swan Testnet Explorer',
-      url: 'https://proxima-explorer.swanchain.io' || '', // process.env.NEXT_PUBLIC_L2_PROXIMA_EXPLORER_URL || '',
+      url: 'https://proxima-explorer.swanchain.io/' || '', // process.env.NEXT_PUBLIC_L2_PROXIMA_EXPLORER_URL || '',
     },
   },
   testnet: true,

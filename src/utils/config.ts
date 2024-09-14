@@ -1,5 +1,6 @@
 import { mainnet, sepolia } from 'viem/chains'
 import { defaultWagmiConfig } from '@web3modal/wagmi/vue'
+import { currentNetwork } from './storage'
 
 const SWAN_MAINNET = {
     id: Number(254),
@@ -61,7 +62,7 @@ const metadata = {
     icons: ['https://avatars.githubusercontent.com/u/37784886'],
 }
 
-const chains: any = [SWAN_MAINNET] //mainnet, arbitrum
+const chains: any = currentNetwork.value === 'Proxima' ? [SWAN_PROXIMA] : [SWAN_MAINNET] //mainnet, arbitrum
 const config = defaultWagmiConfig({
     chains, // required
     projectId, // required

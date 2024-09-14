@@ -9,5 +9,7 @@ export enum ELINK {
   PROXIMAEXPLORER = 'https://proxima-explorer.swanchain.io',
   MAINNETEXPLORER = 'https://mainnet-explorer.swanchain.io/',
   ECPLEARNMORELINK = 'https://docs.swanchain.io/computing-provider/edge-computing-provider-ecp',
-  FCPLEARNMORELINK = 'https://docs.swanchain.io/computing-provider/fog-computing-provider-fcp'
+  FCPLEARNMORELINK = 'https://docs.swanchain.io/computing-provider/fog-computing-provider-fcp',
+  PROXIMALINK = 'https://provider-testnet.swanchain.io/',
+  MAINNETLINK = 'https://provider.swanchain.io/'
 }

@@ -121,7 +121,7 @@
                       </div>
                     </div>
                   </el-dropdown-item>
-                  <el-dropdown-item command="aar" divided>
+                  <el-dropdown-item command="aar" divided v-if="currentNetwork !== 'Proxima'">
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon icon-AAR"></i>
@@ -131,7 +131,7 @@
                       </div>
                     </div>
                   </el-dropdown-item>
-                  <el-dropdown-item command="aar-fcp">
+                  <el-dropdown-item command="aar-fcp" v-if="currentNetwork !== 'Proxima'">
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon"></i>
@@ -139,7 +139,7 @@
                       </div>
                     </div>
                   </el-dropdown-item>
-                  <el-dropdown-item command="aar-ecp">
+                  <el-dropdown-item command="aar-ecp" v-if="currentNetwork !== 'Proxima'">
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon"></i>
@@ -249,6 +249,7 @@ import { openPage } from "@/hooks/router"
 import { AddFormat, copyContent, messageTip, signOutFun } from "@/utils/common"
 import { apiTokenData, apiTokenDelete, cpCollateralData, getApiTokenData } from "@/api/header"
 import web3Init, { checkNetwork } from "@/utils/login"
+import { ELINK } from "@/constant/envLink"
 
     
 const contractAddress = ref('')
@@ -285,16 +286,16 @@ const contractAddress = ref('')
       tx_hash: ''
     })
     const explorerList = reactive({
-      value: 'Swan Chain Mainnet',
+      value: currentNetwork.value === 'Proxima' ? 'Swan Chain Proxima' : 'Swan Chain Mainnet',
       options: [
         {
           value: 'Swan Chain Mainnet',
           label: 'Swan Chain Mainnet'
         },
-        // {
-        //   value: 'Proxima',
-        //   label: 'Swan Chain Proxima'
-        // }
+        {
+          value: 'Swan Chain Proxima',
+          label: 'Swan Chain Proxima'
+        }
       ]
     })
     const txLink = import.meta.env.VITE_ATOMBLOCKURL
@@ -465,9 +466,11 @@ const contractAddress = ref('')
       // }
       cpCheckCont.show = false
     }
-    async function currentMethod(key) {
-      currentNetwork.value = key
-      window.location.reload()
+    async function currentMethod(key: string) {
+      // currentNetwork.value = key
+      // window.location.reload()
+      if (key.indexOf('Proxima') > -1) openPage(ELINK.PROXIMALINK)
+      else openPage(ELINK.MAINNETLINK)
     }
     onMounted(async () => { 
       try {

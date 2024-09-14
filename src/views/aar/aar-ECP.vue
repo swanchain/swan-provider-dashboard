@@ -94,7 +94,7 @@
           <el-table-column prop="gpu_tags" label="GPU" min-width="140">
             <template #default="scope">
               <div class="badge flex-jc-center">
-                <div class="flex flex-ai-center flex-jc-center machines-style text-left font-13">
+                <div class="flex flex-ai-center flex-jc-center machines-style text-center font-13">
                   <span v-for="(gpu, g) in scope.row.gpu_tags" :key="g">
                     {{gpu}}
                   </span>

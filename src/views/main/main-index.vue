@@ -81,6 +81,9 @@ const backtopMargin = ref(document.body.clientWidth > 768 ? 50 : 150)
         @media screen and (max-width: 1024px) {
           max-width: 3.4rem;
         }
+        @media screen and (min-width: 768px) {
+          min-width: 180px;
+        }
         @media screen and (max-width: 768px) {
           display: none;
           width: 0;

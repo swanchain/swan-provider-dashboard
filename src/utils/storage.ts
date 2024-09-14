@@ -3,7 +3,7 @@ import { EStorage } from '@/constant/storage'
 
 export const token = ref(getToken())
 export const isLogin = computed(() => !!token.value)
-export const currentNetwork = ref('Mainnet')
+export const currentNetwork = ref(window.location.hostname.indexOf('testnet') > -1 ? 'Proxima' : 'Mainnet')
 export const metaAddress = ref('')
 export const signature = ref('')
 export const locationAll = ref([])

@@ -35,7 +35,7 @@
             <span class="font-14">Resource</span>
           </template>
         </el-menu-item>
-        <el-sub-menu index="aar">
+        <el-sub-menu index="aar" v-if="currentNetwork !== 'Proxima'">
           <template #title>
             <i class="icon icon-AAR"></i>
             <span class="font-14">Swan Mainnet Campaign
@@ -54,7 +54,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { metaAddress, token } from '@/utils/storage'
+import { currentNetwork, metaAddress, token } from '@/utils/storage'
 
     const route = useRoute()
     const router = useRouter()

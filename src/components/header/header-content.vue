@@ -468,9 +468,9 @@ const contractAddress = ref('')
     }
     async function currentMethod(key: string) {
       // currentNetwork.value = key
-      // window.location.reload()
       if (key.indexOf('Proxima') > -1) openPage(ELINK.PROXIMALINK)
       else openPage(ELINK.MAINNETLINK)
+      window.location.reload()
     }
     onMounted(async () => { 
       try {

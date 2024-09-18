@@ -6,7 +6,7 @@ export enum ELINK {
   DISCORD = 'https://discord.gg/swanchain',
   T = 'https://t.me/swan_chain/1',
   EMAIL = 'contact@swanchain.io',
-  PROXIMAEXPLORER = 'https://proxima-explorer.swanchain.io',
+  PROXIMAEXPLORER = 'https://proxima-explorer.swanchain.io/',
   MAINNETEXPLORER = 'https://mainnet-explorer.swanchain.io/',
   ECPLEARNMORELINK = 'https://docs.swanchain.io/computing-provider/edge-computing-provider-ecp',
   FCPLEARNMORELINK = 'https://docs.swanchain.io/computing-provider/fog-computing-provider-fcp',

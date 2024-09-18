@@ -5,12 +5,18 @@
         <el-col :xs="24" :sm="12" :md="24" :lg="7" :xl="7">
           <div class="flex flex-ai-center nowrap child mb-16">
             <span class="font-14">Task ID: </span>
+            <el-input class="zk-input" v-model="networkZK.id" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter Task Contract" />
+          </div>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="24" :lg="7" :xl="7">
+          <div class="flex flex-ai-center nowrap child mb-16">
+            <span class="font-14">Task Contract: </span>
             <el-input class="zk-input" v-model="networkZK.owner_addr" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter Task Contract" />
           </div>
         </el-col>
         <el-col :xs="24" :sm="12" :md="24" :lg="4" :xl="4">
           <div class="flex flex-ai-center nowrap child mb-16">
-            <el-button type="info" :disabled="!networkZK.owner_addr ? true:false" round @click="clearProvider">Clear</el-button>
+            <el-button type="info" :disabled="!networkZK.id && !networkZK.owner_addr ? true:false" round @click="clearProvider">Clear</el-button>
             <el-button type="primary" round @click="searchProvider">
               <el-icon>
                 <Search />
@@ -137,6 +143,7 @@ const pagin = reactive({
 })
 const networkZK = reactive({
   contract_address: '',
+  id: '',
   owner_addr: '',
   node_id: '',
   searchFor: false
@@ -161,7 +168,8 @@ async function getAllData() {
     let params = {
       page_size: pagin.pageSize,
       page_no: page,
-      id: networkZK.owner_addr
+      id: networkZK.id,
+      addr: networkZK.owner_addr
     }
     const dataRes = await getCPsZKProofData(params, route.params.cp_addr)
     paymentData.value = dataRes?.data?.list ?? []
@@ -170,18 +178,19 @@ async function getAllData() {
   paymentLoad.value = false
 }
 const searchProvider = async function () {
-  networkZK.searchFor = !networkZK.owner_addr ? false : true
+  networkZK.searchFor = !networkZK.owner_addr && !networkZK.id ? false : true
   handleZKCurrentChange(1)
 }
 const clearChangeProvider = debounce(async function () {
   if(!networkZK.searchFor) return
-  if (!networkZK.owner_addr) {
+  if (!networkZK.owner_addr && !networkZK.id) {
     handleZKCurrentChange(1)
     networkZK.searchFor = false
   }
 }, 700)
 function clearProvider() {
   networkZK.owner_addr = ''
+  networkZK.id = ''
   if(networkZK.searchFor) handleZKCurrentChange(1)
   networkZK.searchFor = false
 }

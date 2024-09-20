@@ -88,7 +88,7 @@
               </div>
               <span v-else>-</span>
             </el-col>
-            <el-col v-if="props.cpsData.account_name" :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+            <el-col v-if="props.cpsData.privacy" :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
               <p class="text-capitalize label">Social:</p>
               <div class="flex flex-ai-center">
                 <div v-if="props.cpsData.privacy?.email" @click="emailMethod(props.cpsData.privacy?.email)" class="pointer">
@@ -102,7 +102,7 @@
                 </div>
               </div>
             </el-col>
-            <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+            <el-col v-if="props.cpsData.account_name" :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-start nowrap baseline">
               <p class="text-capitalize label">Description:</p>
               <div>{{props.cpsData.desc || ''}}</div>
             </el-col>
@@ -159,8 +159,16 @@ function emailMethod(email: string) {
       }
       .el-col {
         margin: 0.08rem 0;
+        @media screen and (max-width: 767px) {
+          flex-wrap: wrap !important;
+        }
         .label {
           min-width: 1.85rem;
+          margin: 0 6px 0 0;
+          @media screen and (max-width: 600px) {
+            width: 100%;
+            margin: 0 6px 6px 0;
+          }
         }
       }
     }

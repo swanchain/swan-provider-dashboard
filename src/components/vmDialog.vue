@@ -55,7 +55,7 @@
               <el-divider content-position="left">
                 <div class="flex">
                   <div class="font-18">Personal Info</div> 
-                  <el-popover placement="right" :width="300" effect="dark" popper-style="word-break: break-word; text-align: left;font-size:12px;" trigger="hover" content="If you want show your personal information to public, please click Public so other people may contact you through the information">
+                  <el-popover placement="right" :width="300" effect="dark" popper-style="word-break: break-word; text-align: left;font-size:12px;" trigger="hover" content="If you don't want to show your personal information to public, please click Pritivate buttom.">
                     <template #reference>
                       <div class="flex flex-ai-center ml-8">
                         <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7201" width="14" height="14">
@@ -68,7 +68,7 @@
                 </div>
               </el-divider>
               <el-divider content-position="right">
-                <el-checkbox v-model="ruleForm.checked">{{ruleForm.checked?'Private':'Public'}}</el-checkbox>
+                <el-checkbox v-model="ruleForm.checked">Private</el-checkbox>
               </el-divider>
             </div>
             <el-form-item prop="email">
@@ -312,7 +312,7 @@ async function claimMethod(formEl: any) {
           "email": ruleForm.email,
           "msg": stringToHex(`Signing message for ${route.params.cp_addr} on Swan Provider Dashboard at ${sortanow.value}`),
           "sign": ruleForm.signature,
-          "public": ruleForm.checked,
+          "public": !ruleForm.checked,
           "telegram": ruleForm.telegram_account,
           "twitter":ruleForm.twitter_account,
           "desc": ruleForm.self_description

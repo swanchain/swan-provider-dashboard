@@ -24,6 +24,10 @@
     </div>
 
     <div class="providers-network font-14">
+      <div class="providers">
+        <account-public :cpsData="cpsData" :cpsLoad="cpsLoad"></account-public>
+      </div>
+
       <div class="providers mb-32">
         <echart-list :cpsData="cpsData" :cpsLoad="cpsLoad"></echart-list>
       </div>
@@ -52,6 +56,7 @@
 <script setup lang="ts">
 import vmDialog from "@/components/vmDialog.vue"
 import { explorerLink } from '@/utils/storage'
+import accountPublic from './pages/accrount-public.vue'
 import accountInfo from './pages/accrount-info.vue'
 import echartList from './pages/echart-list.vue'
 import resourceEchartsList from './pages/resource-echarts-list.vue'

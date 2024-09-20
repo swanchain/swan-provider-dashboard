@@ -118,16 +118,15 @@ const changetype = async (data: any) => {
 
   const gpuData = await dataGPU(data.gpu, 'active')
   const gpuTotalData = await dataGPU(data.gpu, 'total')
-  const gpuDataNumberMax = Math.max(...gpuData.datum) >= 0 ? 1.1 : 0.9
-  const gpuDataMax = Math.ceil(Math.max(...gpuData.datum)*gpuDataNumberMax)
-  const gpuNumber = Math.min(...gpuData.datum) >= 0 ? 0.9 : 1.1
-  const gpuDataMin = Math.floor(Math.min(...gpuData.datum)*gpuNumber)
-  const gpuDataInterval = Math.ceil((gpuDataMax-gpuDataMin)/(gpuDataMin===0?4:5))
-  const gpuTotalNumberMax = Math.max(...gpuTotalData.datum) >= 0 ? 1.1 : 0.9
-  const gpuTotalMax = Math.ceil(Math.max(...gpuTotalData.datum)*gpuTotalNumberMax)
-  const gpuTotalNumber = Math.min(...gpuTotalData.datum) >= 0 ? 0.9 : 1.1
-  const gpuTotalMin = Math.floor(Math.min(...gpuTotalData.datum)*gpuTotalNumber)
-  const gpuTotalInterval = Math.ceil((gpuTotalMax - gpuTotalMin) / 5)
+  const gMax = Math.max(...gpuData.datum)
+  const gTotalMax = Math.max(...gpuTotalData.datum)
+  const gpuDataNumberMax = Math.max(gMax, gTotalMax) >= 0 ? 1.1 : 0.9
+  const gpuDataMax = Math.ceil(Math.max(gMax, gTotalMax)*gpuDataNumberMax)
+  const gMin = Math.min(...gpuData.datum)
+  const gTotalMin = Math.min(...gpuTotalData.datum)
+  const gpuNumber = Math.min(gMin, gTotalMin) >= 0 ? 0.9 : 1.1
+  const gpuDataMin = Math.floor(Math.min(gMin, gTotalMin)*gpuNumber)
+  const gpuTotalInterval = Math.ceil((gpuDataMax - gpuDataMin) / 5)
   
   const cpuData = await dataResource(data.cpu, 'active')
   const memoryData = await dataResource(data.memory, 'active')
@@ -486,37 +485,25 @@ const changetype = async (data: any) => {
       },
       data: gpuData.timeArr
     },
-    yAxis: [{
-      type: 'value',
-      axisLabel: {
-        fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
-        color: '#7c889b',
-        formatter: '{value}'
-      },
-      interval: gpuTotalInterval,
-      min: gpuTotalMin,
-      max: gpuTotalMax
-    },{
-      type: 'value',
-      axisLabel: {
-        fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
-        color: '#7c889b',
-        formatter: '{value}'
-      },
-      min: gpuDataMin,
-      max: gpuDataMax,
-      interval: gpuDataInterval,
-      position: 'right',
-      splitLine: {
-          show: false 
+    yAxis: [
+      {
+        type: 'value',
+        axisLabel: {
+          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+          color: '#7c889b',
+          formatter: '{value}'
+        },
+        interval: gpuTotalInterval,
+        min: gpuDataMin,
+        max: gpuDataMax
       }
-    }],
+    ],
     series: [
       {
         name: 'Used GPU',
         type: 'line',
         showSymbol: true,
-        yAxisIndex: 1,
+        // yAxisIndex: 1,
         color: '#ed5da0',
         smooth: false,
         data: gpuData.datum
@@ -525,7 +512,7 @@ const changetype = async (data: any) => {
         name: 'Total GPU',
         type: 'line',
         showSymbol: true,
-        yAxisIndex: 0,
+        // yAxisIndex: 0,
         color: '#5871fa',
         smooth: false,
         data: gpuTotalData.datum

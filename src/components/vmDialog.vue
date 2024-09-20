@@ -54,7 +54,7 @@
             <div class="flex nowrap divider">
               <el-divider content-position="left">
                 <div class="flex">
-                  Personal Info
+                  <div class="font-18">Personal Info</div> 
                   <el-popover placement="right" :width="300" effect="dark" popper-style="word-break: break-word; text-align: left;font-size:12px;" trigger="hover" content="If you want show your personal information to public, please click Public so other people may contact you through the information">
                     <template #reference>
                       <div class="flex flex-ai-center ml-8">
@@ -68,7 +68,7 @@
                 </div>
               </el-divider>
               <el-divider content-position="right">
-                <el-checkbox v-model="ruleForm.checked">Public</el-checkbox>
+                <el-checkbox v-model="ruleForm.checked">{{ruleForm.checked?'Private':'Public'}}</el-checkbox>
               </el-divider>
             </div>
             <el-form-item prop="email">
@@ -114,7 +114,7 @@
               <template #label>
                 <div class="flex flex-ai-center font-16 text-capitalize">
                   <span class="red opacity">*</span>
-                  Self Description:
+                  Description:
                 </div>
               </template>
               <label class="label" for="self_description">
@@ -124,7 +124,9 @@
               </label>
             </el-form-item>
             <div class="flex nowrap divider">
-              <el-divider content-position="left">Signature verification</el-divider>
+              <el-divider content-position="left">
+                <div class="font-18">Signature verification</div>
+              </el-divider>
             </div>
             <el-form-item prop="message">
               <div class="flex flex-ai-center font-16 text-capitalize w-100 mb-16">
@@ -491,17 +493,17 @@ onMounted(async () => {
         }
         .el-divider__text {
           font-family: inherit;
-          font-size: var(--font-14);
+          font-size: var(--font-18);
           .el-checkbox {
             * {
               font-family: inherit;
-              font-size: var(--font-12);
+              font-size: var(--font-16);
               color: var(--color-info);
             }
           }
           &.is-left {
             left: 0;
-            padding: 0 0.2rem 0 0.1rem;
+            padding: 0 0.2rem 0 0;
           }
           &.is-right {
             right: 0;
@@ -530,6 +532,10 @@ onMounted(async () => {
             .el-form-item__label {
               width: 165px;
               margin: 0 0 0.04rem;
+              color: var(--color-info);
+              @media screen and (min-width: 2000px) {
+                width: 215px;
+              }
               @media screen and (max-width: 768px) {
                 height: 26px;
                 line-height: 26px;

@@ -427,7 +427,7 @@ const props = withDefaults(
       emits('hardClose', false, type)
     }
     const changetype = async () => {
-      return
+      return false
       cpLoad.value = true
       const machart_name = echarts.init(document.getElementById("chart-name"));
 

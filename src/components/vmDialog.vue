@@ -110,6 +110,19 @@
                 </div>
               </label>
             </el-form-item>
+            <el-form-item prop="website">
+              <template #label>
+                <div class="flex flex-ai-center font-16 text-capitalize">
+                  <span class="red opacity">*</span>
+                  Official Website:
+                </div>
+              </template>
+              <label class="label" for="website">
+                <div class="flex flex-ai-center">
+                  <el-input v-model="ruleForm.website" placeholder=" " />
+                </div>
+              </label>
+            </el-form-item>
             <el-form-item prop="self_description">
               <template #label>
                 <div class="flex flex-ai-center font-16 text-capitalize">
@@ -267,6 +280,7 @@ const ruleForm = reactive({
   email: '',
   telegram_account: '',
   twitter_account: '',
+  website: '',
   self_description: '',
   sign_code: '',
   signature: '',
@@ -315,7 +329,8 @@ async function claimMethod(formEl: any) {
           "public": !ruleForm.checked,
           "telegram": ruleForm.telegram_account,
           "twitter":ruleForm.twitter_account,
-          "desc": ruleForm.self_description
+          "desc": ruleForm.self_description,
+          "website": ruleForm.website
         }
         const cpsRes = await getCPsClaimData(params, route.params.cp_addr)
         if (cpsRes?.msg) messageTip('success', cpsRes.msg)

@@ -103,6 +103,10 @@
               </div>
             </el-col>
             <el-col v-if="props.cpsData.account_name" :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-start nowrap baseline">
+              <p class="text-capitalize label">Official Website:</p>
+              <div>{{props.cpsData.website || ''}}</div>
+            </el-col>
+            <el-col v-if="props.cpsData.account_name" :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-start nowrap baseline">
               <p class="text-capitalize label">Description:</p>
               <div>{{props.cpsData.desc || ''}}</div>
             </el-col>

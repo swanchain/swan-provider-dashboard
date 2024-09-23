@@ -119,7 +119,7 @@
               </template>
               <label class="label" for="website">
                 <div class="flex flex-ai-center">
-                  <el-input v-model="ruleForm.website" placeholder=" " />
+                  <el-input v-model="ruleForm.website" placeholder=" " maxlength="100" />
                 </div>
               </label>
             </el-form-item>

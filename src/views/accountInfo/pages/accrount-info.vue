@@ -104,7 +104,8 @@
             </el-col>
             <el-col v-if="props.cpsData.account_name" :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-start nowrap baseline">
               <p class="text-capitalize label">Official Website:</p>
-              <div>{{props.cpsData.website || ''}}</div>
+              <div v-if="props.cpsData.website" @click="openPageHttp(props.cpsData.website)" class="pointer link">{{props.cpsData.website || ''}}</div>
+              <div v-else></div>
             </el-col>
             <el-col v-if="props.cpsData.account_name" :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-start nowrap baseline">
               <p class="text-capitalize label">Description:</p>
@@ -120,7 +121,7 @@
 <script setup lang="ts">
 import { explorerLink, signature } from "@/utils/storage"
 import { copyContent, hiddAddress, hiddLongAddress, momentFun, replaceDecimalsFormat } from "@/utils/common"
-import { openPage } from "@/hooks/router";
+import { openPage, openPageHttp } from "@/hooks/router";
 
 const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
 const route = useRoute()

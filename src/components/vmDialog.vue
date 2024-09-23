@@ -276,12 +276,12 @@ const route = useRoute()
 const ruleAddRef = ref()
 const sortanow = ref('')
 const ruleForm = reactive({
-  name: '',
-  email: '',
-  telegram_account: '',
-  twitter_account: '',
-  website: '',
-  self_description: '',
+  name: props.list?.account_name || '',
+  email: props.list?.privacy?.email || '',
+  telegram_account: props.list?.privacy?.telegram || '',
+  twitter_account: props.list?.privacy?.twitter || '',
+  website: props.list?.website || '',
+  self_description: props.list?.desc || '',
   sign_code: '',
   signature: '',
   amount: props.list.type === 'FCP' ? 5 : 150,
@@ -615,6 +615,7 @@ onMounted(async () => {
                   border-radius: 5px;
                   border: 1px solid var(--color-primary);
                   box-shadow: none;
+                  color: var(--color-dark);
                   &.el-select__wrapper {
                     padding: 11px 12px;
                   }
@@ -623,6 +624,7 @@ onMounted(async () => {
                   }
                   .el-input__inner {
                     height: auto;
+                    font-family: inherit;
                     color: var(--color-dark);
                     line-height: 1.2;
                   }

@@ -1,5 +1,6 @@
 import { ELINK } from '@/constant/envLink'
 import { EStorage } from '@/constant/storage'
+import { EStorageTestnet } from '@/constant/storage-testnet'
 
 export const token = ref(getToken())
 export const isLogin = computed(() => !!token.value)
@@ -25,52 +26,63 @@ export function clearStorage() {
 
 export function clearLoginInfo() {
   token.value = ''
-  removeStorage(EStorage.TOKEN)
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  removeStorage(storageEnv.TOKEN)
 }
 
 export function setToken(tok: string) {
   token.value = tok
-  localStorage.setItem(EStorage.TOKEN, tok)
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  localStorage.setItem(storageEnv.TOKEN, tok)
 }
 
 export function clearMetaAddress() {
   metaAddress.value = ''
-  removeStorage(EStorage.METAADDRESS)
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  removeStorage(storageEnv.METAADDRESS)
 }
 
 export function setMetaAddress(tok: string) {
   metaAddress.value = tok
-  localStorage.setItem(EStorage.METAADDRESS, tok)
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  localStorage.setItem(storageEnv.METAADDRESS, tok)
 }
 
 export function clearSignature() {
   signature.value = ''
-  removeStorage(EStorage.Signature)
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  removeStorage(storageEnv.Signature)
 }
 
 export function setSignature(tok: string) {
   signature.value = tok
-  localStorage.setItem(EStorage.Signature, tok)
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  localStorage.setItem(storageEnv.Signature, tok)
 }
 
 export function setLocation(tok: any) {
   locationAll.value = tok
-  localStorage.setItem(EStorage.locationAll, JSON.stringify(tok))
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  localStorage.setItem(storageEnv.locationAll, JSON.stringify(tok))
 }
 
 export function getLocation() {
-  return JSON.parse(JSON.stringify(localStorage.getItem(EStorage.locationAll))) ?? []
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  return JSON.parse(JSON.stringify(localStorage.getItem(storageEnv.locationAll))) ?? []
 }
 
 export function getToken() {
-  return localStorage.getItem(EStorage.TOKEN) ?? ''
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  return localStorage.getItem(storageEnv.TOKEN) ?? ''
 }
 
 export function setAccountInfo(accountInfo: { account: string; password: string }) {
-  localStorage.setItem(EStorage.ACCOUNT_INFO, JSON.stringify(accountInfo))
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  localStorage.setItem(storageEnv.ACCOUNT_INFO, JSON.stringify(accountInfo))
 }
 
 export function getAccountInfo() {
-  const accountInfo = localStorage.getItem(EStorage.ACCOUNT_INFO)
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  const accountInfo = localStorage.getItem(storageEnv.ACCOUNT_INFO)
   return accountInfo ? JSON.parse(accountInfo) : { account: '', password: '' }
 }

@@ -10,19 +10,13 @@
         <el-row class="search-body flex flex-ai-center font-14">
           <el-col :xs="24" :sm="12" :md="12" :lg="9" :xl="9">
             <div class="flex flex-ai-center nowrap child">
-              <span class="font-14">Name: </span>
-              <el-input class="zk-input" v-model="networkZK.name" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter name" />
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="9" :xl="9">
-            <div class="flex flex-ai-center nowrap child">
               <span class="font-14">Contract Address: </span>
               <el-input class="zk-input" v-model="networkZK.cp_addr" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter CP Account Address" />
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
             <div class="flex flex-ai-center nowrap child">
-              <el-button type="info" :disabled="!networkZK.cp_addr && !networkZK.name ? true:false" round @click="clearProvider">Clear</el-button>
+              <el-button type="info" :disabled="!networkZK.cp_addr ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchZKProvider">
                 <el-icon>
                   <Search />
@@ -40,19 +34,19 @@
             </template>
             <template #default="scope">
               <div class="badge flex flex-ai-center flex-jc-center">
-                <img v-if="scope.$index === 0 && paginZK.pageNo <= 1 && !((networkZK.cp_addr || networkZK.name) && networkZK.searchFor)" :src="badgeIcon01" alt="">
-                <img v-else-if="scope.$index === 1 && paginZK.pageNo <= 1 && !((networkZK.cp_addr || networkZK.name) && networkZK.searchFor)" :src="badgeIcon02" alt="">
-                <img v-else-if="scope.$index === 2 && paginZK.pageNo <= 1 && !((networkZK.cp_addr || networkZK.name) && networkZK.searchFor)" :src="badgeIcon03" alt="">
+                <img v-if="scope.$index === 0 && paginZK.pageNo <= 1 && !(networkZK.cp_addr && networkZK.searchFor)" :src="badgeIcon01" alt="">
+                <img v-else-if="scope.$index === 1 && paginZK.pageNo <= 1 && !(networkZK.cp_addr && networkZK.searchFor)" :src="badgeIcon02" alt="">
+                <img v-else-if="scope.$index === 2 && paginZK.pageNo <= 1 && !(networkZK.cp_addr && networkZK.searchFor)" :src="badgeIcon03" alt="">
                 <span v-else>{{ paginZK.pageNo > 0 ? (paginZK.pageNo - 1) * paginZK.pageSize + scope.$index + 1 : scope.$index + 1 }}</span>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="contract_addr" label="CP Account Address" min-width="140">
+          <el-table-column prop="addr" label="CP Account Address" min-width="140">
             <template #default="scope">
               <div class="badge flex flex-ai-center flex-jc-center">
-                <div class="flex flex-ai-center flex-jc-center copy-style" v-if="scope.row.contract_addr">
-                  <router-link :to="{ name: 'accountInfo', params: {cp_addr: scope.row.contract_addr} }">{{hiddAddress(scope.row.contract_addr)}}</router-link>
-                  <svg @click="copyContent(scope.row.contract_addr, 'Copied')" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2309" width="18" height="18">
+                <div class="flex flex-ai-center flex-jc-center copy-style" v-if="scope.row.addr">
+                  <router-link :to="{ name: 'accountInfo', params: {cp_addr: scope.row.addr} }">{{hiddAddress(scope.row.addr)}}</router-link>
+                  <svg @click="copyContent(scope.row.addr, 'Copied')" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2309" width="18" height="18">
                     <path d="M720 192h-544A80.096 80.096 0 0 0 96 272v608C96 924.128 131.904 960 176 960h544c44.128 0 80-35.872 80-80v-608C800 227.904 764.128 192 720 192z m16 688c0 8.8-7.2 16-16 16h-544a16 16 0 0 1-16-16v-608a16 16 0 0 1 16-16h544a16 16 0 0 1 16 16v608z"
                       p-id="2310" fill="#b5b7c8"></path>
                     <path d="M848 64h-544a32 32 0 0 0 0 64h544a16 16 0 0 1 16 16v608a32 32 0 1 0 64 0v-608C928 99.904 892.128 64 848 64z" p-id="2311" fill="#b5b7c8"></path>
@@ -91,19 +85,30 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="gpu_tags" label="GPU" min-width="140">
+          <el-table-column prop="gpus" label="GPU" min-width="140">
             <template #default="scope">
               <div class="badge flex-jc-center">
                 <div class="flex flex-ai-center flex-jc-center machines-style text-center font-13">
-                  <span v-for="(gpu, g) in scope.row.gpu_tags" :key="g">
+                  <span v-for="(gpu, g) in scope.row.gpus" :key="g">
                     {{gpu}}
                   </span>
                 </div>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="region" label="Region" min-width="90" />
-          <el-table-column prop="work_status" label="Status" min-width="90"
+          <el-table-column prop="region" column-key="region" filterable :filters="regionFilters" filter-placement="bottom-end" :filter-multiple="false" min-width="100">
+            <template #header>
+              <div class="font-14 weight-4">Region</div>
+            </template>
+            <template #default="scope">
+              <el-popover placement="top" effect="dark" popper-class="popup-content" popper-style="word-break: break-word; text-align: center;font-size:12px;" trigger="hover" :content="scope.row.region">
+                <template #reference>
+                  <div class="name-style black">{{scope.row.region ?? '-'}}</div>
+                </template>
+              </el-popover>
+            </template>
+          </el-table-column>
+          <el-table-column prop="status" label="Status" min-width="90"
             column-key="status" filterable :filters="[
               { text: 'Inactive', value: 'Inactive' },
               { text: 'Offline', value: 'Offline' },
@@ -116,21 +121,21 @@
             ]" filter-placement="bottom-end" :filter-multiple="false">
             <template #default="scope">
               <div>
-                {{scope.row.work_status || '-'}}
+                {{scope.row.status || '-'}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="task" label="Total Task">
+          <el-table-column prop="tasks" label="Total Task">
             <template #default="scope">
               <div>
-                {{scope.row.task?scope.row.task.total : ''}}
+                {{ replaceFormat(scope.row.tasks) || ''}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="task" label="Completed(%)" min-width="110">
+          <el-table-column prop="complete_rate" label="Completed(%)" min-width="110">
             <template #default="scope">
               <div>
-                {{fixedformat(scope.row.completion_rate,10000)}}%
+                {{ fixedformat(scope.row.complete_rate,10000) }}%
               </div>
             </template>
           </el-table-column>
@@ -161,8 +166,9 @@ import badgeIcon01 from "@/assets/images/icons/badge-1.png"
 import badgeIcon02 from "@/assets/images/icons/badge-2.png"
 import badgeIcon03 from "@/assets/images/icons/badge-3.png"
 import { copyContent, debounce, fixedformat, hiddAddress, paginationWidth, replaceFormat, sizeChange } from "@/utils/common";
-import { getOverViewECP, getOverviewECPData } from "@/api/overview";
+import { getOverViewECP, getOverviewECPData, statsOverviewData } from "@/api/overview";
 import { ELINK } from '@/constant/envLink';
+import { getLocation, setLocation } from '@/utils/storage';
 
 const route = useRoute()
 const router = useRouter()
@@ -189,9 +195,11 @@ const networkZK = reactive({
 })
 const paramsECPFilter = reactive({
   data: {
-    status: ''
+    status: '',
+    region: ''
   }
 })
+const regionFilters = ref<any>([])
 const expands = ref([])
 
 function handleSizeChange(val:number) {
@@ -210,8 +218,7 @@ async function getUBITable () {
     let params = {
       page_size: paginZK.pageSize,
       page_no: page,
-      cp_addr: networkZK.cp_addr,
-      name: networkZK.name,
+      addr: networkZK.cp_addr,
       node_id: networkZK.node_id
     }
     params = Object.assign({}, params, paramsECPFilter.data)
@@ -226,18 +233,21 @@ const handleFilterECPChange = (filters:any) => {
     if (key === 'status') {
       const result = filters.status[0] ?? ''
       paramsECPFilter.data.status = result
+    } else if (key === 'region') {
+      const result = filters.region[0] ?? ''
+      paramsECPFilter.data.region = result
     }
   }
   handleZKCurrentChange(1)
 }
 let getRowKeys = (row:any) => {
-  return row.node_id;
+  return row.addr;
 }
 function expandChange (row:any, expandedRows:any) {
   // console.log(row, expandedRows)
   if (expandedRows.length) {
     expands.value = [];
-    if (row) expands.value.push(row.node_id);
+    if (row) expands.value.push(row.addr);
   } else expands.value = [];
 }
 async function getList (list:any) {
@@ -259,18 +269,17 @@ async function getList (list:any) {
   return l
 }
 const searchZKProvider = async function () {
-  networkZK.searchFor = !networkZK.cp_addr && !networkZK.name ? false : true
+  networkZK.searchFor = !networkZK.cp_addr ? false : true
   handleZKCurrentChange(1)
 }
 const clearChangeProvider = debounce(async function () {
   if(!networkZK.searchFor) return
-  if (!networkZK.cp_addr && !networkZK.name) {
+  if (!networkZK.cp_addr) {
     handleZKCurrentChange(1)
     networkZK.searchFor = false
   }
 }, 700)
 function clearProvider () {
-  networkZK.name = ''
   networkZK.cp_addr = ''
   networkZK.node_id = ''
   if(networkZK.searchFor) handleZKCurrentChange(1)
@@ -284,12 +293,36 @@ function reset () {
   paginZK.pageNo = 1
   providersLoad.value = false
   providersECPLoad.value = false
-  networkZK.name = ''
   networkZK.cp_addr = ''
   networkZK.node_id = ''
   getUBITable()
 }
+async function getLocationList () {
+  try{
+    providersECPLoad.value = true
+    const overviewRes = await statsOverviewData()
+    const location = overviewRes?.data?.location ?? []
+    setLocation(location)
+    regionList(JSON.stringify(location))
+  }catch{providersECPLoad.value = false}
+}
+function regionList(data: any) {
+  const location = JSON.parse(data)
+  location.map((item: any) => {
+    regionFilters.value.push({
+      text: item.name ?? '',
+      value: item.name ?? ''
+    })
+  })
+  getUBITable()
+}
+async function init() {
+  let l = await getLocation()
+  if (l.toString() === '[]' || l.toString() === '') getLocationList()
+  else regionList(l)
+}
 onMounted(async () => {
+  init()
   reset()
 })
 </script>

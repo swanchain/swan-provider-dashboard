@@ -339,7 +339,7 @@ export function storageNumformat (data: any) {
 export function fixedformat (num1: any, num2: any) {
   if (!num1 || !num2) return 0
   const dataList:string = (num1 / num2 * 100).toString()
-  return parseFloat(dataList).toFixed(2)
+  return Number(parseFloat(dataList).toFixed(2))
 }
 
 export function filNumformat (data: string) {

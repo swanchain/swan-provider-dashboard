@@ -181,7 +181,6 @@
 <script setup lang="ts">
 import { getCPsECPListData, statsOverviewData } from "@/api/overview";
 import { ELINK } from "@/constant/envLink";
-import { EStorage } from "@/constant/storage";
 import { copyContent, debounce, hiddAddress, paginationWidth, replaceFormat, unifyNumber } from "@/utils/common";
 import { getLocation, setLocation } from "@/utils/storage";
 import {

@@ -31,7 +31,7 @@ export function getOverviewECPData() {
 export function getOverViewECP(params: any) {
   return request({
       headers: {},
-      url: `${currentNetwork.value === 'Mainnet' ? import.meta.env.VITE_ECP_BASEAPI : import.meta.env.VITE_ECP_BASEAPI_PROXIMA}v2/providers`,
+      url: `${import.meta.env.VITE_BASE_URL}v1/campaign/mainnet/ecps`,
       method: 'get',
       params
   })

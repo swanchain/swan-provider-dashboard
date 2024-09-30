@@ -1222,7 +1222,7 @@ const contractAddress = ref('')
               width: 0.35rem;
               height: 0.15rem;
               margin: 0.03rem 0 0;
-              background: url(../../assets/images/new.png) no-repeat center;
+              background: url(../../assets/images/end.png) no-repeat center;
               background-size: auto 100%;
             }
           }

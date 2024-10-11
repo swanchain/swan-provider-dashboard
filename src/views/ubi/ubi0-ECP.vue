@@ -166,7 +166,7 @@ import badgeIcon01 from "@/assets/images/icons/badge-1.png"
 import badgeIcon02 from "@/assets/images/icons/badge-2.png"
 import badgeIcon03 from "@/assets/images/icons/badge-3.png"
 import { copyContent, debounce, fixedformat, hiddAddress, paginationWidth, replaceFormat, sizeChange } from "@/utils/common";
-import { getOverViewECP, getOverviewECPData, statsOverviewData } from "@/api/overview";
+import { getUBI0ECPData, getOverviewECPData, statsOverviewData } from "@/api/overview";
 import { ELINK } from '@/constant/envLink';
 import { getLocation, setLocation } from '@/utils/storage';
 
@@ -222,7 +222,7 @@ async function getUBITable () {
       node_id: networkZK.node_id
     }
     params = Object.assign({}, params, paramsECPFilter.data)
-    const providerRes = await getOverViewECP(params)
+    const providerRes = await getUBI0ECPData(params)
     paginZK.total = providerRes?.data?.total ?? 0
     providerBody.ubiTableData = await getList(providerRes.data.list)
   } catch { console.error }

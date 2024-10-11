@@ -45,6 +45,24 @@ export default [
     }
   },
   {
+    path: '/ubi0/fcp',
+    name: 'cpUbiFCP',
+    component: () => import("../views/ubi/ubi0-FCP.vue"),
+    meta: {
+      keepAlive: true,
+      title: 'SWAN CP UBI-0'
+    }
+  },
+  {
+    path: '/ubi0/ecp',
+    name: 'cpUbiECP',
+    component: () => import("../views/ubi/ubi0-ECP.vue"),
+    meta: {
+      keepAlive: true,
+      title: 'SWAN CP UBI-0'
+    }
+  },
+  {
     path: '/resource',
     name: 'resource',
     component: () => import("../views/resource/resource-index.vue"),

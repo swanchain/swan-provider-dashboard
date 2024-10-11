@@ -39,13 +39,27 @@
           <template #title>
             <i class="icon icon-AAR"></i>
             <span class="font-14">Swan Mainnet Campaign
-              <i class="icon icon-new"></i>
+              <i class="icon icon-end"></i>
             </span>
           </template>
           <el-menu-item index="aar-fcp">
             <span class="font-14 l">FCP Leaderboard</span>
           </el-menu-item>
           <el-menu-item index="aar-ecp">
+            <span class="font-14 l">ECP Leaderboard</span>
+          </el-menu-item>
+        </el-sub-menu>
+        <el-sub-menu index="cp-ubi">
+          <template #title>
+            <i class="icon icon-AAR"></i>
+            <span class="font-14">SWAN CP UBI-0
+              <i class="icon icon-new"></i>
+            </span>
+          </template>
+          <el-menu-item index="cp-ubi-fcp">
+            <span class="font-14 l">FCP Leaderboard</span>
+          </el-menu-item>
+          <el-menu-item index="cp-ubi-ecp">
             <span class="font-14 l">ECP Leaderboard</span>
           </el-menu-item>
         </el-sub-menu>
@@ -68,6 +82,8 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
       else if (key === 'rankings-ecp') router.push({ name: 'rankingsECP' })
       else if (key === 'aar-fcp') router.push({ name: 'aarFCP' })
       else if (key === 'aar-ecp') router.push({ name: 'aarECP' })
+      else if (key === 'cp-ubi-fcp') router.push({ name: 'cpUbiFCP' })
+      else if (key === 'cp-ubi-ecp') router.push({ name: 'cpUbiECP' })
       else if (key === 'accountInfo') router.push({ name: 'accountInfo', params: { cp_addr: metaAddress.value } })
       else if (key === 'resource') router.push({ name: 'resource' })
     }
@@ -79,6 +95,8 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
       else if (nameMenu.indexOf('rankingsECP') > -1 || nameMenu.indexOf('rankings/ecp') > -1) activeIndex.value = 'rankings-ecp'
       else if (nameMenu.indexOf('aarFCP') > -1 || nameMenu.indexOf('campaign/fcp') > -1) activeIndex.value = 'aar-fcp'
       else if (nameMenu.indexOf('aarECP') > -1 || nameMenu.indexOf('campaign/ecp') > -1) activeIndex.value = 'aar-ecp'
+      else if (nameMenu.indexOf('cpUbiFCP') > -1 || nameMenu.indexOf('ubi0/fcp') > -1) activeIndex.value = 'cp-ubi-fcp'
+      else if (nameMenu.indexOf('cpUbiECP') > -1 || nameMenu.indexOf('ubi0/ecp') > -1) activeIndex.value = 'cp-ubi-ecp'
       else if (nameMenu.indexOf('accountInfo') > -1 || nameMenu.indexOf('cp') > -1) activeIndex.value = 'accountInfo'
       else if (nameMenu.indexOf('resource') > -1) activeIndex.value = 'resource'
       else activeIndex.value = nameMenu
@@ -143,6 +161,14 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
       background-size: 100%;
     }
     &.icon-new {
+      display: inline-block;
+      width: 0.35rem;
+      height: 0.15rem;
+      margin: 0.03rem 0 0;
+      background: url(../../assets/images/new.png) no-repeat center;
+      background-size: auto 100%;
+    }
+    &.icon-end {
       display: inline-block;
       width: 0.35rem;
       height: 0.15rem;

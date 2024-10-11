@@ -126,7 +126,7 @@
                       <div class="flex flex-ai-center font-16">
                         <i class="icon icon-AAR"></i>
                         <span>Swan Mainnet Campaign
-                          <i class="icon icon-new"></i>
+                          <i class="icon icon-end"></i>
                         </span>
                       </div>
                     </div>
@@ -140,6 +140,32 @@
                     </div>
                   </el-dropdown-item>
                   <el-dropdown-item command="aar-ecp" v-if="currentNetwork !== 'Proxima'">
+                    <div class="profile router-link b">
+                      <div class="flex flex-ai-center font-16">
+                        <i class="icon"></i>
+                        <span>ECP Leaderboard</span>
+                      </div>
+                    </div>
+                  </el-dropdown-item>
+                  <el-dropdown-item command="cp-ubi" divided>
+                    <div class="profile router-link b">
+                      <div class="flex flex-ai-center font-16">
+                        <i class="icon icon-AAR"></i>
+                        <span>SWAN CP UBI-0
+                          <i class="icon icon-new"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </el-dropdown-item>
+                  <el-dropdown-item command="cp-ubi-fcp">
+                    <div class="profile router-link b">
+                      <div class="flex flex-ai-center font-16">
+                        <i class="icon"></i>
+                        <span>FCP Leaderboard</span>
+                      </div>
+                    </div>
+                  </el-dropdown-item>
+                  <el-dropdown-item command="cp-ubi-ecp">
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon"></i>
@@ -372,13 +398,15 @@ const contractAddress = ref('')
         cpCollateralCont.diagle = true
       } else if (key === 'cpCollateralCheck') cpCheck()
       else if (key === 'sign_out') {
-        await signOutFun()
-        window.location.reload()
+        // await signOutFun()
+        // window.location.reload()
       } else if (key === 'overview') router.push({ path: '/overview' })
       else if (key === 'rankings-fcp') router.push({ name: 'rankingsFCP' })
       else if (key === 'rankings-ecp') router.push({ name: 'rankingsECP' })
       else if (key === 'aar' || key === 'aar-fcp') router.push({ name: 'aarFCP' })
       else if (key === 'aar-ecp') router.push({ name: 'aarECP' })
+      else if (key === 'cp-ubi' || key === 'cp-ubi-fcp') router.push({ name: 'cpUbiFCP' })
+      else if (key === 'cp-ubi-ecp') router.push({ name: 'cpUbiECP' })
       else if (key === 'accountInfo') router.push({ name: 'accountInfo', params: { cp_addr: metaAddress.value } })
       else if (key === 'resource') router.push({ name: 'resource' })
     }
@@ -1218,6 +1246,14 @@ const contractAddress = ref('')
               background-size: 100%;
             }
             &.icon-new {
+              display: inline-block;
+              width: 0.35rem;
+              height: 0.15rem;
+              margin: 0.03rem 0 0;
+              background: url(../../assets/images/new.png) no-repeat center;
+              background-size: auto 100%;
+            }
+            &.icon-end {
               display: inline-block;
               width: 0.35rem;
               height: 0.15rem;

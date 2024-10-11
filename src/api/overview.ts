@@ -37,6 +37,15 @@ export function getOverViewECP(params: any) {
   })
 }
 
+export function getUBI0ECPData(params: any) {
+  return request({
+      headers: {},
+      url: `${import.meta.env.VITE_BASE_URL}v1/campaign/ubi0/ecps`,
+      method: 'get',
+      params
+  })
+}
+
 export function getCPlistData(params: any) {
   return request({
       headers: {},
@@ -85,6 +94,15 @@ export function getCampaignFCPListData(params: any) {
   return request({
       headers: {},
       url: `${import.meta.env.VITE_BASE_URL}v1/campaign/mainnet/fcps`,
+      method: 'get',
+      params
+  })
+}
+
+export function getUBI0FCPListData(params: any) {
+  return request({
+      headers: {},
+      url: `${import.meta.env.VITE_BASE_URL}v1/campaign/ubi0/fcps`,
       method: 'get',
       params
   })

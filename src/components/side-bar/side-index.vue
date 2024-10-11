@@ -249,7 +249,7 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
           color: var(--color-primary);
         }
         span {
-          width: calc(100% - 0.23rem - 7px);
+          width: calc(100% - 0.23rem - 18px);
           margin: 0 0 0 0.1rem;
           &.l {
             width: 100%;

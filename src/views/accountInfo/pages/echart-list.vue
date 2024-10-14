@@ -28,7 +28,26 @@
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
-                    <span>Total Reward: </span>
+                    <div class="flex flex-ai-center">
+                      UBI
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <div class="flex flex-ai-center ml-4">
+                            <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7201" width="14" height="14">
+                              <path d="M512 64a448 448 0 1 1 0 896A448 448 0 0 1 512 64z m0 71.972571a375.954286 375.954286 0 1 0 0 752.054858A375.954286 375.954286 0 0 0 512 135.972571z m35.181714 266.020572c12.361143 0 21.796571 2.486857 28.672 8.045714 7.314286 5.997714 11.044571 14.043429 11.044572 23.917714 0 10.971429-11.190857 52.589714-33.060572 123.172572l-4.096 13.677714C517.778286 676.498286 512.731429 698.514286 512.731429 720.384c0 3.510857 0.731429 6.070857 2.194285 7.68 1.462857 1.755429 2.340571 2.340571 2.706286 2.340571 8.265143 0 35.766857-20.333714 78.262857-59.245714l8.777143 0.146286 19.456 18.944-0.146286 9.289143-2.779428 2.56c-45.568 41.691429-77.677714 67.584-98.889143 79.213714l-1.682286 0.877714c-21.357714 11.702857-39.058286 17.773714-53.248 17.773715a44.324571 44.324571 0 0 1-32.914286-12.726858 49.371429 49.371429 0 0 1-11.922285-34.596571c0-42.130286 13.531429-97.645714 64.219428-257.243429a57.197714 57.197714 0 0 0 3.291429-17.92V476.891429c0-2.56-0.438857-2.706286-2.852572-2.706286a41.179429 41.179429 0 0 0-19.748571 6.802286l-0.512 0.219428c-7.972571 4.900571-25.380571 20.260571-55.808 49.005714l-8.265143 0.438858-22.089143-16.822858-0.731428-9.508571 2.048-2.194286c33.572571-35.84 63.634286-61.001143 91.209143-76.288 28.525714-15.872 53.174857-23.844571 73.874285-23.844571z m51.565715-157.988572c11.776 0 22.162286 4.169143 30.134857 12.141715 8.045714 7.972571 12.141714 18.285714 12.141714 30.866285a64.658286 64.658286 0 0 1-17.554286 41.910858 51.2 51.2 0 0 1-39.131428 18.505142 40.448 40.448 0 0 1-29.622857-12.141714 43.373714 43.373714 0 0 1-12.141715-31.670857c0-16.676571 5.339429-30.427429 16.603429-42.276571a53.101714 53.101714 0 0 1 39.497143-17.334858z"
+                                fill="#333333" p-id="7202"></path>
+                            </svg>
+                          </div>
+                        </template>
+                        Universal Basic Income. See details <span class="underline pointer" @click="openPage('https://docs.swanchain.io/core-concepts/token/swan-universal-basic-income-ubi')">here</span>.
+                      </el-popover>:
+                    </div>
+                    <span>{{ replaceDecimalsFormat(balanceData?.sequencer?.balance) }} SWANC</span>
+                  </div>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+                  <div class="flex flex-ai-center flex-jc-between width">
+                    <span>Application Reward: </span>
                     <span>{{ balanceData?.fcp_reward ? replaceDecimalsFormat(balanceData?.fcp_reward) : 0 }} SWANC</span>
                   </div>
                 </el-col>
@@ -79,12 +98,6 @@
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
-                    <span>Total Reward: </span>
-                    <span>{{ balanceData?.ecp_reward ? replaceDecimalsFormat(balanceData?.ecp_reward) : 0 }} SWANC</span>
-                  </div>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
-                  <div class="flex flex-ai-center flex-jc-between width">
                     <div class="flex flex-ai-center">
                       Sequencer
                       <el-popover placement="top" :width="300" effect="dark" popper-style="word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
@@ -100,6 +113,31 @@
                       </el-popover>:
                     </div>
                     <span>{{ replaceDecimalsFormat(balanceData?.sequencer?.balance) }} ETH</span>
+                  </div>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+                  <div class="flex flex-ai-center flex-jc-between width">
+                    <div class="flex flex-ai-center">
+                      UBI
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <div class="flex flex-ai-center ml-4">
+                            <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7201" width="14" height="14">
+                              <path d="M512 64a448 448 0 1 1 0 896A448 448 0 0 1 512 64z m0 71.972571a375.954286 375.954286 0 1 0 0 752.054858A375.954286 375.954286 0 0 0 512 135.972571z m35.181714 266.020572c12.361143 0 21.796571 2.486857 28.672 8.045714 7.314286 5.997714 11.044571 14.043429 11.044572 23.917714 0 10.971429-11.190857 52.589714-33.060572 123.172572l-4.096 13.677714C517.778286 676.498286 512.731429 698.514286 512.731429 720.384c0 3.510857 0.731429 6.070857 2.194285 7.68 1.462857 1.755429 2.340571 2.340571 2.706286 2.340571 8.265143 0 35.766857-20.333714 78.262857-59.245714l8.777143 0.146286 19.456 18.944-0.146286 9.289143-2.779428 2.56c-45.568 41.691429-77.677714 67.584-98.889143 79.213714l-1.682286 0.877714c-21.357714 11.702857-39.058286 17.773714-53.248 17.773715a44.324571 44.324571 0 0 1-32.914286-12.726858 49.371429 49.371429 0 0 1-11.922285-34.596571c0-42.130286 13.531429-97.645714 64.219428-257.243429a57.197714 57.197714 0 0 0 3.291429-17.92V476.891429c0-2.56-0.438857-2.706286-2.852572-2.706286a41.179429 41.179429 0 0 0-19.748571 6.802286l-0.512 0.219428c-7.972571 4.900571-25.380571 20.260571-55.808 49.005714l-8.265143 0.438858-22.089143-16.822858-0.731428-9.508571 2.048-2.194286c33.572571-35.84 63.634286-61.001143 91.209143-76.288 28.525714-15.872 53.174857-23.844571 73.874285-23.844571z m51.565715-157.988572c11.776 0 22.162286 4.169143 30.134857 12.141715 8.045714 7.972571 12.141714 18.285714 12.141714 30.866285a64.658286 64.658286 0 0 1-17.554286 41.910858 51.2 51.2 0 0 1-39.131428 18.505142 40.448 40.448 0 0 1-29.622857-12.141714 43.373714 43.373714 0 0 1-12.141715-31.670857c0-16.676571 5.339429-30.427429 16.603429-42.276571a53.101714 53.101714 0 0 1 39.497143-17.334858z"
+                                fill="#333333" p-id="7202"></path>
+                            </svg>
+                          </div>
+                        </template>
+                        Universal Basic Income. See details <span class="underline pointer" @click="openPage('https://docs.swanchain.io/core-concepts/token/swan-universal-basic-income-ubi')">here</span>.
+                      </el-popover>:
+                    </div>
+                    <span>{{ replaceDecimalsFormat(balanceData?.sequencer?.balance) }} SWANC</span>
+                  </div>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+                  <div class="flex flex-ai-center flex-jc-between width">
+                    <span>Application Reward: </span>
+                    <span>{{ balanceData?.ecp_reward ? replaceDecimalsFormat(balanceData?.ecp_reward) : 0 }} SWANC</span>
                   </div>
                 </el-col>
                 <!-- <el-col :xs="24" :sm="24" :md="10" :lg="6" :xl="6" class="flex flex-ai-center flex-jc-right">
@@ -136,6 +174,7 @@ import { getCPsBalancesData, getCPsEchartsData } from "@/api/cp-profile";
 import { addCollateral, metaAddress } from "@/utils/storage"
 import { dataCpData, dataDelta, dataGPU, getDateRange, replaceDecimalsFormat, replaceFormat, sumArrays } from "@/utils/common";
 import * as echarts from "echarts"
+import { openPage } from "@/hooks/router";
 
 const route = useRoute()
 const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)

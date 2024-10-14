@@ -5,6 +5,11 @@
       <div @click="tabsSwitch(1)" class="tabs-button text-center tabs-next flex-ai-center flex-jc-center" :class="{'is-disabled': activeName === 3}">&gt;</div>
 
       <el-tabs v-model="activeName" class="demo-tabs">
+        <el-tab-pane :name="3">
+          <template #label>
+            <span class="font-14">Transaction List</span>
+          </template>
+        </el-tab-pane>
         <el-tab-pane :name="0">
           <template #label>
             <span class="font-14">FCP Reward List</span>
@@ -18,11 +23,6 @@
         <el-tab-pane :name="2">
           <template #label>
             <span class="font-14">Sequencer List</span>
-          </template>
-        </el-tab-pane>
-        <el-tab-pane :name="3">
-          <template #label>
-            <span class="font-14">Transaction List</span>
           </template>
         </el-tab-pane>
       </el-tabs>
@@ -40,7 +40,7 @@ import transactionList from './transaction-list.vue'
 import paymentHistory from "./payment-history.vue"
 import ubiHistory from "./UBI-history.vue"
 
-const activeName = ref(0)
+const activeName = ref(3)
 const watchRoute = ref(false)
 
 function tabsSwitch (index:number) {

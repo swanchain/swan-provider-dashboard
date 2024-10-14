@@ -36,9 +36,9 @@ instance.interceptors.response.use(
   (error) => {
     console.error('response error', error)
     if (error?.response?.data) {
-      const { message, status, detail, msg } = error.response.data
+      const { message, status, detail, msg, code } = error.response.data
       messageTip('error', message || detail || msg)
-      if (status === 401) {
+      if (status === 401 || code === 401) {
         // await timeout(2000)
         // urlClear()
       }

@@ -164,6 +164,7 @@ import { copyContent, debounce, fixedformat, hiddAddress, paginationWidth, repla
 import { getUBI0FCPListData, statsOverviewData } from "@/api/overview";
 import { ELINK } from '@/constant/envLink';
 import { getLocation, setLocation } from '@/utils/storage';
+import { openPage } from '@/hooks/router';
 
 const providersLoad = ref(false)
 const providersTableLoad = ref(false)

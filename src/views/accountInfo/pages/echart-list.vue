@@ -17,13 +17,13 @@
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
                     <span>Collateral:</span>
-                    <span class="text-right">{{ replaceDecimalsFormat(balanceData?.fcp_collateral?.balance) }} SWANC</span>
+                    <span class="text-right">{{ replaceDecimalsFormat(balanceData?.fcp_collateral?.balance) }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
                     <span>Escrow: </span>
-                    <span>{{ replaceDecimalsFormat(balanceData?.fcp_collateral?.locked) }} SWANC</span>
+                    <span>{{ replaceDecimalsFormat(balanceData?.fcp_collateral?.locked) }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
@@ -42,13 +42,13 @@
                         Universal Basic Income. See details <span class="underline pointer" @click="openPage('https://docs.swanchain.io/core-concepts/token/swan-universal-basic-income-ubi')">here</span>.
                       </el-popover>:
                     </div>
-                    <span>{{ replaceDecimalsFormat(balanceData?.sequencer?.balance) }} SWANC</span>
+                    <span>{{ replaceDecimalsFormat(balanceData?.sequencer?.balance) }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
                     <span>Application Reward: </span>
-                    <span>{{ balanceData?.fcp_reward ? replaceDecimalsFormat(balanceData?.fcp_reward) : 0 }} SWANC</span>
+                    <span>{{ balanceData?.fcp_reward ? replaceDecimalsFormat(balanceData?.fcp_reward) : 0 }} SWAN</span>
                   </div>
                 </el-col>
               </el-row>
@@ -87,13 +87,13 @@
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
                     <span>Collateral:</span>
-                    <span class="text-right">{{ replaceDecimalsFormat(balanceData?.ecp_collateral?.balance) }} SWANC</span>
+                    <span class="text-right">{{ replaceDecimalsFormat(balanceData?.ecp_collateral?.balance) }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
                     <span>Escrow: </span>
-                    <span>{{ replaceDecimalsFormat(balanceData?.ecp_collateral?.locked) }} SWANC</span>
+                    <span>{{ replaceDecimalsFormat(balanceData?.ecp_collateral?.locked) }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
@@ -131,13 +131,13 @@
                         Universal Basic Income. See details <span class="underline pointer" @click="openPage('https://docs.swanchain.io/core-concepts/token/swan-universal-basic-income-ubi')">here</span>.
                       </el-popover>:
                     </div>
-                    <span>{{ replaceDecimalsFormat(balanceData?.sequencer?.balance) }} SWANC</span>
+                    <span>{{ replaceDecimalsFormat(balanceData?.sequencer?.balance) }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
                     <span>Application Reward: </span>
-                    <span>{{ balanceData?.ecp_reward ? replaceDecimalsFormat(balanceData?.ecp_reward) : 0 }} SWANC</span>
+                    <span>{{ balanceData?.ecp_reward ? replaceDecimalsFormat(balanceData?.ecp_reward) : 0 }} SWAN</span>
                   </div>
                 </el-col>
                 <!-- <el-col :xs="24" :sm="24" :md="10" :lg="6" :xl="6" class="flex flex-ai-center flex-jc-right">
@@ -435,7 +435,7 @@ const changetype = async (data: any) => {
       }
     },
     legend: {
-      data: ['Collateral (SWANC)', 'Escrow (SWANC)'],
+      data: ['Collateral (SWAN)', 'Escrow (SWAN)'],
       right: 'auto',
       bottom: '0',
       // icon: 'circle',
@@ -492,7 +492,7 @@ const changetype = async (data: any) => {
     },
     series: [
       {
-        name: 'Collateral (SWANC)',
+        name: 'Collateral (SWAN)',
         type: 'line',
         smooth: false,
         showSymbol: true,
@@ -500,7 +500,7 @@ const changetype = async (data: any) => {
         color: '#7092b4'
       },
       {
-        name: 'Escrow (SWANC)',
+        name: 'Escrow (SWAN)',
         type: 'line',
         smooth: false,
         showSymbol: true,
@@ -673,7 +673,7 @@ const changetype = async (data: any) => {
       containLabel: true
     },
     legend: {
-      data: ['Collateral (SWANC)', 'Escrow (SWANC)', 'Sequencer (ETH)'],
+      data: ['Collateral (SWAN)', 'Escrow (SWAN)', 'Sequencer (ETH)'],
       right: 'auto',
       bottom: '0',
       // icon: 'circle',
@@ -717,11 +717,11 @@ const changetype = async (data: any) => {
     yAxis: [
       {
         type: 'value',
-        name: 'SWANC',
+        name: 'SWAN',
         axisLabel: {
           fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
           color: '#7c889b',
-          //   formatter: '{value} SWANC'
+          //   formatter: '{value} SWAN'
         },
         nameTextStyle: {
           fontSize: document.documentElement.clientWidth >= 1920 ? 16 : 11,
@@ -755,7 +755,7 @@ const changetype = async (data: any) => {
     ],
     series: [
       {
-        name: 'Collateral (SWANC)',
+        name: 'Collateral (SWAN)',
         type: 'line',
         smooth: false,
         yAxisIndex: 0,
@@ -769,7 +769,7 @@ const changetype = async (data: any) => {
         color: '#02a7f0'
       },
       {
-        name: 'Escrow (SWANC)',
+        name: 'Escrow (SWAN)',
         type: 'line',
         smooth: false,
         showSymbol: true,

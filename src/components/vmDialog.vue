@@ -188,13 +188,13 @@
             <p>Available Balance:</p>
           </el-col>
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="flex flex-ai-center baseline">
-            <p class="color"><span class="blue">0.9984</span> SWANC</p> 
+            <p class="color"><span class="blue">0.9984</span> SWAN</p> 
           </el-col>
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="flex flex-ai-center baseline">
             <p>Sequencer Balance:</p>
           </el-col>
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="flex flex-ai-center baseline">
-            <p class="color"><span class="blue">0.9984</span> SWANC</p> 
+            <p class="color"><span class="blue">0.9984</span> SWAN</p> 
           </el-col>
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="flex flex-ai-center baseline">
             <p>Add Amount:</p>
@@ -202,7 +202,7 @@
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="flex flex-ai-center baseline">
             <div class="flex flex-ai-center nowrap">
               <el-input-number v-model="ruleForm.amount" :min="0" :step="0.25" controls-position="right" />
-              <span class="text-white">&nbsp;&nbsp;SWANC</span>
+              <span class="text-white">&nbsp;&nbsp;SWAN</span>
             </div>
           </el-col>
         </el-row>
@@ -215,9 +215,9 @@
             <div class="font-14" v-else>{{ ecpDeposit }}</div> -->
           </el-col>
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
-            <p v-if="props.list.type === 'FCP'">For each FCP job, you need to have at least 5 SWANC in an escrow account.</p>
-            <p v-if="props.list.type === 'ECP'">To receive ZK tasks, you need to have at least 100 SWANC in an escrow account.</p>
-            <p v-if="props.list.type === 'ECP'" class="mt-8">150 SWANC is recommended.</p> 
+            <p v-if="props.list.type === 'FCP'">For each FCP job, you need to have at least 5 SWAN in an escrow account.</p>
+            <p v-if="props.list.type === 'ECP'">To receive ZK tasks, you need to have at least 100 SWAN in an escrow account.</p>
+            <p v-if="props.list.type === 'ECP'" class="mt-8">150 SWAN is recommended.</p> 
           </el-col>
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="flex flex-ai-center baseline">
             <p>Amount:</p>
@@ -225,7 +225,7 @@
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="flex flex-ai-center baseline">
             <div class="flex flex-ai-center nowrap">
               <el-input-number v-model="ruleForm.amount" :min="0" controls-position="right" />
-              <span class="text-white">&nbsp;&nbsp;SWANC</span>
+              <span class="text-white">&nbsp;&nbsp;SWAN</span>
             </div>
           </el-col>
         </el-row>

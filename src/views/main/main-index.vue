@@ -60,6 +60,9 @@ const backtopMargin = ref(document.body.clientWidth > 768 ? 50 : 150)
       &.el-header {
         padding: 0.2rem 0.25rem;
         background-color: var(--color-primary);
+        @media screen and (max-width: 600px) {
+          padding: 0.2rem;
+        }
       }
       @media screen and (max-width: 1024px) {
         padding: 0.2rem 0.3rem;

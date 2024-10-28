@@ -49,7 +49,7 @@
             <span class="font-14 l">ECP Leaderboard</span>
           </el-menu-item>
         </el-sub-menu>
-        <el-sub-menu index="cp-ubi">
+        <el-sub-menu index="cp-ubi" v-if="currentNetwork === 'Proxima'">
           <template #title>
             <i class="icon icon-AAR"></i>
             <span class="font-14">SWAN CP UBI-0

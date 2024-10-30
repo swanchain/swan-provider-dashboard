@@ -42,7 +42,7 @@
                         Universal Basic Income. See details <span class="underline pointer" @click="openPage('https://docs.swanchain.io/core-concepts/token/swan-universal-basic-income-ubi')">here</span>.
                       </el-popover>:
                     </div>
-                    <span>{{ replaceDecimalsFormat(balanceData?.sequencer?.balance) }} SWAN</span>
+                    <span>{{ balanceData?.fcp_ubi ? replaceDecimalsFormat(balanceData?.fcp_ubi) : 0 }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
@@ -131,7 +131,7 @@
                         Universal Basic Income. See details <span class="underline pointer" @click="openPage('https://docs.swanchain.io/core-concepts/token/swan-universal-basic-income-ubi')">here</span>.
                       </el-popover>:
                     </div>
-                    <span>{{ replaceDecimalsFormat(balanceData?.sequencer?.balance) }} SWAN</span>
+                    <span>{{ balanceData?.ecp_ubi ? replaceDecimalsFormat(balanceData?.ecp_ubi) : 0 }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">

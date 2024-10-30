@@ -147,7 +147,7 @@
                       </div>
                     </div>
                   </el-dropdown-item>
-                  <el-dropdown-item command="cp-ubi" divided v-if="currentNetwork === 'Proxima'">
+                  <el-dropdown-item command="cp-ubi" divided>
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon icon-AAR"></i>
@@ -157,7 +157,7 @@
                       </div>
                     </div>
                   </el-dropdown-item>
-                  <el-dropdown-item command="cp-ubi-fcp" v-if="currentNetwork === 'Proxima'">
+                  <el-dropdown-item command="cp-ubi-fcp">
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon"></i>
@@ -165,7 +165,7 @@
                       </div>
                     </div>
                   </el-dropdown-item>
-                  <el-dropdown-item command="cp-ubi-ecp" v-if="currentNetwork === 'Proxima'">
+                  <el-dropdown-item command="cp-ubi-ecp">
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon"></i>

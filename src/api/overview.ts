@@ -40,7 +40,7 @@ export function getOverViewECP(params: any) {
 export function getUBI0ECPData(params: any) {
   return request({
       headers: {},
-      url: `${import.meta.env.VITE_BASE_URL}v1/campaign/ubi0/ecps`,
+      url: `${import.meta.env.VITE_UBI0_URL}api/v1/ranking/ecp`,
       method: 'get',
       params
   })
@@ -102,7 +102,7 @@ export function getCampaignFCPListData(params: any) {
 export function getUBI0FCPListData(params: any) {
   return request({
       headers: {},
-      url: `${import.meta.env.VITE_BASE_URL}v1/campaign/ubi0/fcps`,
+      url: `${import.meta.env.VITE_UBI0_URL}api/v1/ranking/fcp`,
       method: 'get',
       params
   })

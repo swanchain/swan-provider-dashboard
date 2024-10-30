@@ -1,85 +1,41 @@
 [
-  {
-    "inputs": [],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "target",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "target", "type": "address" }
     ],
     "name": "AddressEmptyCode",
     "type": "error"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "implementation",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "implementation", "type": "address" }
     ],
     "name": "ERC1967InvalidImplementation",
     "type": "error"
   },
-  {
-    "inputs": [],
-    "name": "ERC1967NonPayable",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "FailedInnerCall",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "InvalidInitialization",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NotInitializing",
-    "type": "error"
-  },
+  { "inputs": [], "name": "ERC1967NonPayable", "type": "error" },
+  { "inputs": [], "name": "FailedInnerCall", "type": "error" },
+  { "inputs": [], "name": "InvalidInitialization", "type": "error" },
+  { "inputs": [], "name": "NotInitializing", "type": "error" },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "owner", "type": "address" }
     ],
     "name": "OwnableInvalidOwner",
     "type": "error"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "account", "type": "address" }
     ],
     "name": "OwnableUnauthorizedAccount",
     "type": "error"
   },
-  {
-    "inputs": [],
-    "name": "UUPSUnauthorizedCallContext",
-    "type": "error"
-  },
+  { "inputs": [], "name": "UUPSUnauthorizedCallContext", "type": "error" },
   {
     "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "slot",
-        "type": "bytes32"
-      }
+      { "internalType": "bytes32", "name": "slot", "type": "bytes32" }
     ],
     "name": "UUPSUnsupportedProxiableUUID",
     "type": "error"
@@ -240,6 +196,31 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "fundingWallet",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "cpAccount",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "depositAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "DepositLocked",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "challenger",
         "type": "address"
       },
@@ -283,6 +264,19 @@
       }
     ],
     "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "SlashedFundsIncreased",
     "type": "event"
   },
   {
@@ -370,23 +364,13 @@
   {
     "inputs": [],
     "name": "UPGRADE_INTERFACE_VERSION",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "newAdmin",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "newAdmin", "type": "address" }
     ],
     "name": "addAdmin",
     "outputs": [],
@@ -394,34 +378,23 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "allowedToWithdraw",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "availableBalance",
-    "outputs": [
-      {
-        "internalType": "int256",
-        "name": "",
-        "type": "int256"
-      }
-    ],
+    "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "baseCollateral",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -446,11 +419,7 @@
             "name": "collateralRatio",
             "type": "uint256"
           },
-          {
-            "internalType": "uint256",
-            "name": "slashRatio",
-            "type": "uint256"
-          }
+          { "internalType": "uint256", "name": "slashRatio", "type": "uint256" }
         ],
         "internalType": "struct SwanCreditCollateral.ContractInfo",
         "name": "",
@@ -463,50 +432,32 @@
   {
     "inputs": [],
     "name": "collateralRatio",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "cpAddress",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "cpAddress", "type": "address" }
     ],
     "name": "cpInfo",
     "outputs": [
       {
         "components": [
-          {
-            "internalType": "address",
-            "name": "cpAccount",
-            "type": "address"
-          },
+          { "internalType": "address", "name": "cpAccount", "type": "address" },
           {
             "internalType": "int256",
             "name": "availableBalance",
             "type": "int256"
           },
           {
-            "internalType": "uint256",
-            "name": "lockedCollateral",
-            "type": "uint256"
+            "internalType": "int256",
+            "name": "lockedBalance",
+            "type": "int256"
           },
-          {
-            "internalType": "string",
-            "name": "status",
-            "type": "string"
-          }
+          { "internalType": "string", "name": "status", "type": "string" }
         ],
-        "internalType": "struct SwanCreditCollateral.CPInfo",
+        "internalType": "struct SwanCreditCollateral.CPInfoWithLockedBalance",
         "name": "",
         "type": "tuple"
       }
@@ -515,36 +466,16 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "cpStatus",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "cpAccount",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
+      { "internalType": "address", "name": "cpAccount", "type": "address" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
     ],
     "name": "deposit",
     "outputs": [],
@@ -553,11 +484,17 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "string",
-        "name": "taskUid",
-        "type": "string"
-      }
+      { "internalType": "address", "name": "cpAccount", "type": "address" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+    ],
+    "name": "depositLockedBalance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "taskUid", "type": "string" }
     ],
     "name": "disputeProof",
     "outputs": [],
@@ -565,12 +502,15 @@
     "type": "function"
   },
   {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "escrowBalance",
+    "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
-      {
-        "internalType": "string",
-        "name": "taskUid",
-        "type": "string"
-      }
+      { "internalType": "string", "name": "taskUid", "type": "string" }
     ],
     "name": "getTaskInfo",
     "outputs": [
@@ -608,41 +548,23 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "isAdmin",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
+    "name": "isSignatureUsed",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "string",
-        "name": "taskUid",
-        "type": "string"
-      },
-      {
-        "internalType": "address[]",
-        "name": "cpList",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint256",
-        "name": "taskCollateral",
-        "type": "uint256"
-      }
+      { "internalType": "address", "name": "cpAccount", "type": "address" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
     ],
     "name": "lockCollateral",
     "outputs": [],
@@ -650,57 +572,36 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "lockedBalance",
+    "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "lockedCollateral",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "proxiableUUID",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "admin",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "admin", "type": "address" }
     ],
     "name": "removeAdmin",
     "outputs": [],
@@ -715,21 +616,10 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "recipient",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "sendETH",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "inputs": [],
+    "name": "requestInterval",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -747,11 +637,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "tokenAddress",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "tokenAddress", "type": "address" }
     ],
     "name": "setCollateralToken",
     "outputs": [],
@@ -760,11 +646,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_slashRatio",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "_slashRatio", "type": "uint256" }
     ],
     "name": "setSlashRatio",
     "outputs": [],
@@ -773,16 +655,19 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "string",
-        "name": "taskUid",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "cpAccount",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "cpAccount", "type": "address" },
+      { "internalType": "uint256", "name": "slashAmount", "type": "uint256" }
+    ],
+    "name": "slashCollateral",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "taskUid", "type": "string" },
+      { "internalType": "address", "name": "cpAccount", "type": "address" },
+      { "internalType": "uint256", "name": "slashAmount", "type": "uint256" }
     ],
     "name": "slashCollateral",
     "outputs": [],
@@ -792,44 +677,22 @@
   {
     "inputs": [],
     "name": "slashRatio",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "slashedFunds",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
+    "inputs": [{ "internalType": "string", "name": "", "type": "string" }],
     "name": "tasks",
     "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "collateral",
-        "type": "uint256"
-      },
+      { "internalType": "uint256", "name": "collateral", "type": "uint256" },
       {
         "internalType": "enum SwanCreditCollateral.CollateralStatus",
         "name": "collateralStatus",
@@ -841,11 +704,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "newOwner", "type": "address" }
     ],
     "name": "transferOwnership",
     "outputs": [],
@@ -853,21 +712,18 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "taskUid",
-        "type": "string"
-      },
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "unlockRequest",
+    "outputs": [
       {
         "internalType": "uint256",
-        "name": "amount",
+        "name": "requestTimestamp",
         "type": "uint256"
-      }
+      },
+      { "internalType": "uint256", "name": "unlockAmount", "type": "uint256" },
+      { "internalType": "bool", "name": "isPending", "type": "bool" }
     ],
-    "name": "unlockCollateral",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -877,11 +733,7 @@
         "name": "newImplementation",
         "type": "address"
       },
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      }
+      { "internalType": "bytes", "name": "data", "type": "bytes" }
     ],
     "name": "upgradeToAndCall",
     "outputs": [],
@@ -891,28 +743,14 @@
   {
     "inputs": [],
     "name": "version",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "pure",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "cpAccount",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
+      { "internalType": "address", "name": "cpAccount", "type": "address" },
+      { "internalType": "uint256", "name": "withdrawAmount", "type": "uint256" }
     ],
     "name": "withdraw",
     "outputs": [],
@@ -921,11 +759,7 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
     ],
     "name": "withdrawSlashedFunds",
     "outputs": [],

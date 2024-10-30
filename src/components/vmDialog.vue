@@ -245,7 +245,7 @@
 <script setup lang="ts">
 import * as echarts from "echarts"
 import CollateralABI from '@/utils/abi/CollateralContract.json'
-import fcpABI from '@/utils/abi/FCP-Collateral.json'
+import fcpABI from '@/utils/abi/SwanCreditCollateral.json'
 import ecpABI from '@/utils/abi/ECPCollateral.json'
 import tokenABI from '@/utils/abi/SwanToken.json'
 import { ecpDeposit, fcpDeposit, metaAddress, tokenSwan } from '@/utils/storage';

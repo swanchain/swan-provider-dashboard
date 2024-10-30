@@ -57,7 +57,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="Name" min-width="180">
+          <el-table-column prop="name" label="name" min-width="180">
             <template #default="scope">
               <div class="auth-container flex flex-ai-center flex-jc-center" v-if="scope.row.account_name">
                 <div class="bg flex flex-ai-center flex-jc-center">
@@ -94,7 +94,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="Status" min-width="90"
+          <el-table-column prop="status" label="status" min-width="90"
             column-key="status" filterable :filters="[
               { text: 'Inactive', value: 'Inactive' },
               { text: 'Offline', value: 'Offline' },
@@ -118,14 +118,14 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="complete_rate" label="Completed(%)" min-width="110">
+          <el-table-column prop="completed_rate" label="Completed(%)" min-width="110">
             <template #default="scope">
               <div>
-                {{ fixedformat(scope.row.complete_rate,10000) }}%
+                {{ fixedformat(scope.row.completed_rate,10000) }}%
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="score" min-width="130">
+          <el-table-column prop="reward" min-width="130">
             <template #header>
               <div class="font-14 weight-4 flex flex-ai-center">
                 UBI
@@ -144,7 +144,7 @@
             </template>
             <template #default="scope">
               <div>
-                {{replaceFormat(scope.row.score)}}
+                {{replaceFormat(scope.row.reward)}}
               </div>
             </template>
           </el-table-column>
@@ -168,7 +168,7 @@ import badgeIcon01 from "@/assets/images/icons/badge-1.png"
 import badgeIcon02 from "@/assets/images/icons/badge-2.png"
 import badgeIcon03 from "@/assets/images/icons/badge-3.png"
 import { copyContent, debounce, fixedformat, hiddAddress, paginationWidth, replaceFormat, sizeChange } from "@/utils/common";
-import { getUBI0ECPData, getOverviewECPData, statsOverviewData } from "@/api/overview";
+import { getUBI0ECPData, statsOverviewData } from "@/api/overview";
 import { ELINK } from '@/constant/envLink';
 import { getLocation, setLocation } from '@/utils/storage';
 import { openPage } from '@/hooks/router';
@@ -221,8 +221,7 @@ async function getUBITable () {
     let params = {
       page_size: paginZK.pageSize,
       page_no: page,
-      addr: networkZK.cp_addr,
-      node_id: networkZK.node_id
+      contract: networkZK.cp_addr
     }
     params = Object.assign({}, params, paramsECPFilter.data)
     const providerRes = await getUBI0ECPData(params)
@@ -231,7 +230,7 @@ async function getUBITable () {
   } catch { console.error }
   providersECPLoad.value = false
 }
-const handleFilterECPChange = (filters:any) => {
+const handleFilterECPChange = (filters: any) => {
   for (const key in filters) {
     if (key === 'status') {
       const result = filters.status[0] ?? ''

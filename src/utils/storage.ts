@@ -4,7 +4,8 @@ import { EStorageTestnet } from '@/constant/storage-testnet'
 
 export const token = ref(getToken())
 export const isLogin = computed(() => !!token.value)
-export const currentNetwork = ref(window.location.hostname.indexOf('testnet') > -1 ? 'Proxima' : 'Mainnet')
+// export const currentNetwork = ref(window.location.hostname.indexOf('testnet') > -1 ? 'Proxima' : 'Mainnet')
+export const currentNetwork = ref(import.meta.env.VITE_NODEENV === 'testnet' ? 'Proxima' : 'Mainnet')
 export const metaAddress = ref('')
 export const signature = ref('')
 export const locationAll = ref([])

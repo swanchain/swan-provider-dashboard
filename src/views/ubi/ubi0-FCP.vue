@@ -104,21 +104,29 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="tasks" label="Total Task">
+          <!-- <el-table-column prop="tasks" label="Total Task">
             <template #default="scope">
               <div>
                 {{ replaceFormat(scope.row.tasks) || ''}}
               </div>
             </template>
-          </el-table-column>
-          <el-table-column prop="completed_rate" label="Completed(%)" min-width="110">
+          </el-table-column> -->
+          <el-table-column prop="uptime" label="Uptime" min-width="100" >
             <template #default="scope">
-              <div>
-                {{ fixedformat(scope.row.completed_rate,10000) }}%
+              <div v-if="scope.row.uptime === null">Waiting for calculation</div>
+              <div v-else>
+                {{unifyNumber(scope.row.uptime/10000)}}%
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="reward" min-width="130">
+          <el-table-column prop="reward" label="Application Reward" min-width="110">
+            <template #default="scope">
+              <div>
+                {{replaceFormat(scope.row.reward)}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="ubi" min-width="130">
             <template #header>
               <div class="font-14 weight-4 flex flex-ai-center">
                 UBI
@@ -137,7 +145,7 @@
             </template>
             <template #default="scope">
               <div>
-                {{replaceFormat(scope.row.reward)}}
+                {{replaceFormat(scope.row.ubi)}}
               </div>
             </template>
           </el-table-column>
@@ -209,7 +217,7 @@ async function init () {
     const paramsCont = {
       "page_no": page,
       "page_size": pagin.pageSize,
-      "contract": networkInput.contract_address,
+      "addr": networkInput.contract_address,
       // "name": networkInput.owner_addr,
       // "node_id": networkInput.node_id,
       // "order": networkInput.order,

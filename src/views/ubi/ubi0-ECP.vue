@@ -118,10 +118,10 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="score" label="Completed(%)" min-width="110">
+          <el-table-column prop="complete_rate" label="Completed(%)" min-width="110">
             <template #default="scope">
               <div>
-                {{ fixedformat(scope.row.score,100) }}%
+                {{ fixedformat(scope.row.complete_rate,10000) }}%
               </div>
             </template>
           </el-table-column>

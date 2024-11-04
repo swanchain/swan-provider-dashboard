@@ -284,10 +284,16 @@ export function floorFormat (num: any) {
   }
 }
 
-export function NumFormat (num: any) {
+export function NumFormat (num: any, decimal: number) {
   try {
     if (Number(num) === 0) return 0
-    else if (num) return parseFloat(num).toFixed(6)
+    else if (num) {
+      const intPartArr = String(num).split('.')
+      const intPartFormat = intPartArr[0]
+        .toString()
+        .replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      return intPartArr[1] ? `${intPartFormat}.${intPartArr[1].slice(0, decimal)}` : intPartFormat
+    }
     else return '-'
   } catch {
     return '-'

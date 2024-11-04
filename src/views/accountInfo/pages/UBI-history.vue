@@ -65,7 +65,8 @@
               <span v-if="scope.row.type === 1">fil-c2-512M</span>
               <span v-else-if="scope.row.type === 2">Mining</span>
               <span v-else-if="scope.row.type === 3">AI</span>
-              <span v-else>fil-c2-32G</span>
+              <span v-else-if="scope.row.type === 4">fil-c2-32G</span>
+              <span v-else-if="scope.row.type === 5">NodePort</span>
             </div>
           </template>
         </el-table-column>

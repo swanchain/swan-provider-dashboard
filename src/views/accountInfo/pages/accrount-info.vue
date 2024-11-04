@@ -36,7 +36,8 @@
                     <span v-if="t === 1">fil-c2-512M</span>
                     <span v-else-if="t === 2">Mining</span>
                     <span v-else-if="t === 3">AI</span>
-                    <span v-else>fil-c2-32G</span>
+                    <span v-else-if="t === 4">fil-c2-32G</span>
+                    <span v-else-if="t === 5">NodePort</span>
                   </div>
                 </div>
               </template>

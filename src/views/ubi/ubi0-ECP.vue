@@ -27,7 +27,7 @@
           </el-col>
         </el-row>
 
-        <el-table :data="providerBody.ubiTableData" @filter-change="handleFilterECPChange" @expand-change="expandChange" :row-key="getRowKeys" :expand-row-keys="expands" style="width: 100%" empty-text="No Data" v-loading="providersECPLoad">
+        <el-table :data="providerBody.ubiTableData" @sort-change="handleSortChange" @filter-change="handleFilterECPChange" @expand-change="expandChange" :row-key="getRowKeys" :expand-row-keys="expands" style="width: 100%" empty-text="No Data" v-loading="providersECPLoad">
           <el-table-column type="index" min-width="50">
             <template #header>
               <div class="font-14 weight-4">Rank</div>
@@ -125,14 +125,14 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="reward" label="Application Reward" min-width="110">
+          <el-table-column prop="reward" label="Application Reward" sortable="custom" min-width="110">
             <template #default="scope">
               <div>
                 {{replaceFormat(scope.row.reward)}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="ubi" min-width="130">
+          <el-table-column prop="ubi" sortable="custom" min-width="130">
             <template #header>
               <div class="font-14 weight-4 flex flex-ai-center">
                 UBI
@@ -205,6 +205,8 @@ const networkZK = reactive({
 })
 const paramsECPFilter = reactive({
   data: {
+    order: '',
+    desc: false,
     status: '',
     region: ''
   }
@@ -228,14 +230,23 @@ async function getUBITable () {
     let params = {
       page_size: paginZK.pageSize,
       page_no: page,
-      addr: networkZK.cp_addr
+      addr: networkZK.cp_addr,
+      "order":  `${paramsECPFilter.data.order}${paramsECPFilter.data.desc?' desc':''}`,
+      "region": paramsECPFilter.data.region,
+      "status": paramsECPFilter.data.status
     }
-    params = Object.assign({}, params, paramsECPFilter.data)
+    // params = Object.assign({}, params, paramsECPFilter.data)
     const providerRes = await getUBI0ECPData(params)
     paginZK.total = providerRes?.data?.total ?? 0
     providerBody.ubiTableData = await getList(providerRes.data.list)
   } catch { console.error }
   providersECPLoad.value = false
+}
+function handleSortChange({ prop, order }) {
+  // const sortOrder = { prop, order };
+  paramsECPFilter.data.order = prop
+  paramsECPFilter.data.desc = order === 'descending' ? true : false
+  getUBITable()
 }
 const handleFilterECPChange = (filters: any) => {
   for (const key in filters) {

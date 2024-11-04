@@ -27,7 +27,7 @@
           </el-col>
         </el-row>
 
-        <el-table ref="singleTableRef" :data="providersData" @filter-change="handleFilterChange" style="width: 100%" empty-text="No Data" v-loading="providersTableLoad">
+        <el-table ref="singleTableRef" :data="providersData" @sort-change="handleSortChange" @filter-change="handleFilterChange" style="width: 100%" empty-text="No Data" v-loading="providersTableLoad">
           <el-table-column type="index" min-width="50">
             <template #header>
               <div class="font-14 weight-4">Rank</div>
@@ -119,14 +119,14 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="reward" label="Application Reward" min-width="110">
+          <el-table-column prop="reward" label="Application Reward" sortable="custom" min-width="110">
             <template #default="scope">
               <div>
                 {{replaceFormat(scope.row.reward)}}
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="ubi" min-width="130">
+          <el-table-column prop="ubi" sortable="custom" min-width="130">
             <template #header>
               <div class="font-14 weight-4 flex flex-ai-center">
                 UBI
@@ -193,6 +193,8 @@ const networkInput = reactive({
 })
 const paramsFilter = reactive({
   data: {
+    order: '',
+    desc: false,
     status: '',
     region: ''
   }
@@ -220,7 +222,7 @@ async function init () {
       "addr": networkInput.contract_address,
       // "name": networkInput.owner_addr,
       // "node_id": networkInput.node_id,
-      // "order": networkInput.order,
+      "order":  `${paramsFilter.data.order}${paramsFilter.data.desc?' desc':''}`,
       // "desc": networkInput.desc,
       "region": paramsFilter.data.region,
       "status": paramsFilter.data.status
@@ -230,6 +232,12 @@ async function init () {
     pagin.total = providerFCPRes?.data?.total ?? 0
   } catch { console.error }
   providersTableLoad.value = false
+}
+function handleSortChange({ prop, order }) {
+  // const sortOrder = { prop, order };
+  paramsFilter.data.order = prop
+  paramsFilter.data.desc = order === 'descending' ? true : false
+  init()
 }
 const handleFilterChange = (filters:any) => {
   for (const key in filters) {

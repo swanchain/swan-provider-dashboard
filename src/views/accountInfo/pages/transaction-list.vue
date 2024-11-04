@@ -72,7 +72,7 @@
       <el-table-column prop="method" label="Method">
         <template #default="scope">
           <div :class="`${scope.row.method?'method-style':''}`">
-            {{ scope.row.method }} 
+            {{ scope.row.method }}{{ scope.row.extra ? `-${scope.row.extra}` : '' }}
             <small v-if="scope.row.type && (scope.row.method.indexOf('reated') > -1 || scope.row.type === 'CP')"></small>
             <!-- <small v-else-if="scope.row.type && scope.row.type.indexOf('FCP') > -1">(Orchestrator)</small>
             <small v-else-if="scope.row.type && scope.row.type.indexOf('ECP') > -1">(ZK-engine)</small> -->
@@ -80,14 +80,21 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="value" label="Value" width="80">
+      <el-table-column prop="value" label="Value (ETH)" width="100">
         <template #default="scope">
           <span>
-            {{ NumFormat(scope.row.value) }}
+            {{ NumFormat(scope.row.value, 4) }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="address" label="Status">
+      <el-table-column prop="amount" label="Value (SWAN)" width="100">
+        <template #default="scope">
+          <span>
+            {{ NumFormat(scope.row.amount, 2) }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="address" label="Status" width="80">
         <template #default="scope">
           <span v-if="scope.row.status === 1">OK</span>
           <span v-else>Failed</span>
@@ -106,7 +113,7 @@
 <script setup lang="ts">
 import { getCPsTxnsData } from '@/api/cp-profile';
 import { openPage } from '@/hooks/router';
-import { NumFormat, copyContent, hiddAddress, momentFun, paginationWidth } from '@/utils/common';
+import { NumFormat, copyContent, hiddAddress, momentFun, paginationWidth, replaceFormat } from '@/utils/common';
 import { explorerLink } from '@/utils/storage';
 
 const route = useRoute()

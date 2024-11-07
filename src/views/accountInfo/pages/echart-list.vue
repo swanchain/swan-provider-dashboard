@@ -56,6 +56,9 @@
           </div>
 
           <div class="module-echarts mt-16 mb-32">
+            <div class='chart-trends' id='chart-job-fcp-task' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
+          </div>
+          <div class="module-echarts mt-16 mb-32">
             <div class="title flex flex-ai-center flex-jc-between mb-16">
               <p class="font-16 weight-4 mr-16">Job Stats</p>
               <p class="font-14 subtitle">Total Jobs: {{ replaceFormat(totalJob) }}</p>
@@ -148,6 +151,9 @@
           </div>
 
           <div class="module-echarts mt-16 mb-32">
+            <div class='chart-trends' id='chart-job-ecp-task' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
+          </div>
+          <div class="module-echarts mt-16 mb-32">
             <div class="title flex flex-ai-center flex-jc-between mb-16">
               <p class="font-16 weight-4 mr-16">Job Stats</p>
               <p class="font-14 subtitle">Total Jobs: {{ replaceFormat(totalReward) }}</p>
@@ -172,7 +178,7 @@
 import vmDialog from "@/components/vmDialog.vue"
 import { getCPsBalancesData, getCPsEchartsData } from "@/api/cp-profile";
 import { addCollateral, metaAddress } from "@/utils/storage"
-import { dataCpData, dataDelta, dataGPU, getDateRange, replaceDecimalsFormat, replaceFormat, sumArrays } from "@/utils/common";
+import { dataCpData, dataCpRateData, dataDelta, dataGPU, getDateRange, replaceDecimalsFormat, replaceFormat, sumArrays } from "@/utils/common";
 import * as echarts from "echarts"
 import { openPage } from "@/hooks/router";
 
@@ -221,7 +227,9 @@ async function handleSelect (key:string, row:any, type:string) {
 }
 const changetype = async (data: any) => {
   const machart_job_fcp = echarts.init(document.getElementById("chart-job-fcp"));
+  const machart_job_fcp_task = echarts.init(document.getElementById("chart-job-fcp-task"));
   const machart_job_ecp = echarts.init(document.getElementById("chart-job-ecp"));
+  const machart_job_ecp_task = echarts.init(document.getElementById("chart-job-ecp-task"));
   const machart_collateral_fcp = echarts.init(document.getElementById("chart-collateral-fcp"));
   const machart_collateral_ecp = echarts.init(document.getElementById("chart-collateral-ecp"));
   
@@ -238,6 +246,22 @@ const changetype = async (data: any) => {
   const fcpRunningMin = Math.floor(Math.min(...fcpRunningData.datum)*fcpRunningNumber)
   const fcpRunningInterval = Math.ceil((fcpRunningMax-fcpRunningMin)/(fcpRunningMin===0?4:5))
   totalJob.value = data.fcp_job && data.fcp_job.length > 0 ? data.fcp_job.slice(-1)[0].total : 0
+
+  const fcpSamplingData = await dataCpData(data.fcp_sampling_task, 'total')
+  const fcpSuccessData = await dataCpRateData(data.fcp_sampling_task, 'active')
+  const fcpSamplingNumber = Math.min(...fcpSamplingData.datum) >= 0 ? 0.9 : 1.1
+  const fcpSamplingMin = Math.floor(Math.min(...fcpSamplingData.datum)*fcpSamplingNumber)
+  const fcpSamplingNumberMax = Math.max(...fcpSamplingData.datum) >= 0 ? 1.1 : 0.9
+  const fcpSamplingMax = Math.ceil(Math.max(...fcpSamplingData.datum)*fcpSamplingNumberMax)
+  const fcpSamplingInterval = Math.ceil((fcpSamplingMax-fcpSamplingMin)/(fcpSamplingMin===0?4:5))
+
+  const ecpZKTaskData = await dataCpData(data.ecp_zk_task, 'total')
+  const ecpSuccessData = await dataCpRateData(data.ecp_zk_task, 'active')
+  const ecpZKTaskNumber = Math.min(...ecpZKTaskData.datum) >= 0 ? 0.9 : 1.1
+  const ecpZKTaskMin = Math.floor(Math.min(...ecpZKTaskData.datum)*ecpZKTaskNumber)
+  const ecpZKTaskNumberMax = Math.max(...ecpZKTaskData.datum) >= 0 ? 1.1 : 0.9
+  const ecpZKTaskMax = Math.ceil(Math.max(...ecpZKTaskData.datum)*ecpZKTaskNumberMax)
+  const ecpZKTaskInterval = Math.ceil((ecpZKTaskMax-ecpZKTaskMin)/(ecpZKTaskMin===0?4:5))
 
   const fcpCollateralData = await dataCpData(data.fcp_collateral, 'total')
   const fcpEscrowData = await dataCpData(data.fcp_collateral, 'active')
@@ -404,6 +428,137 @@ const changetype = async (data: any) => {
         barWidth: '10',
         yAxisIndex: 1,
         data: fcpRunningData.datum,
+        color: '#0000bf'
+      }
+    ]
+  }
+  const option1_task = {
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(0, 0, 0, 1)',
+      color: '#fff',
+      borderWidth: 0,
+      borderRadius: 9,
+      textStyle: {
+        color: '#fff',
+        fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+        fontFamily: 'HELVETICA-ROMAN'
+      },
+      icon: 'roundRect',
+      formatter: function (params) {
+        var result = params[0].name + '<br/>'; 
+        params.forEach(function (item) {
+          // var color = item.color.colorStops ? item.color.colorStops[0].color : item.color; 
+          // let colorDot = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:' + color + ';"></span>';
+          // result += colorDot + item.seriesName + ' ' + item.value + 'Used 26Free' + '<br/>';
+          var color = item.color.colorStops ? item.color.colorStops[0].color : item.color; 
+          let colorDot = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:' + color + ';"></span>';
+          result += colorDot + item.seriesName + ': ' + replaceFormat(item.value) + '<br/>'; 
+        });
+        return result;
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      top: '10%',
+      bottom: '13%',
+      containLabel: true
+    },
+    legend: {
+      data: ['Success Rate', 'Sampling Tasks Counts'],
+      right: 'auto',
+      bottom: '0',
+      // icon: 'circle',
+      // itemWidth: 10,
+      // itemHeight: 10,
+      itemGap: 20,
+      textStyle: {
+        color: '#95a3bd',
+        fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+        fontFamily: 'HELVETICA-ROMAN',
+        // lineHeight: 14,
+        rich: {
+          a: {
+            verticalAlign: 'middle',
+          },
+        },
+        padding: [0, 0, -2, 2]
+      }
+    },
+    xAxis: [
+      {
+        type: 'category',
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+          color: '#7c889b',
+          interval: function (index, value) {
+            var count = 7;
+            var step = Math.ceil(fcpSamplingData.timeArr.length / count); 
+            return index % step === 0 ? value : false;
+          },
+          //   formatter: '{value}'
+        },
+        // prettier-ignore
+        data: fcpSamplingData.timeArr
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        // name: 'Job Success'
+        axisLabel: {
+          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+          color: '#7c889b',
+          //   formatter: '{value}'
+        },
+        // splitNumber: 5,
+        min: 0,
+        max: 1
+      },
+      {
+        type: 'value',
+        // name: 'Job Success'
+        axisLabel: {
+          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+          color: '#7c889b',
+          //   formatter: '{value}'
+        },
+        // splitNumber: 5,
+        min: fcpSamplingMin,
+        max: fcpSamplingMax,
+        interval: fcpSamplingInterval,
+        splitLine: {
+          show: false 
+        },
+      }
+    ],
+    series: [
+      {
+        name: 'Success Rate',
+        type: 'line',
+        smooth: false,
+        showSymbol: true,
+        yAxisIndex: 0,
+        tooltip: {
+          valueFormatter: function (value: any) {
+            return value;
+          }
+        },
+        data: fcpSuccessData.datum,
+        color: '#597cee'
+      },
+      {
+        name: 'Sampling Tasks Counts',
+        type: 'bar',
+        // barCategoryGap: '0%',
+        barGap: '0%',
+        barWidth: '10',
+        yAxisIndex: 1,
+        data: fcpSamplingData.datum,
         color: '#0000bf'
       }
     ]
@@ -641,6 +796,137 @@ const changetype = async (data: any) => {
       }
     ]
   }
+  const option3_task = {
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(0, 0, 0, 1)',
+      color: '#fff',
+      borderWidth: 0,
+      borderRadius: 9,
+      textStyle: {
+        color: '#fff',
+        fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+        fontFamily: 'HELVETICA-ROMAN'
+      },
+      icon: 'roundRect',
+      formatter: function (params) {
+        var result = params[0].name + '<br/>'; 
+        params.forEach(function (item) {
+          // var color = item.color.colorStops ? item.color.colorStops[0].color : item.color; 
+          // let colorDot = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:' + color + ';"></span>';
+          // result += colorDot + item.seriesName + ' ' + item.value + 'Used 26Free' + '<br/>';
+          var color = item.color.colorStops ? item.color.colorStops[0].color : item.color; 
+          let colorDot = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:' + color + ';"></span>';
+          result += colorDot + item.seriesName + ': ' + replaceFormat(item.value) + '<br/>'; 
+        });
+        return result;
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      top: '10%',
+      bottom: '13%',
+      containLabel: true
+    },
+    legend: {
+      data: ['Success Rate', 'ZK Tasks Counts'],
+      right: 'auto',
+      bottom: '0',
+      // icon: 'circle',
+      // itemWidth: 10,
+      // itemHeight: 10,
+      itemGap: 20,
+      textStyle: {
+        color: '#95a3bd',
+        fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+        fontFamily: 'HELVETICA-ROMAN',
+        // lineHeight: 14,
+        rich: {
+          a: {
+            verticalAlign: 'middle',
+          },
+        },
+        padding: [0, 0, -2, 2]
+      }
+    },
+    xAxis: [
+      {
+        type: 'category',
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+          color: '#7c889b',
+          interval: function (index, value) {
+            var count = 7;
+            var step = Math.ceil(ecpZKTaskData.timeArr.length / count); 
+            return index % step === 0 ? value : false;
+          },
+          //   formatter: '{value}'
+        },
+        // prettier-ignore
+        data: ecpZKTaskData.timeArr
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        // name: 'Job Success'
+        axisLabel: {
+          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+          color: '#7c889b',
+          //   formatter: '{value}'
+        },
+        min: 0,
+        max: 1,
+        // splitNumber: 5,
+      },
+      {
+        type: 'value',
+        // name: 'Job Success'
+        axisLabel: {
+          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+          color: '#7c889b',
+          //   formatter: '{value}'
+        },
+        min: ecpZKTaskMin,
+        max: ecpZKTaskMax,
+        // splitNumber: 5,
+        interval: ecpZKTaskInterval,
+        splitLine: {
+          show: false 
+        },
+      }
+    ],
+    series: [
+      {
+        name: 'Success Rate',
+        type: 'line',
+        smooth: false,
+        showSymbol: true,
+        yAxisIndex: 0,
+        tooltip: {
+          valueFormatter: function (value: any) {
+            return value;
+          }
+        },
+        data: ecpSuccessData.datum,
+        color: '#03a7f0'
+      },
+      {
+        name: 'ZK Tasks Counts',
+        type: 'bar',
+        // barCategoryGap: '0%',
+        barGap: '0%',
+        barWidth: '10',
+        yAxisIndex: 1,
+        data: ecpZKTaskData.datum,
+        color: '#56cfb2'
+      }
+    ]
+  }
   const option4 = {
     tooltip: {
       trigger: 'axis',
@@ -789,14 +1075,18 @@ const changetype = async (data: any) => {
     ]
   }
   machart_job_fcp.setOption(option1);
+  machart_job_fcp_task.setOption(option1_task);
   machart_collateral_fcp.setOption(option2);
   machart_job_ecp.setOption(option3);
+  machart_job_ecp_task.setOption(option3_task);
   machart_collateral_ecp.setOption(option4);
   if (typeof ResizeObserver !== 'undefined') {
     let observer = new ResizeObserver(entries => {
       for (let entry of entries) {
         machart_job_fcp.resize();
+        machart_job_fcp_task.resize();
         machart_job_ecp.resize();
+        machart_job_ecp_task.resize();
         machart_collateral_fcp.resize();
         machart_collateral_ecp.resize();
       }
@@ -808,7 +1098,9 @@ const changetype = async (data: any) => {
     console.log('ResizeObserver is not supported in this browser.');
   }
   window.addEventListener("resize", function () {
+    machart_job_fcp_task.resize();
     machart_job_fcp.resize();
+    machart_job_ecp_task.resize();
     machart_job_ecp.resize();
     machart_collateral_fcp.resize();
     machart_collateral_ecp.resize();

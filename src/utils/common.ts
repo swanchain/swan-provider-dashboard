@@ -232,6 +232,27 @@ export function dataCpData (data: any, type:string) {
   }
 }
 
+export function dataCpRateData (data: any, type:string) {
+  // console.log(data)
+  const datum = [], timeArr = []
+  data.sort((itema:any, itemb:any) => {
+    return itema.timestamp - itemb.timestamp
+  })
+  data.forEach((item:any) => {
+    // const time_end = getDateTime(parseInt(item.timestamp) * 1000)
+    const time_end = formatDate(item.date)
+    // if (timeArr.indexOf(time_end) === -1) {
+      timeArr.push(time_end)
+      datum.push((item['active']/item['total']).toFixed(2))
+    // } else {
+    //   datum[timeArr.indexOf(time_end)] = datum[timeArr.indexOf(time_end)] + (type === 'failed' ? Number(item['total'] - item['active']) : item[type])
+    // }
+  })
+  return {
+    datum: datum,
+    timeArr: timeArr
+  }
+}
 
 export function sumArrays(array1:any, array2:any) {
   return array1.map((value:any, index:number) => value + (array2[index] || 0)).reduce((a:any, b:any) => a + b, 0);

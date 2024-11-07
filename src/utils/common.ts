@@ -243,7 +243,7 @@ export function dataCpRateData (data: any, type:string) {
     const time_end = formatDate(item.date)
     // if (timeArr.indexOf(time_end) === -1) {
       timeArr.push(time_end)
-      datum.push((item['active']/item['total']).toFixed(2))
+      datum.push(item['active'] === 0 || item['total'] === 0 ? 0 : (item['active']/item['total']).toFixed(2))
     // } else {
     //   datum[timeArr.indexOf(time_end)] = datum[timeArr.indexOf(time_end)] + (type === 'failed' ? Number(item['total'] - item['active']) : item[type])
     // }

@@ -97,13 +97,13 @@
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">Total ZK rewards</h6>
+                    <h6 class="font-12 weight-4 text-center">Total UBI rewards</h6>
                     <template v-if="overviewData.value.fcp.length>0">
                       <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
-                        {{replaceFormat(Number(overviewData.value.ecp[0].rewards))}}
+                        {{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards)+Number(overviewData.value.ecp[0].ubi_rewards))}}
                       </b>
-                      <h6 v-if="overviewData.value.ecp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.ecp[0].rewards) >= Number(overviewData.value.ecp[1].rewards) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].rewards) >= Number(overviewData.value.ecp[1].rewards)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].rewards - overviewData.value.ecp[1].rewards))}}</h6>
-                      <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards) || (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards)" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].ubi_rewards+overviewData.value.ecp[0].ubi_rewards) >= Number((overviewData.value.fcp[1].ubi_rewards || 0)+(overviewData.value.ecp[1].ubi_rewards || 0)) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].ubi_rewards+overviewData.value.ecp[0].ubi_rewards) >= Number((overviewData.value.fcp[1].ubi_rewards || 0)+(overviewData.value.ecp[1].ubi_rewards || 0))?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards + overviewData.value.ecp[0].ubi_rewards - (overviewData.value.fcp[1].ubi_rewards || 0) - (overviewData.value.ecp[1].ubi_rewards || 0)))}}</h6>
+                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards) || (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards)" class="font-12 weight-4 text-right t">24h change</h6>
                     </template>
                   </div>
                 </el-col>
@@ -174,6 +174,56 @@
                     <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                   </div>
                 </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total UBI rewards</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards))}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].ubi_rewards) >= Number(overviewData.value.fcp[1].ubi_rewards) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].ubi_rewards) >= Number(overviewData.value.fcp[1].ubi_rewards)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards - overviewData.value.fcp[1].ubi_rewards))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content g-select">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center nowrap">
+                      <el-select v-model="AvgZKRewards.value" placeholder="Select" size="small">
+                        <el-option v-for="item in AvgZKRewards.options" :key="item.value" :label="item.value" :value="item.value">
+                          <div class="font-14">{{item.value}}</div>
+                        </el-option>
+                      </el-select>
+                      Avg ZK rewards
+                    </h6>
+                    <template v-if="AvgZKRewards.value === 'Daily'">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_day))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_day" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].rewards_avg_day) >= Number(overviewData.value.fcp[1].rewards_avg_day) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].rewards_avg_day) >= Number(overviewData.value.fcp[1].rewards_avg_day)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_day - overviewData.value.fcp[1].rewards_avg_day))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_day" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <template v-else-if="AvgZKRewards.value === 'Weekly'">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_week))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_week" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].rewards_avg_week) >= Number(overviewData.value.fcp[1].rewards_avg_week) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].rewards_avg_week) >= Number(overviewData.value.fcp[1].rewards_avg_week)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_week - overviewData.value.fcp[1].rewards_avg_week))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_week" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <template v-else-if="AvgZKRewards.value === 'Monthly'">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_month))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_month" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].rewards_avg_month) >= Number(overviewData.value.fcp[1].rewards_avg_month) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].rewards_avg_month) >= Number(overviewData.value.fcp[1].rewards_avg_month)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_month - overviewData.value.fcp[1].rewards_avg_month))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_month" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <template v-else>
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_year))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_year" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].rewards_avg_year) >= Number(overviewData.value.fcp[1].rewards_avg_year) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].rewards_avg_year) >= Number(overviewData.value.fcp[1].rewards_avg_year)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_year - overviewData.value.fcp[1].rewards_avg_year))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_year" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                  </div>
+                </el-col>
               </el-row>
             </el-tab-pane>
             <el-tab-pane :name="2">
@@ -193,12 +243,12 @@
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">Total ZK rewards</h6>
+                    <h6 class="font-12 weight-4 text-center">Total UBI rewards</h6>
                     <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
-                      {{replaceFormat(Number(overviewData.value.ecp[0].rewards))}}
+                      {{replaceFormat(Number(overviewData.value.ecp[0].ubi_rewards))}}
                     </b>
-                    <h6 v-if="overviewData.value.ecp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.ecp[0].rewards) >= Number(overviewData.value.ecp[1].rewards) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].rewards) >= Number(overviewData.value.ecp[1].rewards)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].rewards - overviewData.value.ecp[1].rewards))}}</h6>
-                    <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.ecp[0].ubi_rewards) >= Number(overviewData.value.ecp[1].ubi_rewards) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].ubi_rewards) >= Number(overviewData.value.ecp[1].ubi_rewards)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].ubi_rewards - overviewData.value.ecp[1].ubi_rewards))}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards" class="font-12 weight-4 text-right t">24h change</h6>
                   </div>
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">

@@ -33,10 +33,10 @@
               <template v-for="t in props.cpsData.task_types" :key="t">
                 <div class="mr-10">
                   <div class="collateral m b-fcp">
-                    <span v-if="t === 1">fil-c2-512M</span>
+                    <span v-if="t === 1">Fil-c2</span>
                     <span v-else-if="t === 2">Mining</span>
                     <span v-else-if="t === 3">AI</span>
-                    <span v-else-if="t === 4">fil-c2-32G</span>
+                    <span v-else-if="t === 4">Inference</span>
                     <span v-else-if="t === 5">NodePort</span>
                   </div>
                 </div>

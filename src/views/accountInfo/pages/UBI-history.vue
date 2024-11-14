@@ -62,10 +62,10 @@
           </template>
           <template #default="scope">
             <div :class="`${scope.row.type?'method-style':''}`">
-              <span v-if="scope.row.type === 1">fil-c2-512M</span>
+              <span v-if="scope.row.type === 1">Fil-c2</span>
               <span v-else-if="scope.row.type === 2">Mining</span>
               <span v-else-if="scope.row.type === 3">AI</span>
-              <span v-else-if="scope.row.type === 4">fil-c2-32G</span>
+              <span v-else-if="scope.row.type === 4">Inference</span>
               <span v-else-if="scope.row.type === 5">NodePort</span>
             </div>
           </template>

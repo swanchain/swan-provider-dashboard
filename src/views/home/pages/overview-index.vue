@@ -97,13 +97,13 @@
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">Total UBI rewards</h6>
-                    <template v-if="overviewData.value.fcp.length>0">
+                    <h6 class="font-12 weight-4 text-center">Total UBI</h6>
+                    <template v-if="overviewData.value.fcp.length>0 && overviewData.value.ecp.length>0">
                       <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
                         {{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards)+Number(overviewData.value.ecp[0].ubi_rewards))}}
                       </b>
-                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards) || (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards)" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].ubi_rewards+overviewData.value.ecp[0].ubi_rewards) >= Number((overviewData.value.fcp[1].ubi_rewards || 0)+(overviewData.value.ecp[1].ubi_rewards || 0)) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].ubi_rewards+overviewData.value.ecp[0].ubi_rewards) >= Number((overviewData.value.fcp[1].ubi_rewards || 0)+(overviewData.value.ecp[1].ubi_rewards || 0))?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards + overviewData.value.ecp[0].ubi_rewards - (overviewData.value.fcp[1].ubi_rewards || 0) - (overviewData.value.ecp[1].ubi_rewards || 0)))}}</h6>
-                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards) || (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards)" class="font-12 weight-4 text-right t">24h change</h6>
+                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards) && (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards)" class="font-18 weight-4 text-right t" :class="`${(overviewData.value.fcp[0].ubi_rewards+overviewData.value.ecp[0].ubi_rewards) >= ((overviewData.value.fcp[1].ubi_rewards)+(overviewData.value.ecp[1].ubi_rewards)) ? 'up': 'down'}`">{{(overviewData.value.fcp[0].ubi_rewards+overviewData.value.ecp[0].ubi_rewards) >= ((overviewData.value.fcp[1].ubi_rewards)+(overviewData.value.ecp[1].ubi_rewards))?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards) - Number(overviewData.value.fcp[1].ubi_rewards) + Number(overviewData.value.ecp[0].ubi_rewards) - Number(overviewData.value.ecp[1].ubi_rewards))}}</h6>
+                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards) && (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards)" class="font-12 weight-4 text-right t">24h change</h6>
                     </template>
                   </div>
                 </el-col>
@@ -176,7 +176,7 @@
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">Total UBI rewards</h6>
+                    <h6 class="font-12 weight-4 text-center">Total UBI</h6>
                     <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
                       {{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards))}}
                     </b>
@@ -192,7 +192,7 @@
                           <div class="font-14">{{item.value}}</div>
                         </el-option>
                       </el-select>
-                      Avg ZK rewards
+                      Avg UBI
                     </h6>
                     <template v-if="AvgZKRewards.value === 'Daily'">
                       <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
@@ -243,7 +243,7 @@
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">Total UBI rewards</h6>
+                    <h6 class="font-12 weight-4 text-center">Total UBI</h6>
                     <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
                       {{replaceFormat(Number(overviewData.value.ecp[0].ubi_rewards))}}
                     </b>
@@ -299,7 +299,7 @@
                           <div class="font-14">{{item.value}}</div>
                         </el-option>
                       </el-select>
-                      Avg ZK rewards
+                      Avg UBI
                     </h6>
                     <template v-if="AvgZKRewards.value === 'Daily'">
                       <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
@@ -815,7 +815,7 @@ watch(() => props.gpuNumber, () => gpuNum.value = props.gpuNumber)
         width: auto;
         font-size: inherit;
         .el-tooltip__trigger {
-          width: 40px;
+          width: 70px;
           padding: 2px 4px;
           margin: 0 3px 0 0;
           background-color: transparent;

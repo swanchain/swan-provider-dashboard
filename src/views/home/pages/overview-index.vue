@@ -107,6 +107,14 @@
                     </template>
                   </div>
                 </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Collaterals</h6>
+                    <div class="mb-10">
+                      <b class="flex flex-ai-center flex-jc-center font-20 weight-4 text-center a">{{ replaceFormat(tokenBalance.total) }}</b>
+                    </div>
+                  </div>
+                </el-col>
               </el-row>
             </el-tab-pane>
             <el-tab-pane :name="1">
@@ -224,6 +232,14 @@
                     </template>
                   </div>
                 </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">FCP Collaterals</h6>
+                    <div class="mb-10">
+                      <b class="flex flex-ai-center flex-jc-center font-22 weight-4 text-center a">{{ replaceFormat(tokenBalance.fcp) }}</b>
+                    </div>
+                  </div>
+                </el-col>
               </el-row>
             </el-tab-pane>
             <el-tab-pane :name="2">
@@ -331,6 +347,14 @@
                     </template>
                   </div>
                 </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">ECP Collaterals</h6>
+                    <div class="mb-10">
+                      <b class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center a">{{ replaceFormat(tokenBalance.ecp) }}</b>
+                    </div>
+                  </div>
+                </el-col>
               </el-row>
             </el-tab-pane>
             <el-tab-pane :name="3">
@@ -390,6 +414,9 @@
             </el-tab-pane>
           </el-tabs>
         </div>
+        <!-- <div class="flex flex-jc-center open pointer mt-10" v-if="activeName === 0">
+          <svg @click="machineShow=!machineShow" :class="`icon ${machineShow?'up':''}`" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3824" width="32" height="32"><path d="M200.874667 311.125333l341.333333 341.333334L512 682.666667l-30.208-30.208 341.333333-341.333334 60.416 60.416-341.333333 341.333334q-2.986667 2.901333-6.485333 5.290666-3.498667 2.304-7.424 3.925334-3.84 1.621333-7.936 2.389333-4.181333 0.853333-8.362667 0.853333-4.266667 0-8.362667-0.853333t-7.936-2.389333q-3.925333-1.621333-7.424-3.925334-3.413333-2.389333-6.485333-5.290666l-341.333333-341.333334 60.416-60.416zM170.666667 384q-4.266667 0-8.362667-0.853333t-7.936-2.389334q-3.925333-1.621333-7.424-3.925333-3.413333-2.389333-6.485333-5.290667-2.901333-2.986667-5.290667-6.485333-2.304-3.498667-3.925333-7.424-1.621333-3.84-2.389334-7.936Q128 345.514667 128 341.333333q0-4.266667 0.853333-8.362666t2.389334-7.936q1.621333-3.925333 3.925333-7.424 2.389333-3.413333 5.290667-6.485334 2.986667-2.901333 6.485333-5.290666 3.498667-2.304 7.424-3.925334 3.84-1.621333 7.936-2.389333 4.181333-0.853333 8.362667-0.853333 4.266667 0 8.362666 0.853333t7.936 2.389333q3.925333 1.621333 7.424 3.925334 3.413333 2.389333 6.485334 5.290666 2.901333 2.986667 5.290666 6.485334 2.304 3.498667 3.925334 7.424 1.621333 3.84 2.389333 7.936 0.853333 4.181333 0.853333 8.362666 0 4.266667-0.853333 8.362667t-2.389333 7.936q-1.621333 3.925333-3.925334 7.424-2.389333 3.413333-5.290666 6.485333-2.986667 2.901333-6.485334 5.290667-3.498667 2.304-7.424 3.925333-3.84 1.621333-7.936 2.389334-4.181333 0.853333-8.362666 0.853333z m682.666666 0q-4.266667 0-8.362666-0.853333t-7.936-2.389334q-3.925333-1.621333-7.424-3.925333-3.413333-2.389333-6.485334-5.290667-2.901333-2.986667-5.290666-6.485333-2.304-3.498667-3.925334-7.424-1.621333-3.84-2.389333-7.936Q810.666667 345.514667 810.666667 341.333333q0-4.266667 0.853333-8.362666t2.389333-7.936q1.621333-3.925333 3.925334-7.424 2.389333-3.413333 5.290666-6.485334 2.986667-2.901333 6.485334-5.290666 3.498667-2.304 7.424-3.925334 3.84-1.621333 7.936-2.389333 4.181333-0.853333 8.362666-0.853333 4.266667 0 8.362667 0.853333t7.936 2.389333q3.925333 1.621333 7.424 3.925334 3.413333 2.389333 6.485333 5.290666 2.901333 2.986667 5.290667 6.485334 2.304 3.498667 3.925333 7.424 1.621333 3.84 2.389334 7.936 0.853333 4.181333 0.853333 8.362666 0 4.266667-0.853333 8.362667t-2.389334 7.936q-1.621333 3.925333-3.925333 7.424-2.389333 3.413333-5.290667 6.485333-2.986667 2.901333-6.485333 5.290667-3.498667 2.304-7.424 3.925333-3.84 1.621333-7.936 2.389334-4.181333 0.853333-8.362667 0.853333z" fill="#999999" p-id="3825"></path></svg>
+        </div> -->
       </div>
     </el-col>
     <el-col :xs="24" :sm="24" :md="24" :lg="11" :xl="11" class="flex flex-ai-center baseline">
@@ -411,7 +438,7 @@
             <path d="M587.229378 437.990403 580.722174 437.990403 76.975139 437.990403 76.975139 581.918419 580.722174 581.918419 587.229378 581.918419 940.542216 581.918419 940.542216 437.990403Z" fill="#ffffff" p-id="7131"></path>
           </svg>
         </div>
-        <div class='chart-world' id='chart-world' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
+        <div class='chart-world flex flex-ai-end' id='chart-world' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
       </div>
     </el-col>
   </el-row>
@@ -421,11 +448,13 @@
 import * as echarts from "echarts"
 import worldGeoJSON from '@/assets/js/world.ts'
 import { statsOverviewData } from "@/api/overview"
-import { replaceFormat, timeFormat } from '@/utils/common';
-import { locationAll, setLocation } from "@/utils/storage";
+import { replaceFormat, timeFormat, timeout } from '@/utils/common';
+import { ecpDeposit, fcpDeposit, locationAll, setLocation, tokenSwan } from "@/utils/storage";
+import web3Init from "@/utils/login";
+import tokenABI from '@/utils/abi/SwanToken.json'
 
 const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
-const overviewData = reactive({
+const overviewData = reactive<any>({
   value: {
     fcp: [],
     ecp: [],
@@ -453,6 +482,12 @@ const AvgZKRewards = reactive({
       value: 'Yearly'
     }]
 })
+const tokenBalance = reactive<any>({
+  fcp: '',
+  ecp: '',
+  total: ''
+})
+const machineShow = ref(true)
 
 function tabsSwitch (index:number) {
   if (index > 0 && activeName.value < 3) activeName.value += 1
@@ -468,6 +503,7 @@ async function init () {
     const location = overviewRes?.data?.location ?? []
     overviewData.totalLocation = location.length ?? 0
     setLocation(location)
+    await timeout(500)
     drawChart(location)
   }catch{overviewLoad.value = false}
 }
@@ -648,6 +684,21 @@ function drawChart (dataArr: any) {
   providersLoad.value = false
 }
 
+async function getBalanceNum() {
+  try {
+    let tokenContract = new web3Init.eth.Contract(tokenABI, tokenSwan)
+    const tokenBalanceFCP = await tokenContract.methods.balanceOf(import.meta.env.VITE_FCP_Collaterals_ADDRESS).call()
+    const tokenBalanceECP = await tokenContract.methods.balanceOf(import.meta.env.VITE_ECP_Collaterals_ADDRESS).call()
+    tokenBalance.fcp = web3Init.utils.fromWei(tokenBalanceFCP, 'ether')
+    tokenBalance.ecp = web3Init.utils.fromWei(tokenBalanceECP, 'ether')
+    tokenBalance.total = Number(tokenBalance.fcp) + Number(tokenBalance.ecp)
+  } catch {
+    tokenBalance.fcp = ''
+    tokenBalance.ecp = ''
+    tokenBalance.total = ''
+  }
+}
+
 const gpuNum = ref()
 const props = withDefaults(
   defineProps<{
@@ -659,6 +710,7 @@ const props = withDefaults(
 )
 onMounted(async () => {
   echarts.registerMap('worldHq', worldGeoJSON)
+  getBalanceNum()
   init()
   gpuNum.value = props.gpuNumber
 })
@@ -675,8 +727,8 @@ watch(() => props.gpuNumber, () => gpuNum.value = props.gpuNumber)
     .module-container {
       position: relative;
       width: calc(100% - 0.4rem);
-      height: calc(100% - 0.4rem);
-      padding: 0.2rem;
+      height: calc(100% - 0.3rem);
+      padding: 0.2rem 0.2rem 0.1rem;
       background-color: var(--color-light);
       border-radius: 0.14rem;
       @media screen and (max-width: 768px) {
@@ -692,7 +744,7 @@ watch(() => props.gpuNumber, () => gpuNum.value = props.gpuNumber)
           left: 0.25rem;
           right: 0.25rem;
           top: 0.32rem;
-          width: auto;
+          width: calc(100% - 0.5rem) !important;
           color: var(--color-light);
           z-index: 9;
         }
@@ -761,8 +813,8 @@ watch(() => props.gpuNumber, () => gpuNum.value = props.gpuNumber)
     }
     .grid-content {
       position: relative;
-      height: calc(100% - 0.36rem);
-      padding: 0.18rem 0.08rem;
+      height: calc(100% - 0.3rem);
+      padding: 0.12rem 0.08rem 0.18rem;
       background: var(--color-light);
       border-radius: 0.18rem;
       // box-shadow: 0 0 12px #e6e7eb;
@@ -778,6 +830,7 @@ watch(() => props.gpuNumber, () => gpuNum.value = props.gpuNumber)
       &.t {
         width: auto;
         padding: 0.03rem 0.16rem 0;
+        line-height: 1;
       }
       &.up {
         color: #38a169;
@@ -830,6 +883,9 @@ watch(() => props.gpuNumber, () => gpuNum.value = props.gpuNumber)
       padding: 0.1rem 0 0;
       margin: 0;
       line-height: 1;
+      &.a {
+        word-break: break-all;
+      }
       small {
         margin: 0 0 0 4px;
         font-size: 0.16rem;
@@ -856,7 +912,7 @@ watch(() => props.gpuNumber, () => gpuNum.value = props.gpuNumber)
     }
     .chart-world {
       width: 100%;
-      height: 3.45rem;
+      height: 4.2rem;
       height: 100%;
       margin: 0;
       @media screen and (max-width: 768px) {
@@ -901,6 +957,28 @@ watch(() => props.gpuNumber, () => gpuNum.value = props.gpuNumber)
         .el-tabs__nav-prev {
           display: none;
           line-height: 24px;
+        }
+      }
+    }
+    .open {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      padding: 0 0.1rem;
+      background-color: var(--color-light);
+      transform: translate(-50%, 50%);
+      // border: 1px solid #b4b4b4;
+      border-radius: 0.06rem;
+      @media screen and (max-width: 768px) {
+        transform: translate(-50%, 35%);
+      }
+      svg, path{
+        width: 24px;
+        height: 24px;
+        fill: #1890ff;
+        transition: all 0.2s;
+        &.up {
+          transform: rotate(180deg);
         }
       }
     }

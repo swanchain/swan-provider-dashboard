@@ -111,7 +111,23 @@
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total Collaterals</h6>
                     <div class="mb-10">
-                      <b class="flex flex-ai-center flex-jc-center font-20 weight-4 text-center a">{{ replaceFormat(tokenBalance.total) }}</b>
+                      <b class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center a">{{ replaceFormat(tokenBalance.total) }}</b>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">ECP Collaterals</h6>
+                    <div class="mb-10">
+                      <b class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center a">{{ replaceFormat(tokenBalance.ecp) }}</b>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">FCP Collaterals</h6>
+                    <div class="mb-10">
+                      <b class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center a">{{ replaceFormat(tokenBalance.fcp) }}</b>
                     </div>
                   </div>
                 </el-col>

@@ -10,6 +10,7 @@ export const metaAddress = ref('')
 export const signature = ref('')
 export const locationAll = ref([])
 export const explorerLink = ref(currentNetwork.value === 'Proxima' ? ELINK.PROXIMAEXPLORER : ELINK.MAINNETEXPLORER)
+export const rpcLink = ref(currentNetwork.value === 'Proxima' ? ELINK.RPCPROXIMA : ELINK.RPCMAINNET)
 export const baseurl = currentNetwork.value === 'Mainnet' ? import.meta.env.VITE_BASEAPI : import.meta.env.VITE_BASEAPI_PROXIMA
 export const fcpDeposit = import.meta.env.VITE_FCP_DEPOSIT_ADDRESS // _PROXIMA
 export const ecpDeposit = import.meta.env.VITE_ECP_DEPOSIT_ADDRESS // _PROXIMA

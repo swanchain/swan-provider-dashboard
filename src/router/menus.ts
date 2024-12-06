@@ -50,7 +50,7 @@ export default [
     component: () => import("../views/ubi/ubi0-FCP.vue"),
     meta: {
       keepAlive: true,
-      title: 'SWAN CP UBI-0'
+      title: 'SWAN CP UBI'
     }
   },
   {
@@ -59,7 +59,7 @@ export default [
     component: () => import("../views/ubi/ubi0-ECP.vue"),
     meta: {
       keepAlive: true,
-      title: 'SWAN CP UBI-0'
+      title: 'SWAN CP UBI'
     }
   },
   {

@@ -52,7 +52,7 @@
         <el-sub-menu index="cp-ubi">
           <template #title>
             <i class="icon icon-AAR"></i>
-            <span class="font-14">SWAN CP UBI-0
+            <span class="font-14">SWAN CP UBI
               <i class="icon icon-new"></i>
             </span>
           </template>

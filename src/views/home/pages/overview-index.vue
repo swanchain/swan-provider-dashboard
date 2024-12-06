@@ -465,8 +465,7 @@ import * as echarts from "echarts"
 import worldGeoJSON from '@/assets/js/world.ts'
 import { statsOverviewData } from "@/api/overview"
 import { replaceFormat, timeFormat, timeout } from '@/utils/common';
-import { ecpDeposit, fcpDeposit, locationAll, setLocation, tokenSwan } from "@/utils/storage";
-import web3Init from "@/utils/login";
+import { ecpDeposit, fcpDeposit, locationAll, rpcLink, setLocation, tokenSwan } from "@/utils/storage";
 import tokenABI from '@/utils/abi/SwanToken.json'
 
 const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
@@ -702,11 +701,12 @@ function drawChart (dataArr: any) {
 
 async function getBalanceNum() {
   try {
-    let tokenContract = new web3Init.eth.Contract(tokenABI, tokenSwan)
+    let web3 = new Web3(new Web3.providers.HttpProvider(rpcLink.value));
+    let tokenContract = new web3.eth.Contract(tokenABI, tokenSwan)
     const tokenBalanceFCP = await tokenContract.methods.balanceOf(import.meta.env.VITE_FCP_Collaterals_ADDRESS).call()
     const tokenBalanceECP = await tokenContract.methods.balanceOf(import.meta.env.VITE_ECP_Collaterals_ADDRESS).call()
-    tokenBalance.fcp = web3Init.utils.fromWei(tokenBalanceFCP, 'ether')
-    tokenBalance.ecp = web3Init.utils.fromWei(tokenBalanceECP, 'ether')
+    tokenBalance.fcp = web3.utils.fromWei(tokenBalanceFCP, 'ether')
+    tokenBalance.ecp = web3.utils.fromWei(tokenBalanceECP, 'ether')
     tokenBalance.total = Number(tokenBalance.fcp) + Number(tokenBalance.ecp)
   } catch {
     tokenBalance.fcp = ''

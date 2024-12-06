@@ -151,7 +151,7 @@
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon icon-AAR"></i>
-                        <span>SWAN CP UBI-0
+                        <span>SWAN CP UBI
                           <i class="icon icon-new"></i>
                         </span>
                       </div>

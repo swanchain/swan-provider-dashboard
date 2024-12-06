@@ -11,5 +11,7 @@ export enum ELINK {
   ECPLEARNMORELINK = 'https://docs.swanchain.io/computing-provider/edge-computing-provider-ecp',
   FCPLEARNMORELINK = 'https://docs.swanchain.io/computing-provider/fog-computing-provider-fcp',
   PROXIMALINK = 'https://provider-testnet.swanchain.io/',
-  MAINNETLINK = 'https://provider.swanchain.io/'
+  MAINNETLINK = 'https://provider.swanchain.io/',
+  RPCMAINNET = 'https://mainnet-internal.swanchain.io',
+  RPCPROXIMA = 'https://rpc-proxima.swanchain.io'
 }

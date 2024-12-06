@@ -117,18 +117,58 @@
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">ECP Collaterals</h6>
-                    <div class="mb-10">
-                      <b class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center a">{{ replaceFormat(tokenBalance.ecp) }}</b>
-                    </div>
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center">
+                      Total CU
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                        </template>
+                        Computing units indicate the computing power in the swan network.
+                      </el-popover>
+                    </h6>
+                    <template v-if="overviewData.value.fcp.length>0 && overviewData.value.ecp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].cu/100)+Number(overviewData.value.ecp[0].cu/100))}}
+                      </b>
+                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].cu) || (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].cu)" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].cu+overviewData.value.ecp[0].cu) >= Number(overviewData.value.fcp[1].cu+overviewData.value.ecp[1].cu) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].cu+overviewData.value.ecp[0].cu) >= Number(overviewData.value.fcp[1].cu+overviewData.value.ecp[1].cu)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].cu + overviewData.value.ecp[0].cu - overviewData.value.fcp[1].cu - overviewData.value.ecp[1].cu)/100)}}</h6>
+                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].cu) || (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].cu)" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
                   </div>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6" v-if="overviewData.value.fcp && overviewData.value.fcp.length>0">
                   <div class="grid-content">
-                    <h6 class="font-12 weight-4 text-center">FCP Collaterals</h6>
-                    <div class="mb-10">
-                      <b class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center a">{{ replaceFormat(tokenBalance.fcp) }}</b>
-                    </div>
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center">
+                      FCP CU
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                        </template>
+                        Computing units indicate the computing power in the swan network.
+                      </el-popover>
+                    </h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0].cu)/100)}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].cu" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].cu) >= Number(overviewData.value.fcp[1].cu) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].cu) >= Number(overviewData.value.fcp[1].cu)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].cu - overviewData.value.fcp[1].cu)/100)}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].cu" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6" v-if="overviewData.value.ecp && overviewData.value.ecp.length>0">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center">
+                      ECP CU
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                        </template>
+                        Computing units indicate the computing power in the swan network.
+                      </el-popover>
+                    </h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.ecp[0].cu)/100)}}
+                    </b>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1].cu" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.ecp[0].cu) >= Number(overviewData.value.ecp[1].cu) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].cu) >= Number(overviewData.value.ecp[1].cu)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].cu - overviewData.value.ecp[1].cu)/100)}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1].cu" class="font-12 weight-4 text-right t">24h change</h6>
                   </div>
                 </el-col>
               </el-row>
@@ -256,6 +296,24 @@
                     </div>
                   </div>
                 </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center">
+                      FCP CU
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                        </template>
+                        Computing units indicate the computing power in the swan network.
+                      </el-popover>
+                    </h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0].cu)/100)}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].cu" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].cu) >= Number(overviewData.value.fcp[1].cu) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].cu) >= Number(overviewData.value.fcp[1].cu)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].cu - overviewData.value.fcp[1].cu)/100)}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].cu" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
               </el-row>
             </el-tab-pane>
             <el-tab-pane :name="2">
@@ -371,6 +429,24 @@
                     </div>
                   </div>
                 </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center">
+                      ECP CU
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                        </template>
+                        Computing units indicate the computing power in the swan network.
+                      </el-popover>
+                    </h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.ecp[0].cu)/100)}}
+                    </b>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1].cu" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.ecp[0].cu) >= Number(overviewData.value.ecp[1].cu) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].cu) >= Number(overviewData.value.ecp[1].cu)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].cu - overviewData.value.ecp[1].cu)/100)}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1].cu" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
               </el-row>
             </el-tab-pane>
             <el-tab-pane :name="3">
@@ -467,6 +543,7 @@ import { statsOverviewData } from "@/api/overview"
 import { replaceFormat, timeFormat, timeout } from '@/utils/common';
 import { ecpDeposit, fcpDeposit, locationAll, rpcLink, setLocation, tokenSwan } from "@/utils/storage";
 import tokenABI from '@/utils/abi/SwanToken.json'
+import XyIcon from '@/base-ui/xy-icon.vue'
 
 const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
 const overviewData = reactive<any>({

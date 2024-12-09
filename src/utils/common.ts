@@ -519,10 +519,19 @@ export async function throttleLast () {
   return true
 }
 
-export function stringToHex(str) {
+export function stringToHex(str: any) {
   let hex = '';
   for(let i = 0; i < str.length; i++) {
     hex += str.charCodeAt(i).toString(16).padStart(2, '0');
   }
   return hex;
+}
+
+export function cutArraysToShortestLength(arr1: any, arr2: any) {
+  try {
+    const shortestLength = Math.min(arr1.length, arr2.length);
+    return [arr1.slice(-shortestLength), arr2.slice(-shortestLength)];
+  } catch {
+    return [arr1, arr2]
+  }
 }

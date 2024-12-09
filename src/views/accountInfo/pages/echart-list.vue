@@ -204,7 +204,7 @@
 import vmDialog from "@/components/vmDialog.vue"
 import { getCPsBalancesData, getCPsEchartsData } from "@/api/cp-profile";
 import { addCollateral, metaAddress } from "@/utils/storage"
-import { dataCpData, dataCpRateData, dataDelta, dataGPU, getDateRange, replaceDecimalsFormat, replaceFormat, sumArrays } from "@/utils/common";
+import { cutArraysToShortestLength, dataCpData, dataCpRateData, dataDelta, dataGPU, getDateRange, replaceDecimalsFormat, replaceFormat, sumArrays } from "@/utils/common";
 import * as echarts from "echarts"
 import { openPage } from "@/hooks/router";
 import XyIcon from '@/base-ui/xy-icon.vue'
@@ -314,14 +314,15 @@ const changetype = async (data: any) => {
   // totalReward.value = sumArrays(ecpCountsData.datum, [])
   totalReward.value = data.ecp_task && data.ecp_task.length > 0 ? data.ecp_task.slice(-1)[0].total : 0
 
-  const ecpCollateralData = await dataCpData(data.ecp_collateral, 'total')
-  const ecpEscrowData = await dataCpData(data.ecp_collateral, 'active')
+  const [ecpCollateralAllData, sequencerData] = cutArraysToShortestLength(data.ecp_collateral, data.sequencer);
+  const ecpCollateralData = await dataCpData(ecpCollateralAllData, 'total')
+  const ecpEscrowData = await dataCpData(ecpCollateralAllData, 'active')
   const ecpCollaMax = Math.max(Math.max(...ecpCollateralData.datum), Math.max(...ecpEscrowData.datum))
   const ecpCollateralMax = Math.ceil(ecpCollaMax*(ecpCollaMax>=0?1.1:0.9))
   const ecpCollaMin = Math.min(Math.min(...ecpEscrowData.datum), Math.min(...ecpCollateralData.datum))
   const ecpEscrowNumber = ecpCollaMin >= 0 ? 0.9 : 1.1
   const ecpCollateralMin = Math.floor(ecpCollaMin*ecpEscrowNumber)
-  const ecpSequencerData = await dataCpData(data.sequencer, 'total')
+  const ecpSequencerData = await dataCpData(sequencerData, 'total')
   const ecpSequenceNumberMax = Math.max(...ecpSequencerData.datum) >= 0 ? 1.05 : 0.9
   const ecpSequencerMax = (Math.max(...ecpSequencerData.datum)*ecpSequenceNumberMax).toFixed(5)
   const ecpSequenceNumber = Math.min(...ecpSequencerData.datum) >= 0 ? 0.95 : 1.05

@@ -9,9 +9,11 @@ import { title } from "process";
 
 const props = withDefaults(
   defineProps<{
+    priceDefault?: number,
     profitData?: any
   }>(),
   {
+    priceDefault: 0,
     profitData: []
   }
 )
@@ -23,6 +25,8 @@ const changetype = async () => {
   const machart_price = echarts.init(document.getElementById("chart-price")!)
   try { 
     const priceData = await dataPrice(props.profitData, 'price')
+    const p = props.priceDefault
+    const defaultPrice = priceData.map((item:any, index:number) => ({ name: item, xAxis: index })).filter((obj:any) => obj.name === p);
 
     const roiData = await dataPrice(props.profitData, 'roi')
     const roiNumberMax = Math.max(...roiData)
@@ -45,10 +49,12 @@ const changetype = async () => {
       },
       tooltip: {
         trigger: 'axis',
-        // triggerOn: 'none',
-        // position: function (pt: any) {
-        //   return [pt[0], 130];
-        // },
+        axisPointer: {
+          lineStyle: {
+            color: 'rgba(68, 125, 255,1)',
+            width: 2
+          }
+        },
         textStyle: {
           fontFamily: 'HELVETICA-ROMAN'
         },
@@ -64,9 +70,6 @@ const changetype = async () => {
           return result;
         },
       },
-      // legend: {
-      //   data: ['ROI', 'Return']
-      // },
       color: ['rgba(68, 125, 255, 1)', 'rgba(118, 185, 0, 1)'],
       grid: {
         left: document.documentElement.clientWidth >= 2200 ? 100 : document.documentElement.clientWidth >= 768 ? 60 : 20,
@@ -100,7 +103,7 @@ const changetype = async () => {
             interval: function (index:any, value:any) {
               var count = 3;
               var step = Math.ceil(priceData.length / count); 
-              return index % step === 0 ? value : false;
+              return index % step === 0 || (priceData.length - 1) === index ? value : false;
             },
             formatter: function (value: any) {
               return value.split(' ').join('\n');
@@ -113,28 +116,7 @@ const changetype = async () => {
               color: 'rgba(0, 0, 0, 0.8)' 
             }
           },
-          data: priceData,
-          axisPointer: {
-            // value: '0.005',
-            // snap: true,
-            // lineStyle: {
-            //   color: 'rgba(68, 125, 255,1)',
-            //   width: 2
-            // },
-            // label: {
-            //   show: true,
-            //   backgroundColor: 'rgba(68, 125, 255,1)'
-            // },
-            // handle: {
-            //   show: true,
-            //   color: '#000',
-            //   size: 0, 
-            //   borderColor: 'transparent',
-            //   borderWidth: 0,
-            //   borderType: 'none', 
-            //   draggable: false
-            // }
-          },
+          data: priceData
         }
       ],
       yAxis: [
@@ -218,7 +200,24 @@ const changetype = async () => {
           },
           smooth: true,
           showSymbol: false,
-          data: roiData
+          data: roiData,
+          markLine: {
+            symbol: ['none', 'none'], 
+            label: {
+              show: true,
+              position: 'end',
+              formatter: '{b}',
+              textStyle: {
+                fontFamily: 'HELVETICA-ROMAN',
+                fontSize: document.documentElement.clientWidth >= 2200 ? 20 : document.documentElement.clientWidth >= 1920 ? 17 : 12,
+              },
+            },
+            data: defaultPrice,
+            lineStyle: {
+              color: 'rgba(68, 125, 255,1)',
+              width: 2
+            }
+          },
         },
         {
           name: 'Return',

@@ -12,7 +12,7 @@
     
     <div class="providers-container" v-if="profitData && profitData.length > 0">
       <div class="providers-overview">
-        <echart-line :profitData="profitData"></echart-line>
+        <echart-line :profitData="profitData" :priceDefault="priceDefault"></echart-line>
       </div>
     </div>
   </section>
@@ -26,6 +26,7 @@ import { getGPUsData } from '@/api/resource'
 const echartData = ref<any>([])
 const profitData = ref<any>([])
 const providersLoad = ref(false)
+const priceDefault = ref(0)
 
 async function initResource () {
   try{
@@ -35,8 +36,9 @@ async function initResource () {
   }catch{providersLoad.value = false}
 }
 
-function handProfit(row: any) {
+function handProfit(row: any, price: number) {
   if (row) {
+    priceDefault.value = price
     profitData.value = row
   }
 }

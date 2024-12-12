@@ -91,7 +91,8 @@ async function calculateMethod() {
     const res = await submitGPUEstimate(parmas)
     tableData.value = res.data
     const list = res?.data?.profit_lines || []
-    emit('handProfit', list)
+    const price = res?.data?.price || 0
+    emit('handProfit', list, price)
   } finally { 
     gpuBarLoad.value = false
   }

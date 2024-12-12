@@ -254,6 +254,14 @@ export function dataCpRateData (data: any, type:string) {
   }
 }
 
+export function dataPrice (data: any, type:string) {
+  const datum:any = []
+  data.forEach((item:any) => {
+    datum.push(item[type])
+  })
+  return datum
+}
+
 export function sumArrays(array1:any, array2:any) {
   return array1.map((value:any, index:number) => value + (array2[index] || 0)).reduce((a:any, b:any) => a + b, 0);
 }

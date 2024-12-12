@@ -72,6 +72,15 @@ export default [
     }
   },
   {
+    path: '/calculator',
+    name: 'calculator',
+    component: () => import("../views/calculator/calculator-index.vue"),
+    meta: {
+      keepAlive: true,
+      title: 'Calculator'
+    }
+  },
+  {
     path: '/cp/:cp_addr',
     name: 'accountInfo',
     component: () => import("../views/accountInfo/accountInfo-index.vue"),

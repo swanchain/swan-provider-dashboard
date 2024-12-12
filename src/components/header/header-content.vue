@@ -121,6 +121,14 @@
                       </div>
                     </div>
                   </el-dropdown-item>
+                  <el-dropdown-item command="calculator">
+                    <div class="profile router-link b">
+                      <div class="flex flex-ai-center font-16">
+                        <i class="icon icon-calculator"></i>
+                        <span>Calculator</span>
+                      </div>
+                    </div>
+                  </el-dropdown-item>
                   <el-dropdown-item command="aar" divided v-if="currentNetwork !== 'Proxima'">
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
@@ -409,6 +417,7 @@ const contractAddress = ref('')
       else if (key === 'cp-ubi-ecp') router.push({ name: 'cpUbiECP' })
       else if (key === 'accountInfo') router.push({ name: 'accountInfo', params: { cp_addr: metaAddress.value } })
       else if (key === 'resource') router.push({ name: 'resource' })
+      else if (key === 'calculator') router.push({ name: 'calculator' })
     }
     async function cpCollateral () {
       cpCollateralCont.show = true
@@ -1239,6 +1248,10 @@ const contractAddress = ref('')
             }
             &.icon-Resource {
               background: url(../../assets/images/menu-05.png) no-repeat;
+              background-size: 100%;
+            }
+            &.icon-calculator {
+              background: url(../../assets/images/icon_calculator.png) no-repeat;
               background-size: 100%;
             }
             &.icon-AAR {

@@ -35,6 +35,12 @@
             <span class="font-14">Resource</span>
           </template>
         </el-menu-item>
+        <el-menu-item index="calculator">
+          <i class="icon icon-calculator"></i>
+          <template #title>
+            <span class="font-14">Calculator</span>
+          </template>
+        </el-menu-item>
         <el-sub-menu index="aar" v-if="currentNetwork !== 'Proxima'">
           <template #title>
             <i class="icon icon-AAR"></i>
@@ -86,6 +92,7 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
       else if (key === 'cp-ubi-ecp') router.push({ name: 'cpUbiECP' })
       else if (key === 'accountInfo') router.push({ name: 'accountInfo', params: { cp_addr: metaAddress.value } })
       else if (key === 'resource') router.push({ name: 'resource' })
+      else if (key === 'calculator') router.push({ name: 'calculator' })
     }
     async function activeMenu (row) {
       const nameMenu = row || route.name
@@ -99,6 +106,7 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
       else if (nameMenu.indexOf('cpUbiECP') > -1 || nameMenu.indexOf('ubi0/ecp') > -1) activeIndex.value = 'cp-ubi-ecp'
       else if (nameMenu.indexOf('accountInfo') > -1 || nameMenu.indexOf('cp') > -1) activeIndex.value = 'accountInfo'
       else if (nameMenu.indexOf('resource') > -1) activeIndex.value = 'resource'
+      else if (nameMenu.indexOf('calculator') > -1) activeIndex.value = 'calculator'
       else activeIndex.value = nameMenu
 
       // console.log(activeIndex.value, nameMenu)
@@ -154,6 +162,10 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
     }
     &.icon-Resource {
       background: url(../../assets/images/menu-05.png) no-repeat;
+      background-size: 100%;
+    }
+    &.icon-calculator {
+      background: url(../../assets/images/icon_calculator.png) no-repeat;
       background-size: 100%;
     }
     &.icon-AAR {

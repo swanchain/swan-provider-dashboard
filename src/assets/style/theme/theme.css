@@ -19,10 +19,6 @@
   --color-text: rgb(99, 102, 116);
 }
 
-.color-black {
-  color: var(--color-black);
-}
-
 .color-light {
   color: var(--color-light);
 }

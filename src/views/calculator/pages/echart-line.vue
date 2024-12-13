@@ -1,6 +1,7 @@
 <template>
   <div class="echart-calculator w-100">
     <div class='chart-trends' id='chart-price' v-loading="cpLoad" element-loading-background="rgba(122, 122, 122, 0.8)"></div>
+    <div class="font-12 color-info">* Estimation is based on current provider and network conditions</div>
   </div>
 </template>
 

@@ -15,6 +15,11 @@
             <div class="font-14">{{ replaceFormat(scope.row.collateral) }}</div>
           </template>
         </el-table-column>
+        <el-table-column prop="price" label="Hardware Cost($)" min-width="120">
+          <template #default="scope">
+            <div class="font-14">{{ replaceFormat(1050 * scope.row.cu) }}</div>
+          </template>
+        </el-table-column>
         <el-table-column prop="price" label="Price ($)" min-width="100">
           <template #default="scope">
             <div class="font-14">{{ replaceFormat(scope.row.price) }}</div>

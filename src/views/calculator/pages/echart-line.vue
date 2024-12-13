@@ -164,7 +164,7 @@ const changetype = async () => {
         },
         {
           type: 'value',
-          name: 'Return (SWAN/Year)',
+          name: 'Return ($/Year)',
           nameLocation: 'end',
           nameTextStyle: { 
             padding: [0, 0, 5, 80],

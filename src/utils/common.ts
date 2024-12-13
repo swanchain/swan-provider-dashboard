@@ -256,8 +256,9 @@ export function dataCpRateData (data: any, type:string) {
 
 export function dataPrice (data: any, type:string) {
   const datum:any = []
-  data.forEach((item:any) => {
-    datum.push(item[type])
+  data.forEach((item: any) => {
+    if (type === 'roi') datum.push(item[type]*100)
+    else datum.push(item[type])
   })
   return datum
 }

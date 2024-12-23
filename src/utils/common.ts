@@ -59,6 +59,21 @@ export function replaceDecimalsFormat (value: any) {
   }
 }
 
+export function replaceNumberFormat (value: any, point: number) {
+  try {
+    if (String(value) === '0') return '0'
+    else if (!value) return '-'
+    const intPartArr = String(value.toFixed(point)).split('.')
+    const intPoint = intPartArr[1] ? intPartArr[1] : ''
+    const intPartFormat = intPartArr[0]
+      .toString()
+      .replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+    return intPoint ? `${intPartFormat}.${intPoint}` : intPartFormat
+  } catch {
+    return '-'
+  }
+}
+
 export function timeFormat (data: any) {
   if (!data) return 0
   const d = data / 60 / 60

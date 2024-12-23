@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { NumFormat, dataPrice, replaceFormat, timeout } from "@/utils/common";
+import { NumFormat, dataPrice, replaceFormat, replaceNumberFormat, timeout } from "@/utils/common";
 import * as echarts from "echarts"
 import { title } from "process";
 
@@ -28,9 +28,9 @@ const changetype = async () => {
   const machart_price = echarts.init(document.getElementById("chart-price")!)
   try { 
     const priceData = await dataPrice(props.profitData, 'price')
-    const p = props.priceDefault
-    const defaultPrice = priceData.map((item:any, index:number) => ({ label: item, name: 'SWAN Price: $'+item, xAxis: index })).filter((obj:any) => obj.label === p);
-
+    const p = replaceNumberFormat(props.priceDefault, 2)
+    const defaultPrice = priceData.map((item: any, index: number) => ({ label: item, name: 'SWAN Price: $' + item, xAxis: index })).filter((obj: any) => obj.label.toString() === p);
+    
     const roiData = await dataPrice(props.profitData, 'roi')
     const roiNumberMax = Math.max(...roiData) >= 0 ? 1 : 0.95
     const roiMax = Math.max(...roiData)*roiNumberMax

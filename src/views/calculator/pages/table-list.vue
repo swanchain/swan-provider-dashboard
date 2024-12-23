@@ -22,7 +22,7 @@
         </el-table-column>
         <el-table-column prop="price" label="Price ($)" min-width="100">
           <template #default="scope">
-            <div class="font-14">{{ replaceFormat(scope.row.price) }}</div>
+            <div class="font-14">{{ replaceNumberFormat(scope.row.price, 3) }}</div>
           </template>
         </el-table-column>
         <el-table-column prop="total_cus" min-width="100">
@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { replaceFormat } from '@/utils/common';
+import { replaceFormat, replaceNumberFormat } from '@/utils/common';
 
 const props = withDefaults(
   defineProps<{

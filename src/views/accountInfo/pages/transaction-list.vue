@@ -91,7 +91,7 @@
         <template #default="scope">
           <div class="flex flex-ai-center flex-jc-center">
             <span v-if="scope.row.amount && scope.row.amount > 0">
-              {{ ['batchSlash', 'BatchSlash'].includes(scope.row.method) ? '-' : '' }}
+              {{ ['batchSlash', 'BatchSlash', 'slashCollateral', 'SlashCollateral'].includes(scope.row.method) ? '-' : '' }}
             </span>
             {{ NumFormat(scope.row.amount, 2) }}
           </div>

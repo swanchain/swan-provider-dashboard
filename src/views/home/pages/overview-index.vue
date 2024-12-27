@@ -780,8 +780,8 @@ async function getBalanceNum() {
   try {
     let web3 = new Web3(new Web3.providers.HttpProvider(rpcLink.value));
     let tokenContract = new web3.eth.Contract(tokenABI, tokenSwan)
-    const tokenBalanceFCP = await tokenContract.methods.balanceOf(import.meta.env.VITE_FCP_Collaterals_ADDRESS).call()
-    const tokenBalanceECP = await tokenContract.methods.balanceOf(import.meta.env.VITE_ECP_Collaterals_ADDRESS).call()
+    const tokenBalanceFCP = await tokenContract.methods.balanceOf(import.meta.env.VITE_FCP_DEPOSIT_ADDRESS).call()
+    const tokenBalanceECP = await tokenContract.methods.balanceOf(import.meta.env.VITE_ECP_DEPOSIT_ADDRESS).call()
     tokenBalance.fcp = web3.utils.fromWei(tokenBalanceFCP, 'ether')
     tokenBalance.ecp = web3.utils.fromWei(tokenBalanceECP, 'ether')
     tokenBalance.total = Number(tokenBalance.fcp) + Number(tokenBalance.ecp)

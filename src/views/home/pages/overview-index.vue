@@ -20,13 +20,14 @@
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
                   <div class="grid-content">
                     <h6 class="font-12 weight-4 text-center">Total Computing Provider</h6>
-                    <template v-if="overviewData.value.fcp.length>0">
+                    <template v-if="overviewData.value.fcp.length>0 && overviewData.value.ecp.length>0">
                       <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">
                         {{replaceFormat(Number(overviewData.value.fcp[0].active_cps)+Number(overviewData.value.ecp[0].cps))}}
                       </b>
                       <h6 v-if="overviewData.value.fcp.length>1 || overviewData.value.ecp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].active_cps+overviewData.value.ecp[0].cps) >= Number(overviewData.value.fcp[1].active_cps+overviewData.value.ecp[1].cps) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].active_cps+overviewData.value.ecp[0].cps) >= Number(overviewData.value.fcp[1].active_cps+overviewData.value.ecp[1].cps)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].active_cps + overviewData.value.ecp[0].cps - overviewData.value.fcp[1].active_cps - overviewData.value.ecp[1].cps))}}</h6>
                       <h6 v-if="overviewData.value.fcp.length>1 || overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                     </template>
+                    <b v-else class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">-</b>
                   </div>
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
@@ -51,6 +52,7 @@
                       <h6 v-if="overviewData.value.ecp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.ecp[0].cps) >= Number(overviewData.value.ecp[1].cps) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].cps) >= Number(overviewData.value.ecp[1].cps)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].cps - overviewData.value.ecp[1].cps))}}</h6>
                       <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                     </template>
+                    <b v-else class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">-</b>
                   </div>
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
@@ -83,6 +85,7 @@
                       <h6 v-if="overviewData.value.ecp.length>1" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.ecp[0].tasks) >= Number(overviewData.value.ecp[1].tasks) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].tasks) >= Number(overviewData.value.ecp[1].tasks)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].tasks - overviewData.value.ecp[1].tasks))}}</h6>
                       <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
                     </template>
+                    <b v-else class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">-</b>
                   </div>
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6" v-if="overviewData.value.fcp && overviewData.value.fcp.length>0">
@@ -105,6 +108,7 @@
                       <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards) && (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards)" class="font-18 weight-4 text-right t" :class="`${(overviewData.value.fcp[0].ubi_rewards+overviewData.value.ecp[0].ubi_rewards) >= ((overviewData.value.fcp[1].ubi_rewards)+(overviewData.value.ecp[1].ubi_rewards)) ? 'up': 'down'}`">{{(overviewData.value.fcp[0].ubi_rewards+overviewData.value.ecp[0].ubi_rewards) >= ((overviewData.value.fcp[1].ubi_rewards)+(overviewData.value.ecp[1].ubi_rewards))?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards) - Number(overviewData.value.fcp[1].ubi_rewards) + Number(overviewData.value.ecp[0].ubi_rewards) - Number(overviewData.value.ecp[1].ubi_rewards))}}</h6>
                       <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards) && (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards)" class="font-12 weight-4 text-right t">24h change</h6>
                     </template>
+                    <b v-else class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">-</b>
                   </div>
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
@@ -133,6 +137,7 @@
                       <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].cu) || (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].cu)" class="font-18 weight-4 text-right t" :class="`${Number(overviewData.value.fcp[0].cu+overviewData.value.ecp[0].cu) >= Number(overviewData.value.fcp[1].cu+overviewData.value.ecp[1].cu) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].cu+overviewData.value.ecp[0].cu) >= Number(overviewData.value.fcp[1].cu+overviewData.value.ecp[1].cu)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].cu + overviewData.value.ecp[0].cu - overviewData.value.fcp[1].cu - overviewData.value.ecp[1].cu)/100)}}</h6>
                       <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].cu) || (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].cu)" class="font-12 weight-4 text-right t">24h change</h6>
                     </template>
+                    <b v-else class="flex flex-ai-center flex-jc-center font-24 weight-4 text-center">-</b>
                   </div>
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6" v-if="overviewData.value.fcp && overviewData.value.fcp.length>0">

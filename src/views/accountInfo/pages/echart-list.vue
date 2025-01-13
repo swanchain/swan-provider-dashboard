@@ -66,7 +66,7 @@
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width nowrap">
-                    <div class="flex flex-ai-center nowrap">
+                    <div class="flex flex-ai-center nowrap mr-16">
                       <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
                         <template #reference>
                           <div class="flex flex-ai-center nowrap">
@@ -191,7 +191,7 @@
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width nowrap">
-                    <div class="flex flex-ai-center nowrap">
+                    <div class="flex flex-ai-center nowrap mr-16">
                       <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
                         <template #reference>
                           <div class="flex flex-ai-center nowrap">
@@ -243,12 +243,11 @@
 <script setup lang="ts">
 import vmDialog from "@/components/vmDialog.vue"
 import { getCPsBalancesData, getCPsEchartsData } from "@/api/cp-profile";
-import { addCollateral, ecpDeposit, ecpSequencer, fcpDeposit, metaAddress } from "@/utils/storage"
+import { addCollateral, ecpDeposit, ecpSequencer, fcpDeposit, metaAddress, rpcLink } from "@/utils/storage"
 import { cutArraysToShortestLength, dataCpData, dataCpRateData, dataDelta, dataGPU, getDateRange, replaceDecimalsFormat, replaceFormat, replaceNumberFormat, sumArrays } from "@/utils/common";
 import * as echarts from "echarts"
 import { openPage } from "@/hooks/router";
 import XyIcon from '@/base-ui/xy-icon.vue'
-import web3Init from "@/utils/login";
 import fcpABI from '@/utils/abi/SwanCreditCollateral.json'
 import ecpABI from '@/utils/abi/ECPCollateral.json'
 import sequencerABI from '@/utils/abi/Sequencer.json'
@@ -1346,7 +1345,7 @@ async function getCPsBalanceData() {
   try{
     const balanceRes = await getCPsBalancesData(route.params.cp_addr)
     let list = balanceRes?.data ?? {}
-    list.requried = list?.base_collateral * (list?.cu / 100) ?? 0
+    list.requried = Number(list?.base_collateral * (list?.cu / 100)) ?? 0
     balanceData.value = list
     changePietype(balanceData.value)
   }catch{console.error}
@@ -1354,34 +1353,38 @@ async function getCPsBalanceData() {
 }
 async function getFCPColleralData() {
   try {
-    const fcpContract = new web3Init.eth.Contract(fcpABI, fcpDeposit)
+    let web3 = new Web3(new Web3.providers.HttpProvider(rpcLink.value));
+    const fcpContract = new web3.eth.Contract(fcpABI, fcpDeposit)
     const fcpCpInfoData = await fcpContract.methods.cpInfo(route.params.cp_addr).call()
     const available = fcpCpInfoData.availableBalance ?? '0'
     const escrow = fcpCpInfoData.lockedBalance ?? '0'
-    collateralCPData.fcp.Collateral = web3Init.utils.fromWei(String(available), 'ether')
-    collateralCPData.fcp.Escrow = web3Init.utils.fromWei(String(escrow), 'ether')
-    collateralCPData.fcp.Current = Number(collateralCPData.fcp.Collateral + collateralCPData.fcp.Escrow)
+    collateralCPData.fcp.Collateral = web3.utils.fromWei(String(available), 'ether')
+    collateralCPData.fcp.Escrow = web3.utils.fromWei(String(escrow), 'ether')
+    collateralCPData.fcp.Current = Number(collateralCPData.fcp.Collateral) + Number(collateralCPData.fcp.Escrow)
     // console.log('fcp:', fcpCpInfoData, collateralCPData.fcp)
   } catch { console.error }
 }
 async function getECPColleralData() {
   try {
-    const ecpContract = new web3Init.eth.Contract(ecpABI, ecpDeposit)
+    let web3 = new Web3(new Web3.providers.HttpProvider(rpcLink.value));
+    const ecpContract = new web3.eth.Contract(ecpABI, ecpDeposit)
     const ecpCpInfoData = await ecpContract.methods.cpInfo(route.params.cp_addr).call()
     const collateral = ecpCpInfoData?.balance ?? '0'
     const escrow = ecpCpInfoData?.frozenBalance ?? '0'
-    collateralCPData.ecp.Collateral = web3Init.utils.fromWei(String(collateral), 'ether')
-    collateralCPData.ecp.Escrow =  web3Init.utils.fromWei(String(escrow), 'ether')
-    collateralCPData.ecp.Current = Number(collateralCPData.ecp.Collateral + collateralCPData.ecp.Escrow)
+    collateralCPData.ecp.Collateral = web3.utils.fromWei(String(collateral), 'ether')
+    console.log(collateralCPData.ecp.Collateral)
+    collateralCPData.ecp.Escrow =  web3.utils.fromWei(String(escrow), 'ether')
+    collateralCPData.ecp.Current = Number(collateralCPData.ecp.Collateral) + Number(collateralCPData.ecp.Escrow)
     // console.log('ecp:', ecpCpInfoData, collateralCPData.ecp)
   } catch { console.error }
 }
 async function getECPSequencerData() {
   try {
-    const sequencerContract = new web3Init.eth.Contract(sequencerABI, ecpSequencer)
+    let web3 = new Web3(new Web3.providers.HttpProvider(rpcLink.value));
+    const sequencerContract = new web3.eth.Contract(sequencerABI, ecpSequencer)
     const sequencerData = await sequencerContract.methods.getCPBalance(route.params.cp_addr).call()
     const sequencer = sequencerData ?? '0'
-    collateralCPData.ecp.Sequencer = web3Init.utils.fromWei(String(sequencer), 'ether')
+    collateralCPData.ecp.Sequencer = web3.utils.fromWei(String(sequencer), 'ether')
     // console.log('sequencer:', sequencerData, collateralCPData.ecp)
   } catch { console.error }
 }

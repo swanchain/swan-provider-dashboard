@@ -26,9 +26,9 @@
               <el-input class="zk-input" v-model="networkInput.node_id" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter NodeID" />
             </div>
           </el-col> -->
-          <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
+          <el-col :xs="24" :sm="12" :md="12" :lg="10" :xl="10">
             <div class="flex flex-ai-center nowrap child">
-              <el-checkbox v-model="activeChecked" label="Inactive" @change="activeChange" /> &nbsp;&nbsp;
+              <el-checkbox v-model="activeChecked" label="Include Inactive" @change="activeChange" /> &nbsp;&nbsp;
               <el-button type="info" :disabled="!networkInput.contract_address && !networkInput.owner_addr && !networkInput.node_id  ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchProvider">
                 <el-icon>

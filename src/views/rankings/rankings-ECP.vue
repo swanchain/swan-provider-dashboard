@@ -244,7 +244,7 @@ const singleTableRef = ref()
 const handleFilterChange = (filters: any) => {
   for (const key in filters) {
     if (key === 'status') {
-      const result = filters.status[0] ?? ''
+      const result = filters.status[0] ?? 'all'
       paramsFilter.data.status = result
     } else if (key === 'region') {
       const result = filters.region[0] ?? ''
@@ -284,11 +284,11 @@ async function getUBITable () {
       "name": networkZK.owner_addr,
       "node_id": networkZK.node_id,
       "region": paramsFilter.data.region,
-      // "status": paramsFilter.data.status,
+      "status": paramsFilter.data.status,
       "order": networkZK.order,
       "desc": networkZK.desc,
     }
-    if (paramsFilter.data.status) paramsCont.status = paramsFilter.data.status
+    if (paramsFilter.data.status) paramsCont.status = paramsFilter.data.status === 'all' ? '' : paramsFilter.data.status
     else paramsCont.status = activeChecked.value ? '' : 'Online'
     const providerECPRes = await getCPsECPListData(paramsCont)
     providerBody.value = providerECPRes?.data?.list ?? []

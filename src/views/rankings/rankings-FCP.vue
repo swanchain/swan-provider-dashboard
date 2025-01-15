@@ -28,6 +28,7 @@
           </el-col> -->
           <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
             <div class="flex flex-ai-center nowrap child">
+              <el-checkbox v-model="activeChecked" label="Inactive" @change="init" /> &nbsp;&nbsp;
               <el-button type="info" :disabled="!networkInput.contract_address && !networkInput.owner_addr && !networkInput.node_id  ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchProvider">
                 <el-icon>
@@ -38,7 +39,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-table :data="providersData" empty-text="No Data" v-loading="providersTableLoad" @sort-change="handleSortChange" @filter-change="handleFilterChange">
+        <el-table ref="singleTableRef" :data="providersData" empty-text="No Data" v-loading="providersTableLoad" @sort-change="handleSortChange" @filter-change="handleFilterChange">
           <el-table-column type="index" min-width="40">
             <template #header>
               <div class="font-14 weight-4">Rank</div>
@@ -215,6 +216,8 @@ const networkInput = reactive({
   searchFor: false
 })
 const regionFilters = ref<any>([])
+const activeChecked = ref(false)
+const singleTableRef = ref()
 
 const handleFilterChange = (filters: any) => {
   for (const key in filters) {
@@ -244,7 +247,7 @@ async function init() {
   providersTableLoad.value = true
   try{
     const page = pagin.pageNo > 0 ? pagin.pageNo - 1 : 0
-    const paramsCont = {
+    let paramsCont = {
       "page_no": page,
       "page_size": pagin.pageSize,
       "addr": networkInput.contract_address,
@@ -252,7 +255,8 @@ async function init() {
       "node_id": networkInput.node_id,
       "order": networkInput.order,
       "desc": networkInput.desc,
-      "region": networkInput.region
+      "region": networkInput.region,
+      "status": activeChecked.value ? 'inactive' : 'active'
     }
     const providerFCPRes = await getCPsFCPListData(paramsCont)
     providersData.value = providerFCPRes?.data?.list ?? []

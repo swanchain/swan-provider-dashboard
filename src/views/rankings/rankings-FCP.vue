@@ -28,7 +28,7 @@
           </el-col> -->
           <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
             <div class="flex flex-ai-center nowrap child">
-              <el-checkbox v-model="activeChecked" label="Inactive" @change="init" /> &nbsp;&nbsp;
+              <el-checkbox v-model="activeChecked" label="Inactive" @change="activeChange" /> &nbsp;&nbsp;
               <el-button type="info" :disabled="!networkInput.contract_address && !networkInput.owner_addr && !networkInput.node_id  ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchProvider">
                 <el-icon>
@@ -161,6 +161,17 @@
               </div>
             </template>
           </el-table-column>
+          <el-table-column prop="status" label="Status" min-width="100"
+            column-key="status" filterable :filters="[
+              { text: 'active', value: 'active' },
+              { text: 'inactive', value: 'inactive' }
+            ]" filter-placement="bottom-end" :filter-multiple="false">
+            <template #default="scope">
+              <div>
+                {{scope.row.status || '-'}}
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column prop="region" label="Region" column-key="region" filterable :filters="regionFilters" filter-placement="bottom-end" :filter-multiple="false" min-width="110" />
           <el-table-column prop="uptime" min-width="130">
             <template #header>
@@ -213,7 +224,8 @@ const networkInput = reactive({
   order: '',
   desc: false,
   region: '',
-  searchFor: false
+  searchFor: false,
+  status: ''
 })
 const regionFilters = ref<any>([])
 const activeChecked = ref(false)
@@ -221,7 +233,10 @@ const singleTableRef = ref()
 
 const handleFilterChange = (filters: any) => {
   for (const key in filters) {
-    if (key === 'region') {
+    if (key === 'status') {
+      const result = filters.status[0] ?? 'all'
+      networkInput.status = result
+    } else if (key === 'region') {
       const result = filters.region[0] ?? ''
       networkInput.region = result
     }
@@ -243,6 +258,11 @@ async function handleCurrentChange (currentPage: number) {
   pagin.pageNo = currentPage
   init()
 }
+function activeChange() {
+  networkInput.status = ''
+  singleTableRef.value!.clearFilter()
+  init()
+}
 async function init() {
   providersTableLoad.value = true
   try{
@@ -256,8 +276,10 @@ async function init() {
       "order": networkInput.order,
       "desc": networkInput.desc,
       "region": networkInput.region,
-      "status": activeChecked.value ? 'inactive' : 'active'
+      "status": networkInput.status
     }
+    if (networkInput.status) paramsCont.status = networkInput.status === 'all' ? '' : networkInput.status
+    else paramsCont.status = activeChecked.value ? 'inactive' : 'active'
     const providerFCPRes = await getCPsFCPListData(paramsCont)
     providersData.value = providerFCPRes?.data?.list ?? []
     pagin.total = providerFCPRes?.data?.total ?? 0

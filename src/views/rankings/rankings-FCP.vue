@@ -20,12 +20,12 @@
               <el-input class="zk-input" v-model="networkInput.owner_addr" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter CP name" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
+          <!-- <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">NodeID: </span>
               <el-input class="zk-input" v-model="networkInput.node_id" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter NodeID" />
             </div>
-          </el-col>
+          </el-col> -->
           <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
             <div class="flex flex-ai-center nowrap child">
               <el-button type="info" :disabled="!networkInput.contract_address && !networkInput.owner_addr && !networkInput.node_id  ? true:false" round @click="clearProvider">Clear</el-button>
@@ -90,7 +90,7 @@
               <span v-else>-</span>
             </template>
           </el-table-column>
-          <el-table-column prop="node_id" min-width="130">
+          <!-- <el-table-column prop="node_id" min-width="130">
             <template #header>
               <div class="font-14 weight-4">NodeID</div>
             </template>
@@ -106,7 +106,7 @@
               </div>
               <span v-else>-</span>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column prop="cu" sortable="custom" min-width="80">
             <template #header>
               <div class="font-14 weight-4 flex flex-ai-center">

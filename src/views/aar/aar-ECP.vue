@@ -72,7 +72,7 @@
             </template>
           </el-table-column>
           <!-- <el-table-column prop="country" label="Country" /> -->
-          <el-table-column prop="node_id" label="nodeID" min-width="130">
+          <!-- <el-table-column prop="node_id" label="nodeID" min-width="130">
             <template #default="scope">
               <div class="flex flex-ai-center flex-jc-center copy-style" @click="copyContent(scope.row.node_id, 'Copied')">
                 {{hiddAddress(scope.row.node_id)}}
@@ -84,7 +84,7 @@
                 </svg>
               </div>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column prop="gpus" label="GPU" min-width="140">
             <template #default="scope">
               <div class="badge flex-jc-center">

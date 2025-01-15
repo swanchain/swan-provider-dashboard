@@ -20,14 +20,15 @@
               <el-input class="zk-input" v-model="networkZK.owner_addr" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter CP name" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
+          <!-- <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">NodeID: </span>
               <el-input class="zk-input" v-model="networkZK.node_id" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter NodeID" />
             </div>
-          </el-col>
+          </el-col> -->
           <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
             <div class="flex flex-ai-center nowrap child">
+              <el-checkbox v-model="activeChecked" label="Inactive" @change="activeChange" /> &nbsp;&nbsp;
               <el-button type="info" :disabled="!networkZK.contract_address && !networkZK.owner_addr && !networkZK.node_id  ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchZKProvider">
                 <el-icon>
@@ -38,7 +39,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-table :data="providerBody" style="width: 100%" empty-text="No Data" v-loading="providersECPLoad" @sort-change="handleSortChange" @filter-change="handleFilterChange">
+        <el-table ref="singleTableRef" :data="providerBody" style="width: 100%" empty-text="No Data" v-loading="providersECPLoad" @sort-change="handleSortChange" @filter-change="handleFilterChange">
           <el-table-column type="index" min-width="40">
             <template #header>
               <div class="font-14 weight-4">Rank</div>
@@ -113,7 +114,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="node_id" min-width="130">
+          <!-- <el-table-column prop="node_id" min-width="130">
             <template #header>
               <div class="font-14 weight-4">nodeID</div>
             </template>
@@ -129,7 +130,7 @@
               </div>
               <span v-else>-</span>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column prop="gpus" min-width="140">
             <template #header>
               <div class="font-14 weight-4">GPU</div>
@@ -236,6 +237,8 @@ const paramsFilter = reactive({
   }
 })
 const regionFilters = ref<any>([])
+const activeChecked = ref(false)
+const singleTableRef = ref()
 
 const handleFilterChange = (filters: any) => {
   for (const key in filters) {
@@ -264,21 +267,28 @@ async function handleZKCurrentChange (currentPage: number) {
   paginZK.pageNo = currentPage
   getUBITable()
 }
+function activeChange() {
+  paramsFilter.data.status = ''
+  singleTableRef.value!.clearFilter()
+  getUBITable()
+}
 async function getUBITable () {
   providersECPLoad.value = true
   try{
     const page = paginZK.pageNo > 0 ? paginZK.pageNo - 1 : 0
-    const paramsCont = {
+    let paramsCont = {
       "page_no": page,
       "page_size": paginZK.pageSize,
       "addr": networkZK.contract_address,
       "name": networkZK.owner_addr,
       "node_id": networkZK.node_id,
       "region": paramsFilter.data.region,
-      "status": paramsFilter.data.status,
+      // "status": paramsFilter.data.status,
       "order": networkZK.order,
       "desc": networkZK.desc,
     }
+    if (paramsFilter.data.status) paramsCont.status = paramsFilter.data.status
+    else paramsCont.status = activeChecked.value ? '' : 'Online'
     const providerECPRes = await getCPsECPListData(paramsCont)
     providerBody.value = providerECPRes?.data?.list ?? []
     paginZK.total = providerECPRes?.data?.total ?? 0

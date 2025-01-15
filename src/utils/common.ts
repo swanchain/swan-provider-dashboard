@@ -580,7 +580,7 @@ export function taskColor(type: string) {
       return 'color: var(--color-danger)'
     case 'Suspended':
       return 'color: var(--color-danger)'
-    case 'Sibly':
+    case 'Sibyl':
       return 'color: var(--color-danger)'
   }
 }

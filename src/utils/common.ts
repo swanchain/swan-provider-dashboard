@@ -559,3 +559,28 @@ export function cutArraysToShortestLength(arr1: any, arr2: any) {
     return [arr1, arr2]
   }
 }
+
+export function taskColor(type: string) {
+  switch (type) {
+    case 'Inactive':
+      return 'color: var(--color-text)'
+    case 'Offline':
+      return 'color: var(--color-text)'
+    case 'Active':
+      return 'color: var(--color-success)'
+    case 'Online':
+      return 'color: var(--color-success)'
+    case 'Inconsistent':
+      return 'color: var(--color-danger)'
+    case 'NSC':
+      return 'color: var(--color-danger)'
+    case 'NSR':
+      return 'color: var(--color-danger)'
+    case 'Declined':
+      return 'color: var(--color-danger)'
+    case 'Suspended':
+      return 'color: var(--color-danger)'
+    case 'Sibly':
+      return 'color: var(--color-danger)'
+  }
+}

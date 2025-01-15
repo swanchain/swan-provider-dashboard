@@ -85,6 +85,12 @@
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+                  <div class="flex flex-ai-center flex-jc-between width">
+                    <span>Status:</span>
+                    <span class="font-bold" :style="taskColor(props.cpsData?.fcp_status)">{{ props.cpsData?.fcp_status ?? '-' }}</span>
+                  </div>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width" style="opacity:0">CU</div>
                 </el-col>
               </el-row>
@@ -209,6 +215,12 @@
                     </div>
                   </div>
                 </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+                  <div class="flex flex-ai-center flex-jc-between width">
+                    <span>Status:</span>
+                    <span class="font-bold" :style="taskColor(props.cpsData?.ecp_status)">{{ props.cpsData?.ecp_status ?? '-' }}</span>
+                  </div>
+                </el-col>
                 <!-- <el-col :xs="24" :sm="24" :md="10" :lg="6" :xl="6" class="flex flex-ai-center flex-jc-right">
                   <div :class="`collateral m blue ${metaAddress?'pointer':'is-disabled'}`" @click="handleSelect('cpProfile', {}, 'Sequencer')">Add</div>
                 </el-col> -->
@@ -244,7 +256,7 @@
 import vmDialog from "@/components/vmDialog.vue"
 import { getCPsBalancesData, getCPsEchartsData } from "@/api/cp-profile";
 import { addCollateral, ecpDeposit, ecpSequencer, fcpDeposit, metaAddress, rpcLink } from "@/utils/storage"
-import { cutArraysToShortestLength, dataCpData, dataCpRateData, dataDelta, dataGPU, getDateRange, replaceDecimalsFormat, replaceFormat, replaceNumberFormat, sumArrays } from "@/utils/common";
+import { cutArraysToShortestLength, dataCpData, dataCpRateData, dataDelta, dataGPU, getDateRange, replaceDecimalsFormat, replaceFormat, replaceNumberFormat, sumArrays, taskColor } from "@/utils/common";
 import * as echarts from "echarts"
 import { openPage } from "@/hooks/router";
 import XyIcon from '@/base-ui/xy-icon.vue'

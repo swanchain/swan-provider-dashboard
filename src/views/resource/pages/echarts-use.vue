@@ -105,7 +105,8 @@ async function initEcharts () {
     const weekRange = getDateRange(weekList.value);
     const params = {
       from: weekRange.start,
-      to: weekRange.end
+      to: weekRange.end,
+      online: true
     }
     const echartsRes = await statsEchartsData(params)
     const data = echartsRes?.data ?? {}

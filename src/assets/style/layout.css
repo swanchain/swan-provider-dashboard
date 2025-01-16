@@ -126,6 +126,9 @@
 .m-30 {
   margin: 0.3rem;
 }
+.mtb-2 {
+  margin: 0.02rem 0 !important;
+}
 .mtb-10 {
   margin: 0.1rem 0;
 }

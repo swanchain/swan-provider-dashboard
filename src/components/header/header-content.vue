@@ -129,32 +129,6 @@
                       </div>
                     </div>
                   </el-dropdown-item>
-                  <el-dropdown-item command="aar" divided v-if="currentNetwork !== 'Proxima'">
-                    <div class="profile router-link b">
-                      <div class="flex flex-ai-center font-16">
-                        <i class="icon icon-AAR"></i>
-                        <span>Swan Mainnet Campaign
-                          <i class="icon icon-end"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </el-dropdown-item>
-                  <el-dropdown-item command="aar-fcp" v-if="currentNetwork !== 'Proxima'">
-                    <div class="profile router-link b">
-                      <div class="flex flex-ai-center font-16">
-                        <i class="icon"></i>
-                        <span>FCP Leaderboard</span>
-                      </div>
-                    </div>
-                  </el-dropdown-item>
-                  <el-dropdown-item command="aar-ecp" v-if="currentNetwork !== 'Proxima'">
-                    <div class="profile router-link b">
-                      <div class="flex flex-ai-center font-16">
-                        <i class="icon"></i>
-                        <span>ECP Leaderboard</span>
-                      </div>
-                    </div>
-                  </el-dropdown-item>
                   <el-dropdown-item command="cp-ubi" divided>
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">

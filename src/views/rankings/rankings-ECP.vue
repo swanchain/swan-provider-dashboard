@@ -152,7 +152,8 @@
               { text: 'NSC', value: 'NSC' },
               { text: 'NSR', value: 'NSR' },
               { text: 'Declined', value: 'Declined' },
-              { text: 'Suspended', value: 'Suspended' }]" filter-placement="bottom-end" :filter-multiple="false" min-width="90">
+              { text: 'Suspended', value: 'Suspended' },
+              { text: 'Sibyl', value: 'Sibyl' }]" filter-placement="bottom-end" :filter-multiple="false" min-width="90">
             <template #header>
               <div class="font-14 weight-4">status</div>
             </template>

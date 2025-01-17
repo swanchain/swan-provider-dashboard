@@ -126,7 +126,8 @@
               { text: 'NSC', value: 'NSC' },
               { text: 'NSR', value: 'NSR' },
               { text: 'Declined', value: 'Declined' },
-              { text: 'Suspended', value: 'Suspended' }
+              { text: 'Suspended', value: 'Suspended' },
+              { text: 'Sibyl', value: 'Sibyl' }
             ]" filter-placement="bottom-end" :filter-multiple="false">
             <template #default="scope">
               <div>

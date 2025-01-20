@@ -145,7 +145,7 @@ const changetype = async (data: any) => {
   const fcpDeltaNumber = Math.min(...fcpDeltaData.datum) >= 0 ? 0.9 : 1.1
   const fcpDeltaMin = Math.floor(Math.min(...fcpDeltaData.datum)*fcpDeltaNumber)
 
-  const ecpData = await dataDelta(data.ecp, 'total')
+  const ecpData = await dataDelta(data.ecp, 'active')
   const ecpDeltaData = await dataDelta(data.ecp, 'delta')
   const ecpNumberMax = Math.max(...ecpData.datum) >= 0 ? 1.1 : 0.9
   const ecpMax = Math.ceil(Math.max(...ecpData.datum) * ecpNumberMax)

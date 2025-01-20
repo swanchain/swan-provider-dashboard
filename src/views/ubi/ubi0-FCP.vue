@@ -120,7 +120,8 @@
           <el-table-column prop="status" label="Status" min-width="100"
             column-key="status" filterable :filters="[
               { text: 'active', value: 'active' },
-              { text: 'inactive', value: 'inactive' }
+              { text: 'inactive', value: 'inactive' },
+              { text: 'Sibyl', value: 'Sibyl' }
             ]" filter-placement="bottom-end" :filter-multiple="false">
             <template #default="scope">
               <div>

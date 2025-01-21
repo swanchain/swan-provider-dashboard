@@ -14,8 +14,9 @@
               <el-input class="zk-input" v-model="networkInput.contract_address" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter Contract Address" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="24" :lg="5" :xl="5">
+          <el-col :xs="24" :sm="12" :md="24" :lg="10" :xl="10">
             <div class="flex flex-ai-center nowrap child">
+              <el-checkbox v-model="activeChecked" label="Include Inactive" @change="activeChange" /> &nbsp;&nbsp;
               <el-button type="info" :disabled="!networkInput.contract_address ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchProvider">
                 <el-icon>
@@ -119,7 +120,8 @@
           <el-table-column prop="status" label="Status" min-width="100"
             column-key="status" filterable :filters="[
               { text: 'active', value: 'active' },
-              { text: 'inactive', value: 'inactive' }
+              { text: 'inactive', value: 'inactive' },
+              { text: 'Sibyl', value: 'Sibyl' }
             ]" filter-placement="bottom-end" :filter-multiple="false">
             <template #default="scope">
               <div>
@@ -224,6 +226,7 @@ const paramsFilter = reactive({
 })
 const singleTableRef = ref()
 const regionFilters = ref<any>([])
+const activeChecked = ref(false)
 
 function handleSizeChange (val:number) {
   pagin.pageSize = val
@@ -234,12 +237,17 @@ async function handleCurrentChange (currentPage:number) {
   pagin.pageNo = currentPage
   init()
 }
+function activeChange() {
+  paramsFilter.data.status = ''
+  singleTableRef.value!.clearFilter()
+  init()
+}
 async function init () {
   providersTableLoad.value = true
   providersData.value = []
   try{
     const page = pagin.pageNo > 0 ? pagin.pageNo - 1 : 0
-    const paramsCont = {
+    let paramsCont = {
       "page_no": page,
       "page_size": pagin.pageSize,
       "addr": networkInput.contract_address,
@@ -250,6 +258,8 @@ async function init () {
       "region": paramsFilter.data.region,
       "status": paramsFilter.data.status
     }
+    if (paramsFilter.data.status) paramsCont.status = paramsFilter.data.status === 'all' ? '' : paramsFilter.data.status
+    else paramsCont.status = activeChecked.value ? 'inactive' : 'active'
     const providerFCPRes = await getUBI0FCPListData(paramsCont)
     providersData.value = providerFCPRes?.data?.list ?? []
     pagin.total = providerFCPRes?.data?.total ?? 0
@@ -265,7 +275,7 @@ function handleSortChange({ prop, order }) {
 const handleFilterChange = (filters:any) => {
   for (const key in filters) {
     if (key === 'status') {
-      const result = filters.status[0] ?? ''
+      const result = filters.status[0] ?? 'all'
       paramsFilter.data.status = result
     } else if (key === 'region') {
       const result = filters.region[0] ?? ''

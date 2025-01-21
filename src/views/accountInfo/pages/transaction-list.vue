@@ -89,9 +89,12 @@
       </el-table-column>
       <el-table-column prop="amount" label="Value (SWAN)" width="100">
         <template #default="scope">
-          <span>
+          <div class="flex flex-ai-center flex-jc-center">
+            <span v-if="scope.row.amount && scope.row.amount > 0">
+              {{ ['batchSlash', 'BatchSlash', 'slashCollateral', 'SlashCollateral'].includes(scope.row.method) ? '-' : '' }}
+            </span>
             {{ NumFormat(scope.row.amount, 2) }}
-          </span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="address" label="Status" width="80">
@@ -119,7 +122,7 @@ import { explorerLink } from '@/utils/storage';
 const route = useRoute()
 const dataLoad = ref(false)
 const tableData = ref<any>([])
-const searchList = reactive({
+const searchList = reactive<any>({
   value: 'All',
   options: [],
   default: [{

@@ -14,8 +14,9 @@
               <el-input class="zk-input" v-model="networkZK.cp_addr" @input="clearChangeProvider()" @change="searchZKProvider" placeholder="please enter CP Account Address" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
+          <el-col :xs="24" :sm="12" :md="12" :lg="10" :xl="10">
             <div class="flex flex-ai-center nowrap child">
+              <el-checkbox v-model="activeChecked" label="Include Inactive" @change="activeChange" /> &nbsp;&nbsp;
               <el-button type="info" :disabled="!networkZK.cp_addr ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchZKProvider">
                 <el-icon>
@@ -27,7 +28,7 @@
           </el-col>
         </el-row>
 
-        <el-table :data="providerBody.ubiTableData" @sort-change="handleSortChange" @filter-change="handleFilterECPChange" @expand-change="expandChange" :row-key="getRowKeys" :expand-row-keys="expands" style="width: 100%" empty-text="No Data" v-loading="providersECPLoad">
+        <el-table ref="singleTableRef" :data="providerBody.ubiTableData" @sort-change="handleSortChange" @filter-change="handleFilterECPChange" @expand-change="expandChange" :row-key="getRowKeys" :expand-row-keys="expands" style="width: 100%" empty-text="No Data" v-loading="providersECPLoad">
           <el-table-column type="index" min-width="50">
             <template #header>
               <div class="font-14 weight-4">Rank</div>
@@ -126,7 +127,8 @@
               { text: 'NSC', value: 'NSC' },
               { text: 'NSR', value: 'NSR' },
               { text: 'Declined', value: 'Declined' },
-              { text: 'Suspended', value: 'Suspended' }
+              { text: 'Suspended', value: 'Suspended' },
+              { text: 'Sibyl', value: 'Sibyl' }
             ]" filter-placement="bottom-end" :filter-multiple="false">
             <template #default="scope">
               <div>
@@ -236,6 +238,8 @@ const paramsECPFilter = reactive({
 })
 const regionFilters = ref<any>([])
 const expands = ref([])
+const singleTableRef = ref()
+const activeChecked = ref(false)
 
 function handleSizeChange(val:number) {
   paginZK.pageSize = val
@@ -244,6 +248,11 @@ function handleSizeChange(val:number) {
 }
 async function handleZKCurrentChange (currentPage:number) {
   paginZK.pageNo = currentPage
+  getUBITable()
+}
+function activeChange() {
+  paramsECPFilter.data.status = ''
+  singleTableRef.value!.clearFilter()
   getUBITable()
 }
 async function getUBITable () {
@@ -258,6 +267,8 @@ async function getUBITable () {
       "region": paramsECPFilter.data.region,
       "status": paramsECPFilter.data.status
     }
+    if (paramsECPFilter.data.status) params.status = paramsECPFilter.data.status === 'all' ? '' : paramsECPFilter.data.status
+    else params.status = activeChecked.value ? '' : 'Online'
     // params = Object.assign({}, params, paramsECPFilter.data)
     const providerRes = await getUBI0ECPData(params)
     paginZK.total = providerRes?.data?.total ?? 0
@@ -274,7 +285,7 @@ function handleSortChange({ prop, order }) {
 const handleFilterECPChange = (filters: any) => {
   for (const key in filters) {
     if (key === 'status') {
-      const result = filters.status[0] ?? ''
+      const result = filters.status[0] ?? 'all'
       paramsECPFilter.data.status = result
     } else if (key === 'region') {
       const result = filters.region[0] ?? ''

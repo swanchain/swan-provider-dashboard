@@ -41,20 +41,6 @@
             <span class="font-14">Calculator</span>
           </template>
         </el-menu-item>
-        <el-sub-menu index="aar" v-if="currentNetwork !== 'Proxima'">
-          <template #title>
-            <i class="icon icon-AAR"></i>
-            <span class="font-14">Swan Mainnet Campaign
-              <i class="icon icon-end"></i>
-            </span>
-          </template>
-          <el-menu-item index="aar-fcp">
-            <span class="font-14 l">FCP Leaderboard</span>
-          </el-menu-item>
-          <el-menu-item index="aar-ecp">
-            <span class="font-14 l">ECP Leaderboard</span>
-          </el-menu-item>
-        </el-sub-menu>
         <el-sub-menu index="cp-ubi">
           <template #title>
             <i class="icon icon-AAR"></i>

@@ -17,13 +17,13 @@
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
                     <span>Collateral:</span>
-                    <span class="text-right">{{ replaceDecimalsFormat(balanceData?.fcp_collateral?.balance) }} SWAN</span>
+                    <span class="text-right">{{ replaceDecimalsFormat(collateralCPData.fcp.Collateral) }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
                     <span>Escrow: </span>
-                    <span>{{ replaceDecimalsFormat(balanceData?.fcp_collateral?.locked) }} SWAN</span>
+                    <span>{{ replaceDecimalsFormat(collateralCPData.fcp.Escrow) }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
@@ -62,6 +62,32 @@
                       </el-popover>:
                     </div>
                     <span>{{ props.cpsData.type !== 2 ? replaceDecimalsFormat(balanceData?.cu/100) : 0 }}</span>
+                  </div>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+                  <div class="flex flex-ai-center flex-jc-between width nowrap">
+                    <div class="flex flex-ai-center nowrap mr-16">
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <div class="flex flex-ai-center nowrap">
+                            Collateral Status
+                            <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                          </div>
+                        </template>
+                        "insufficient" indicates the collaterals that needs to be recharged.
+                      </el-popover>:
+                    </div>
+                    <div class="flex flex-ai-center flex-jc-right flex-wrap">
+                      <span>{{ props.cpsData.type !== 2 ? replaceNumberFormat(balanceData?.requried, 2) : 0 }} required,</span>
+                      <span class="color-success">&nbsp;{{ replaceNumberFormat(collateralCPData.fcp.Current, 2) }} current,</span>
+                      <span class="color-danger">&nbsp;{{ props.cpsData.type !== 2 ? replaceNumberFormat(Math.max(0, (balanceData?.requried - collateralCPData.fcp.Current)), 2) : 0 }} insufficient</span>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+                  <div class="flex flex-ai-center flex-jc-between width">
+                    <span>Status:</span>
+                    <span class="font-bold" :style="taskColor(props.cpsData?.fcp_status)">{{ props.cpsData?.fcp_status ?? '-' }}</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
@@ -106,13 +132,13 @@
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
                     <span>Collateral:</span>
-                    <span class="text-right">{{ replaceDecimalsFormat(balanceData?.ecp_collateral?.balance) }} SWAN</span>
+                    <span class="text-right">{{ replaceDecimalsFormat(collateralCPData.ecp.Collateral) }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
                   <div class="flex flex-ai-center flex-jc-between width">
                     <span>Escrow: </span>
-                    <span>{{ replaceDecimalsFormat(balanceData?.ecp_collateral?.locked) }} SWAN</span>
+                    <span>{{ replaceDecimalsFormat(collateralCPData.ecp.Escrow) }} SWAN</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
@@ -128,7 +154,7 @@
                         Every ZK task consumes 0.00001 ETH and you shall get 48 task per day. 1 week consumption( 0.00336 ETH) is recommended.
                       </el-popover>:
                     </div>
-                    <span>{{ replaceDecimalsFormat(balanceData?.sequencer?.balance) }} ETH</span>
+                    <span>{{ replaceDecimalsFormat(collateralCPData.ecp.Sequencer) }} ETH</span>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
@@ -169,6 +195,32 @@
                     <span>{{ props.cpsData.type !== 1 ? replaceDecimalsFormat(balanceData?.cu/100) : 0 }}</span>
                   </div>
                 </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+                  <div class="flex flex-ai-center flex-jc-between width nowrap">
+                    <div class="flex flex-ai-center nowrap mr-16">
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <div class="flex flex-ai-center nowrap">
+                            <span>Collateral Status</span>
+                            <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                          </div>
+                        </template>
+                        "insufficient" indicates the collaterals that needs to be recharged.
+                      </el-popover>:
+                    </div>
+                    <div class="flex flex-ai-center flex-jc-right flex-wrap">
+                      <span>{{ props.cpsData.type !== 1 ? replaceNumberFormat(balanceData?.requried, 2) : 0 }} required,</span>
+                      <span class="color-success">&nbsp;{{ replaceNumberFormat(collateralCPData.ecp.Current, 2) }} current,</span>
+                      <span class="color-danger">&nbsp;{{ props.cpsData.type !== 1 ? replaceNumberFormat(Math.max(0, (balanceData?.requried - collateralCPData.ecp.Current)), 2) : 0 }} insufficient</span>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
+                  <div class="flex flex-ai-center flex-jc-between width">
+                    <span>Status:</span>
+                    <span class="font-bold" :style="taskColor(props.cpsData?.ecp_status)">{{ props.cpsData?.ecp_status ?? '-' }}</span>
+                  </div>
+                </el-col>
                 <!-- <el-col :xs="24" :sm="24" :md="10" :lg="6" :xl="6" class="flex flex-ai-center flex-jc-right">
                   <div :class="`collateral m blue ${metaAddress?'pointer':'is-disabled'}`" @click="handleSelect('cpProfile', {}, 'Sequencer')">Add</div>
                 </el-col> -->
@@ -203,11 +255,14 @@
 <script setup lang="ts">
 import vmDialog from "@/components/vmDialog.vue"
 import { getCPsBalancesData, getCPsEchartsData } from "@/api/cp-profile";
-import { addCollateral, metaAddress } from "@/utils/storage"
-import { cutArraysToShortestLength, dataCpData, dataCpRateData, dataDelta, dataGPU, getDateRange, replaceDecimalsFormat, replaceFormat, sumArrays } from "@/utils/common";
+import { addCollateral, ecpDeposit, ecpSequencer, fcpDeposit, metaAddress, rpcLink } from "@/utils/storage"
+import { cutArraysToShortestLength, dataCpData, dataCpRateData, dataDelta, dataGPU, getDateRange, replaceDecimalsFormat, replaceFormat, replaceNumberFormat, sumArrays, taskColor } from "@/utils/common";
 import * as echarts from "echarts"
 import { openPage } from "@/hooks/router";
 import XyIcon from '@/base-ui/xy-icon.vue'
+import fcpABI from '@/utils/abi/SwanCreditCollateral.json'
+import ecpABI from '@/utils/abi/ECPCollateral.json'
+import sequencerABI from '@/utils/abi/Sequencer.json'
 
 const route = useRoute()
 const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
@@ -237,7 +292,19 @@ const vmOperate = reactive({
   row: {},
   type: 'dialog'
 })
-
+const collateralCPData = reactive<any>({
+  ecp: {
+    Collateral: '0',
+    Escrow: '0',
+    Sequencer: '0',
+    Current: 0
+  },
+  fcp: {
+    Collateral: '0',
+    Escrow: '0',
+    Current: 0
+  }
+})
   
 function hardClose (dialog:boolean) {
   vmOperate.centerDrawerVisible = dialog
@@ -261,7 +328,7 @@ const changetype = async (data: any) => {
   const machart_collateral_ecp = echarts.init(document.getElementById("chart-collateral-ecp"));
   
   const fcpCountsData = await dataCpData(data.fcp_job, 'total')
-  const fcpRunningData = await dataDelta(data.fcp_job, 'delta')
+  const fcpRunningData = await dataDelta(data.fcp_job, 'delta', 'total')
   const fcpCountsNumberMax = Math.max(...fcpCountsData.datum) >= 0 ? 1.1 : 0.9
   const fcpCountsMax = Math.ceil(Math.max(...fcpCountsData.datum)*fcpCountsNumberMax)
   const fcpCountsNumber = Math.min(...fcpCountsData.datum) >= 0 ? 0.9 : 1.1
@@ -300,7 +367,7 @@ const changetype = async (data: any) => {
   const fcpCollateralMin = Math.floor(fcpCollaMin*fcpEscrowNumber)
 
   const ecpCountsData = await dataCpData(data.ecp_task, 'total')
-  const ecpGrowthData = await dataDelta(data.ecp_task, 'delta')
+  const ecpGrowthData = await dataDelta(data.ecp_task, 'delta', 'total')
   const ecpCountNumberMax = Math.max(...ecpCountsData.datum) >= 0 ? 1.1 : 0.9
   const ecpCountMax = Math.ceil(Math.max(...ecpCountsData.datum)*ecpCountNumberMax)
   const ecpCountNumber = Math.min(...ecpCountsData.datum) >= 0 ? 0.9 : 1.1
@@ -1289,12 +1356,54 @@ async function getCPsBalanceData() {
   balanceLoad.value = true
   try{
     const balanceRes = await getCPsBalancesData(route.params.cp_addr)
-    balanceData.value = balanceRes?.data ?? {}
+    let list = balanceRes?.data ?? {}
+    list.requried = Number(list?.base_collateral * (list?.cu / 100)) ?? 0
+    balanceData.value = list
     changePietype(balanceData.value)
   }catch{console.error}
   balanceLoad.value = false
 }
+async function getFCPColleralData() {
+  try {
+    let web3 = new Web3(new Web3.providers.HttpProvider(rpcLink.value));
+    const fcpContract = new web3.eth.Contract(fcpABI, fcpDeposit)
+    const fcpCpInfoData = await fcpContract.methods.cpInfo(route.params.cp_addr).call()
+    const available = fcpCpInfoData.availableBalance ?? '0'
+    const escrow = fcpCpInfoData.lockedBalance ?? '0'
+    collateralCPData.fcp.Collateral = web3.utils.fromWei(String(available), 'ether')
+    collateralCPData.fcp.Escrow = web3.utils.fromWei(String(escrow), 'ether')
+    collateralCPData.fcp.Current = Number(collateralCPData.fcp.Collateral) + Number(collateralCPData.fcp.Escrow)
+    // console.log('fcp:', fcpCpInfoData, collateralCPData.fcp)
+  } catch { console.error }
+}
+async function getECPColleralData() {
+  try {
+    let web3 = new Web3(new Web3.providers.HttpProvider(rpcLink.value));
+    const ecpContract = new web3.eth.Contract(ecpABI, ecpDeposit)
+    const ecpCpInfoData = await ecpContract.methods.cpInfo(route.params.cp_addr).call()
+    const collateral = ecpCpInfoData?.balance ?? '0'
+    const escrow = ecpCpInfoData?.frozenBalance ?? '0'
+    collateralCPData.ecp.Collateral = web3.utils.fromWei(String(collateral), 'ether')
+    console.log(collateralCPData.ecp.Collateral)
+    collateralCPData.ecp.Escrow =  web3.utils.fromWei(String(escrow), 'ether')
+    collateralCPData.ecp.Current = Number(collateralCPData.ecp.Collateral) + Number(collateralCPData.ecp.Escrow)
+    // console.log('ecp:', ecpCpInfoData, collateralCPData.ecp)
+  } catch { console.error }
+}
+async function getECPSequencerData() {
+  try {
+    let web3 = new Web3(new Web3.providers.HttpProvider(rpcLink.value));
+    const sequencerContract = new web3.eth.Contract(sequencerABI, ecpSequencer)
+    const sequencerData = await sequencerContract.methods.getCPBalance(route.params.cp_addr).call()
+    const sequencer = sequencerData ?? '0'
+    collateralCPData.ecp.Sequencer = web3.utils.fromWei(String(sequencer), 'ether')
+    // console.log('sequencer:', sequencerData, collateralCPData.ecp)
+  } catch { console.error }
+}
 onMounted(async () => {
+  getFCPColleralData()
+  getECPColleralData()
+  getECPSequencerData()
   getCPsBalanceData()
   initEcharts()
 })

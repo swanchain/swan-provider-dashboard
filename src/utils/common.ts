@@ -59,6 +59,21 @@ export function replaceDecimalsFormat (value: any) {
   }
 }
 
+export function replaceNumberFormat (value: any, point: number) {
+  try {
+    if (String(value) === '0') return '0'
+    else if (!value) return '-'
+    const intPartArr = String(value.toFixed(point)).split('.')
+    const intPoint = intPartArr[1] ? intPartArr[1] : ''
+    const intPartFormat = intPartArr[0]
+      .toString()
+      .replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+    return intPoint ? `${intPartFormat}.${intPoint}` : intPartFormat
+  } catch {
+    return '-'
+  }
+}
+
 export function timeFormat (data: any) {
   if (!data) return 0
   const d = data / 60 / 60
@@ -162,7 +177,7 @@ export function dataGPU (data: any, type:string) {
   }
 }
 
-export function dataDelta (data: any, type:string) {
+export function dataDelta (data: any, type:string, param: string) {
   // console.log(data)
   const datum = [], timeArr = []
   data.sort((itema:any, itemb:any) => {
@@ -173,7 +188,7 @@ export function dataDelta (data: any, type:string) {
     const time_end = formatDate(item.date)
     // if (timeArr.indexOf(time_end) === -1) {
       timeArr.push(time_end)
-      if(type === 'delta' && index > 0) datum.push(item.total - data[index-1].total)
+      if(type === 'delta' && index > 0) datum.push(item[param] - data[index-1][param])
       else if(type === 'delta' && index === 0) datum.push(0)
       else datum.push(item[type])
     // } else {
@@ -542,5 +557,30 @@ export function cutArraysToShortestLength(arr1: any, arr2: any) {
     return [arr1.slice(-shortestLength), arr2.slice(-shortestLength)];
   } catch {
     return [arr1, arr2]
+  }
+}
+
+export function taskColor(type: string) {
+  switch (type) {
+    case 'Inactive':
+      return 'color: var(--color-text)'
+    case 'Offline':
+      return 'color: var(--color-text)'
+    case 'Active':
+      return 'color: var(--color-success)'
+    case 'Online':
+      return 'color: var(--color-success)'
+    case 'Inconsistent':
+      return 'color: var(--color-danger)'
+    case 'NSC':
+      return 'color: var(--color-danger)'
+    case 'NSR':
+      return 'color: var(--color-danger)'
+    case 'Declined':
+      return 'color: var(--color-danger)'
+    case 'Suspended':
+      return 'color: var(--color-danger)'
+    case 'Sibyl':
+      return 'color: var(--color-danger)'
   }
 }

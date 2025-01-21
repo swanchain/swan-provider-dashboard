@@ -14,6 +14,7 @@ export const rpcLink = ref(currentNetwork.value === 'Proxima' ? ELINK.RPCPROXIMA
 export const baseurl = currentNetwork.value === 'Mainnet' ? import.meta.env.VITE_BASEAPI : import.meta.env.VITE_BASEAPI_PROXIMA
 export const fcpDeposit = import.meta.env.VITE_FCP_DEPOSIT_ADDRESS // _PROXIMA
 export const ecpDeposit = import.meta.env.VITE_ECP_DEPOSIT_ADDRESS // _PROXIMA
+export const ecpSequencer = import.meta.env.VITE_ECP_SEQUENCER_ADDRESS
 export const tokenSwan = import.meta.env.VITE_MAINNET_SWANTOKEN_ADDRESS // _PROXIMA
 export const addCollateral = ref(false)
 

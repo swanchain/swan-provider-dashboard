@@ -20,14 +20,15 @@
               <el-input class="zk-input" v-model="networkInput.owner_addr" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter CP name" />
             </div>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
+          <!-- <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
             <div class="flex flex-ai-center nowrap child">
               <span class="font-14">NodeID: </span>
               <el-input class="zk-input" v-model="networkInput.node_id" @input="clearChangeProvider()" @change="searchProvider" placeholder="please enter NodeID" />
             </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
+          </el-col> -->
+          <el-col :xs="24" :sm="12" :md="12" :lg="10" :xl="10">
             <div class="flex flex-ai-center nowrap child">
+              <el-checkbox v-model="activeChecked" label="Include Inactive" @change="activeChange" /> &nbsp;&nbsp;
               <el-button type="info" :disabled="!networkInput.contract_address && !networkInput.owner_addr && !networkInput.node_id  ? true:false" round @click="clearProvider">Clear</el-button>
               <el-button type="primary" round @click="searchProvider">
                 <el-icon>
@@ -38,7 +39,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-table :data="providersData" empty-text="No Data" v-loading="providersTableLoad" @sort-change="handleSortChange" @filter-change="handleFilterChange">
+        <el-table ref="singleTableRef" :data="providersData" empty-text="No Data" v-loading="providersTableLoad" @sort-change="handleSortChange" @filter-change="handleFilterChange">
           <el-table-column type="index" min-width="40">
             <template #header>
               <div class="font-14 weight-4">Rank</div>
@@ -90,7 +91,7 @@
               <span v-else>-</span>
             </template>
           </el-table-column>
-          <el-table-column prop="node_id" min-width="130">
+          <!-- <el-table-column prop="node_id" min-width="130">
             <template #header>
               <div class="font-14 weight-4">NodeID</div>
             </template>
@@ -106,7 +107,7 @@
               </div>
               <span v-else>-</span>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column prop="cu" sortable="custom" min-width="80">
             <template #header>
               <div class="font-14 weight-4 flex flex-ai-center">
@@ -157,6 +158,18 @@
                     {{gpu}}
                   </span>
                 </div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="status" label="Status" min-width="100"
+            column-key="status" filterable :filters="[
+              { text: 'active', value: 'active' },
+              { text: 'inactive', value: 'inactive' },
+              { text: 'Sibyl', value: 'Sibyl' }
+            ]" filter-placement="bottom-end" :filter-multiple="false">
+            <template #default="scope">
+              <div>
+                {{scope.row.status || '-'}}
               </div>
             </template>
           </el-table-column>
@@ -212,13 +225,19 @@ const networkInput = reactive({
   order: '',
   desc: false,
   region: '',
-  searchFor: false
+  searchFor: false,
+  status: ''
 })
 const regionFilters = ref<any>([])
+const activeChecked = ref(false)
+const singleTableRef = ref()
 
 const handleFilterChange = (filters: any) => {
   for (const key in filters) {
-    if (key === 'region') {
+    if (key === 'status') {
+      const result = filters.status[0] ?? 'all'
+      networkInput.status = result
+    } else if (key === 'region') {
       const result = filters.region[0] ?? ''
       networkInput.region = result
     }
@@ -240,11 +259,16 @@ async function handleCurrentChange (currentPage: number) {
   pagin.pageNo = currentPage
   init()
 }
+function activeChange() {
+  networkInput.status = ''
+  singleTableRef.value!.clearFilter()
+  init()
+}
 async function init() {
   providersTableLoad.value = true
   try{
     const page = pagin.pageNo > 0 ? pagin.pageNo - 1 : 0
-    const paramsCont = {
+    let paramsCont = {
       "page_no": page,
       "page_size": pagin.pageSize,
       "addr": networkInput.contract_address,
@@ -252,8 +276,11 @@ async function init() {
       "node_id": networkInput.node_id,
       "order": networkInput.order,
       "desc": networkInput.desc,
-      "region": networkInput.region
+      "region": networkInput.region,
+      "status": networkInput.status
     }
+    if (networkInput.status) paramsCont.status = networkInput.status === 'all' ? '' : networkInput.status
+    else paramsCont.status = activeChecked.value ? 'inactive' : 'active'
     const providerFCPRes = await getCPsFCPListData(paramsCont)
     providersData.value = providerFCPRes?.data?.list ?? []
     pagin.total = providerFCPRes?.data?.total ?? 0

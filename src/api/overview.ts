@@ -59,7 +59,7 @@ export function getCPlistData(params: any) {
 export function statsOverviewData() {
   return request({
       headers: {},
-      url: `${import.meta.env.VITE_BASE_URL}v1/stats/overview`,
+      url: `${import.meta.env.VITE_BASE_URL}v1/stats/overview?online=true`,
       method: 'get'
   })
 }

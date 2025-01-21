@@ -133,8 +133,8 @@ const changetype = async (data: any) => {
   const memoryData = await dataResource(data.memory, 'active')
   const storageData = await dataResource(data.storage, 'active')
 
-  const fcpData = await dataDelta(data.fcp, 'total')
-  const fcpDeltaData = await dataDelta(data.fcp, 'delta')
+  const fcpData = await dataDelta(data.fcp, 'total', 'total')
+  const fcpDeltaData = await dataDelta(data.fcp, 'delta', 'total')
   const fcpNumberMax = Math.max(...fcpData.datum) >= 0 ? 1.1 : 0.9
   const fcpMax = Math.ceil(Math.max(...fcpData.datum) * fcpNumberMax)
   const fcpNumber = Math.min(...fcpData.datum) >= 0 ? 0.9 : 1.1
@@ -145,8 +145,8 @@ const changetype = async (data: any) => {
   const fcpDeltaNumber = Math.min(...fcpDeltaData.datum) >= 0 ? 0.9 : 1.1
   const fcpDeltaMin = Math.floor(Math.min(...fcpDeltaData.datum)*fcpDeltaNumber)
 
-  const ecpData = await dataDelta(data.ecp, 'active')
-  const ecpDeltaData = await dataDelta(data.ecp, 'delta')
+  const ecpData = await dataDelta(data.ecp, 'active', 'active')
+  const ecpDeltaData = await dataDelta(data.ecp, 'delta', 'active')
   const ecpNumberMax = Math.max(...ecpData.datum) >= 0 ? 1.1 : 0.9
   const ecpMax = Math.ceil(Math.max(...ecpData.datum) * ecpNumberMax)
   const ecpNumber = Math.min(...ecpData.datum) >= 0 ? 0.9 : 1.1

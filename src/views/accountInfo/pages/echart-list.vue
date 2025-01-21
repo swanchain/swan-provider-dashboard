@@ -328,7 +328,7 @@ const changetype = async (data: any) => {
   const machart_collateral_ecp = echarts.init(document.getElementById("chart-collateral-ecp"));
   
   const fcpCountsData = await dataCpData(data.fcp_job, 'total')
-  const fcpRunningData = await dataDelta(data.fcp_job, 'delta')
+  const fcpRunningData = await dataDelta(data.fcp_job, 'delta', 'total')
   const fcpCountsNumberMax = Math.max(...fcpCountsData.datum) >= 0 ? 1.1 : 0.9
   const fcpCountsMax = Math.ceil(Math.max(...fcpCountsData.datum)*fcpCountsNumberMax)
   const fcpCountsNumber = Math.min(...fcpCountsData.datum) >= 0 ? 0.9 : 1.1
@@ -367,7 +367,7 @@ const changetype = async (data: any) => {
   const fcpCollateralMin = Math.floor(fcpCollaMin*fcpEscrowNumber)
 
   const ecpCountsData = await dataCpData(data.ecp_task, 'total')
-  const ecpGrowthData = await dataDelta(data.ecp_task, 'delta')
+  const ecpGrowthData = await dataDelta(data.ecp_task, 'delta', 'total')
   const ecpCountNumberMax = Math.max(...ecpCountsData.datum) >= 0 ? 1.1 : 0.9
   const ecpCountMax = Math.ceil(Math.max(...ecpCountsData.datum)*ecpCountNumberMax)
   const ecpCountNumber = Math.min(...ecpCountsData.datum) >= 0 ? 0.9 : 1.1

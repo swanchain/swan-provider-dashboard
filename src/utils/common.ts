@@ -177,7 +177,7 @@ export function dataGPU (data: any, type:string) {
   }
 }
 
-export function dataDelta (data: any, type:string) {
+export function dataDelta (data: any, type:string, param: string) {
   // console.log(data)
   const datum = [], timeArr = []
   data.sort((itema:any, itemb:any) => {
@@ -188,7 +188,7 @@ export function dataDelta (data: any, type:string) {
     const time_end = formatDate(item.date)
     // if (timeArr.indexOf(time_end) === -1) {
       timeArr.push(time_end)
-      if(type === 'delta' && index > 0) datum.push(item.total - data[index-1].total)
+      if(type === 'delta' && index > 0) datum.push(item[param] - data[index-1][param])
       else if(type === 'delta' && index === 0) datum.push(0)
       else datum.push(item[type])
     // } else {

@@ -129,6 +129,14 @@
                       </div>
                     </div>
                   </el-dropdown-item>
+                  <el-dropdown-item command="myCPs" v-if="token">
+                    <div class="profile router-link b">
+                      <div class="flex flex-ai-center font-16">
+                        <i class="icon icon-cps"></i>
+                        <span>My CPs</span>
+                      </div>
+                    </div>
+                  </el-dropdown-item>
                   <el-dropdown-item command="cp-ubi" divided>
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
@@ -369,7 +377,7 @@ const contractAddress = ref('')
       lastTime = now
       return true
     }
-    async function handleSelect (key, keyPath) {
+    async function handleSelect (key: string, keyPath: string) {
       // console.log(key, keyPath) //  
       if (key === 'apiKey') getdataList()
       else if (key === 'cpCollateral') {
@@ -392,6 +400,7 @@ const contractAddress = ref('')
       else if (key === 'accountInfo') router.push({ name: 'accountInfo', params: { cp_addr: metaAddress.value } })
       else if (key === 'resource') router.push({ name: 'resource' })
       else if (key === 'calculator') router.push({ name: 'calculator' })
+      else if (key === 'myCPs') router.push({ name: 'myCPs' })
     }
     async function cpCollateral () {
       cpCollateralCont.show = true
@@ -1226,6 +1235,10 @@ const contractAddress = ref('')
             }
             &.icon-calculator {
               background: url(../../assets/images/icon_calculator.png) no-repeat;
+              background-size: 100%;
+            }
+            &.icon-cps {
+              background: url(../../assets/images/icon_cps.png) no-repeat;
               background-size: 100%;
             }
             &.icon-AAR {

@@ -1,5 +1,13 @@
 <template>
   <section id="cp-container">
+    <div class="mtb-20">
+      <el-breadcrumb :separator-icon="ArrowRight" v-if="route?.query?.type">
+        <el-breadcrumb-item :to="{ name: 'myCPsPage' }">My CPs</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ route.params.cp_addr }}</el-breadcrumb-item>
+        <el-breadcrumb-item>Profile</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+
     <div class="flex flex-ai-center header-title font-16">
       <h1 class="font-20 font-bold s">CP Profile</h1>
       <div class="flex flex-ai-center copy-style" v-if="route.params.cp_addr">
@@ -64,6 +72,7 @@ import resourceList from './pages/resource-list.vue'
 import tabList from './pages/tab-list.vue'
 import { getCPsData } from "@/api/cp-profile"
 import { copyContent } from '@/utils/common'
+import { ArrowRight } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const cpsLoad = ref(false)

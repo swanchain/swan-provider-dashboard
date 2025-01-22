@@ -13,7 +13,7 @@ export async function loginAccount(data: { account: string; password: string }) 
 export function performSignin(data:any) {
   return request({
     headers: {},
-    url: import.meta.env.VITE_BASEAPI + 'login',
+    url: import.meta.env.VITE_MAINNETLOGINAPI + 'login',
     method: 'post',
     data
   })

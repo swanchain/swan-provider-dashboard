@@ -1,3 +1,6 @@
+import { toHome } from "@/hooks/router"
+import { token } from "@/utils/storage"
+
 export default [
   {
     path: '/overview',
@@ -78,6 +81,62 @@ export default [
     meta: {
       keepAlive: true,
       title: 'Calculator'
+    }
+  },
+  {
+    path: '/my-cps',
+    name: 'myCPsPage',
+    component: () => import("../views/myCPs/myCPs-index.vue"),
+    meta: {
+      keepAlive: true,
+      title: 'My CPs'
+    },
+    beforeEnter: () => {
+      if (!token.value) {
+        toHome()
+      }
+    }
+  },
+  {
+    path: '/my-cps/:cp_addr/UBI-Tasks',
+    name: 'myCPsUBITasksPage',
+    component: () => import("../views/myCPs/pages/UBI-tasks.vue"),
+    meta: {
+      keepAlive: true,
+      title: 'UBI Tasks'
+    },
+    beforeEnter: () => {
+      if (!token.value) {
+        toHome()
+      }
+    }
+  },
+  {
+    path: '/my-cps/:cp_addr/health',
+    name: 'myCPsHealthPage',
+    component: () => import("../views/myCPs/pages/health-list.vue"),
+    meta: {
+      keepAlive: true,
+      title: 'Health'
+    },
+    beforeEnter: () => {
+      if (!token.value) {
+        toHome()
+      }
+    }
+  },
+  {
+    path: '/my-cps/:cp_addr/application-tasks',
+    name: 'myCPsApplicationTasksPage',
+    component: () => import("../views/myCPs/pages/application-tasks.vue"),
+    meta: {
+      keepAlive: true,
+      title: 'Application Tasks'
+    },
+    beforeEnter: () => {
+      if (!token.value) {
+        toHome()
+      }
     }
   },
   {

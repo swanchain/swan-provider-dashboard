@@ -1384,7 +1384,6 @@ async function getECPColleralData() {
     const collateral = ecpCpInfoData?.balance ?? '0'
     const escrow = ecpCpInfoData?.frozenBalance ?? '0'
     collateralCPData.ecp.Collateral = web3.utils.fromWei(String(collateral), 'ether')
-    console.log(collateralCPData.ecp.Collateral)
     collateralCPData.ecp.Escrow =  web3.utils.fromWei(String(escrow), 'ether')
     collateralCPData.ecp.Current = Number(collateralCPData.ecp.Collateral) + Number(collateralCPData.ecp.Escrow)
     // console.log('ecp:', ecpCpInfoData, collateralCPData.ecp)

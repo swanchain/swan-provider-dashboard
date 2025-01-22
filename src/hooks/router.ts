@@ -1,4 +1,5 @@
 import type { Router } from 'vue-router'
+import router from "@/router"
 
 export function openPage(url: string) {
   window.open(url, '_blank')
@@ -9,14 +10,10 @@ export function openPageHttp(url: string) {
   window.open(url, '_blank')
 }
 
-export function toPage(router: Router, path: string) {
-  // router.push(path)
+export function toPage( path: string) {
+  router.push(path)
 }
 
-export function toLogin(router: Router) {
-  //toPage(router, '/login')
-}
-
-export function toHome(router: Router) {
-  toPage(router, '/index')
+export function toHome() {
+  toPage('/')
 }

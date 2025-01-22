@@ -41,6 +41,12 @@
             <span class="font-14">Calculator</span>
           </template>
         </el-menu-item>
+        <el-menu-item index="myCPs" v-if="token">
+          <i class="icon icon-cps"></i>
+          <template #title>
+            <span class="font-14">My CPs</span>
+          </template>
+        </el-menu-item>
         <el-sub-menu index="cp-ubi">
           <template #title>
             <i class="icon icon-AAR"></i>
@@ -67,7 +73,7 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
     const activeIndex = ref('overview')
     const isCollapse = ref(false)
 
-    const handleSelect = (key, keyPath) => {
+    const handleSelect = (key: string, keyPath: string) => {
       // console.log('handleOpen', key)
       if (key === 'overview') router.push({ path: '/overview' })
       else if (key === 'rankings-fcp') router.push({ name: 'rankingsFCP' })
@@ -79,9 +85,10 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
       else if (key === 'accountInfo') router.push({ name: 'accountInfo', params: { cp_addr: metaAddress.value } })
       else if (key === 'resource') router.push({ name: 'resource' })
       else if (key === 'calculator') router.push({ name: 'calculator' })
+      else if (key === 'myCPs') router.push({ name: 'myCPsPage' })
     }
-    async function activeMenu (row) {
-      const nameMenu = row || route.name
+    async function activeMenu(row: string) {
+      const nameMenu: any = row || route.name
       const nameType = route.params.type || ''
       if (nameMenu.indexOf('overview') > -1 || nameMenu.indexOf('dashboard') > -1) activeIndex.value = 'overview'
       else if (nameMenu.indexOf('rankingsFCP') > -1 || nameMenu.indexOf('rankings/fcp') > -1) activeIndex.value = 'rankings-fcp'
@@ -90,6 +97,7 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
       else if (nameMenu.indexOf('aarECP') > -1 || nameMenu.indexOf('campaign/ecp') > -1) activeIndex.value = 'aar-ecp'
       else if (nameMenu.indexOf('cpUbiFCP') > -1 || nameMenu.indexOf('ubi0/fcp') > -1) activeIndex.value = 'cp-ubi-fcp'
       else if (nameMenu.indexOf('cpUbiECP') > -1 || nameMenu.indexOf('ubi0/ecp') > -1) activeIndex.value = 'cp-ubi-ecp'
+      else if (nameMenu.indexOf('myCPs') > -1 || nameMenu.indexOf('my-cps') > -1) activeIndex.value = 'myCPs'
       else if (nameMenu.indexOf('accountInfo') > -1 || nameMenu.indexOf('cp') > -1) activeIndex.value = 'accountInfo'
       else if (nameMenu.indexOf('resource') > -1) activeIndex.value = 'resource'
       else if (nameMenu.indexOf('calculator') > -1) activeIndex.value = 'calculator'
@@ -98,7 +106,7 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
       // console.log(activeIndex.value, nameMenu)
     }
     onMounted(() => {
-      activeMenu()
+      activeMenu('')
     })
     watch(route, (to, from) => {
       activeMenu(to.path)
@@ -152,6 +160,10 @@ import { currentNetwork, metaAddress, token } from '@/utils/storage'
     }
     &.icon-calculator {
       background: url(../../assets/images/icon_calculator.png) no-repeat;
+      background-size: 100%;
+    }
+    &.icon-cps {
+      background: url(../../assets/images/icon_cps.png) no-repeat;
       background-size: 100%;
     }
     &.icon-AAR {

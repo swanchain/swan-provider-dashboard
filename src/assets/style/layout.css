@@ -397,6 +397,9 @@
 .pr-128 {
   padding-right: 1.28rem;
 }
+.pt-6 {
+  padding-top: 0.06rem;
+}
 .pt-10 {
   padding-top: 0.1rem;
 }
@@ -417,6 +420,9 @@
 }
 .pt-128 {
   padding-top: 1.28rem;
+}
+.pb-6 {
+  padding-bottom: 0.06rem;
 }
 .pb-10 {
   padding-bottom: 0.1rem;

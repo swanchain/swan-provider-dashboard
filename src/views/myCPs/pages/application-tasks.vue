@@ -3,7 +3,7 @@
     <div class="mtb-20">
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ name: 'myCPsPage' }">My CPs</el-breadcrumb-item>
-        <el-breadcrumb-item>{{ route.params.cp_addr }}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'accountInfo', params: { cp_addr: route.params.cp_addr }, query: { type: 'mycps'} }">{{ route.params.cp_addr }}</el-breadcrumb-item>
         <el-breadcrumb-item>Application Tasks</el-breadcrumb-item>
       </el-breadcrumb>
     </div>

@@ -87,9 +87,11 @@ export function millisecondsToHMS(ms: any) {
   const minutes = Math.floor((seconds % 3600) / 60);
   const remainingSeconds = seconds % 60;
 
-  if(hours > 0) text += `${hours}h`
-  if(minutes > 0) text += `${minutes}m`
-  if(remainingSeconds > 0) text += `${remainingSeconds}s`
+  if(hours > 0) text += `${hours>9?hours:'0'+hours}:`
+  if (minutes > 0) text += `${minutes > 9 ? minutes : '0' + minutes}:`
+  else text += '00:'
+  if(remainingSeconds > 0) text += `${remainingSeconds>9?remainingSeconds:'0'+remainingSeconds}`
+  else text += '00'
  
   return text;
 }

@@ -50,8 +50,8 @@ export async function login () {
   if (!signature) return [false, signErr]
   const reqOpts = [metaAddress.value, signature]
   const token = await performSignin(reqOpts)
-  if (token?.access_token) {
-    setToken(token?.access_token)
+  if (token?.data?.token) {
+    setToken(token?.data?.token)
     setMetaAddress(metaAddress.value)
   }
   return [!!token, '']

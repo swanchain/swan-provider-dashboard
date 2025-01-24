@@ -1,5 +1,5 @@
 import { toHome } from "@/hooks/router"
-import { token } from "@/utils/storage"
+import { metaAddress, token } from "@/utils/storage"
 
 export default [
   {
@@ -92,7 +92,7 @@ export default [
       title: 'My CPs'
     },
     beforeEnter: () => {
-      if (!token.value) {
+      if (!token.value || !metaAddress.value) {
         toHome()
       }
     }
@@ -106,7 +106,7 @@ export default [
       title: 'UBI Tasks'
     },
     beforeEnter: () => {
-      if (!token.value) {
+      if (!token.value || !metaAddress.value) {
         toHome()
       }
     }
@@ -120,7 +120,7 @@ export default [
       title: 'Health'
     },
     beforeEnter: () => {
-      if (!token.value) {
+      if (!token.value || !metaAddress.value) {
         toHome()
       }
     }
@@ -134,7 +134,7 @@ export default [
       title: 'Application Tasks'
     },
     beforeEnter: () => {
-      if (!token.value) {
+      if (!token.value || !metaAddress.value) {
         toHome()
       }
     }

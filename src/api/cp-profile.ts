@@ -79,3 +79,11 @@ export function getCPsClaimData(data: any, addr: any) {
       data
   })
 }
+
+export function getCPsStatusData(addr: any) {
+  return request({
+      headers: {},
+      url: `${import.meta.env.VITE_BASE_URL}v1/cps/${addr}/status`,
+      method: 'get'
+  })
+}

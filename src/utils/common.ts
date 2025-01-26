@@ -566,9 +566,13 @@ export function taskColor(type: string) {
   switch (type) {
     case 'Inactive':
       return 'color: var(--color-text)'
+    case 'inactive':
+      return 'color: var(--color-text)'
     case 'Offline':
       return 'color: var(--color-text)'
     case 'Active':
+      return 'color: var(--color-success)'
+    case 'active':
       return 'color: var(--color-success)'
     case 'Online':
       return 'color: var(--color-success)'

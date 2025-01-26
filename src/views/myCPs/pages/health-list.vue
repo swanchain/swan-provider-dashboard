@@ -9,7 +9,7 @@
     </div>
 
     <div class="health-container font-14">
-      <div class="progress-container mt-16 mb-32 flex flex-ai-center nowrap w-100">
+      <div class="progress-container mt-16 flex flex-ai-center nowrap w-100">
         <div class="piece flex flex-ai-center flex-jc-center">Collaterals</div>
         <div class="piece flex flex-ai-center flex-jc-center">Status</div>
         <div class="piece flex flex-ai-center flex-jc-center">Last Task</div>
@@ -17,7 +17,7 @@
       </div>
 
       <!-- 1 : FCP, 2 : ECP, else : ECP & FCP -->
-      <div class="fcp-list" v-if="cpsData.type !== 2">
+      <div class="fcp-list mt-32" v-if="cpsData.type !== 2">
         <div class="font-20 font-bold mb-32 m">FCP</div>
         <div class="fcp-list-body">
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
@@ -35,17 +35,17 @@
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
             <div class="flex flex-ai-center flex-wrap">
               CP status:
-              <span class="font-bold ml-8 mr-8" :style="taskColor(cpsData?.fcp_status)">{{ cpsData?.fcp_status ?? '-' }}</span>
+              <span class="font-bold ml-8 mr-8 capitalize" :style="taskColor(cpsStatusData?.fcp?.status)">{{ cpsStatusData?.fcp?.status ?? '-' }}</span>
             </div>  
             <div class="flex flex-ai-center flex-wrap">
               GPU status: 
-              <span class="ml-8">1 available, 5 total</span>
+              <span class="ml-8">{{ replaceFormat(cpsStatusData?.gpu?.available) }} available, {{ replaceFormat(cpsStatusData?.gpu?.total) }} total</span>
             </div>
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
             <div class="font-16 font-medium">Last Task</div>
-            <span>--------</span>
+            Task ID: {{ cpsStatusData?.fcp?.last_task?.id ?? '-' }}, status: {{ cpsStatusData?.fcp?.last_task?.status ?? '-' }}, msg: {{ cpsStatusData?.fcp?.last_task?.msg ?? '-' }}
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-      <div class="ecp-list" v-if="cpsData.type !== 1">
+      <div class="ecp-list mt-32" v-if="cpsData.type !== 1">
         <div class="font-20 font-bold mb-32 m">ECP</div>
         <div class="ecp-list-body">
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
@@ -72,17 +72,19 @@
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
             <div class="flex flex-ai-center flex-wrap">
               CP status:
-              <span class="font-bold ml-8 mr-8" :style="taskColor(cpsData?.ecp_status)">{{ cpsData?.ecp_status ?? '-' }}</span>
-            </div>
+              <span class="font-bold ml-8 mr-8 capitalize" :style="taskColor(cpsStatusData?.ecp?.status)">{{ cpsStatusData?.ecp?.status ?? '-' }}</span>
+            </div>  
             <div class="flex flex-ai-center flex-wrap">
               GPU status: 
-              <span class="ml-8">1 available, 5 total</span>
+              <span class="ml-8">{{ replaceFormat(cpsStatusData?.gpu?.available) }} available, {{ replaceFormat(cpsStatusData?.gpu?.total) }} total</span>
             </div>
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
             <div class="font-16 font-medium">Last Task</div>
-            <span>--------</span>
+            <span>
+              Task ID: {{ cpsStatusData?.ecp?.last_task?.id ?? '-' }}, status: {{ cpsStatusData?.ecp?.last_task?.status ?? '-' }}, msg: {{ cpsStatusData?.ecp?.last_task?.msg ?? '-' }}
+            </span>
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
@@ -96,17 +98,18 @@
 </template>
 
 <script setup lang="ts">
-import { getCPsBalancesData, getCPsData } from '@/api/cp-profile'
-import { millisecondsToHMS, momentFun, replaceNumberFormat, taskColor } from '@/utils/common'
+import { getCPsBalancesData, getCPsData, getCPsStatusData } from '@/api/cp-profile'
+import { millisecondsToHMS, momentFun, replaceFormat, replaceNumberFormat, taskColor } from '@/utils/common'
 import { ecpDeposit, fcpDeposit, rpcLink } from '@/utils/storage'
 import { ArrowRight } from '@element-plus/icons-vue'
 import fcpABI from '@/utils/abi/SwanCreditCollateral.json'
 import ecpABI from '@/utils/abi/ECPCollateral.json'
 
 const route = useRoute()
-const now:any = new Date(); 
+const now:any = ref(new Date()); 
 const cpsLoad = ref(false)
 const cpsData = ref<any>({})
+const cpsStatusData = ref<any>({})
 const balanceLoad = ref(false)
 const balanceData = ref<any>({})
 const collateralCPData = reactive<any>({
@@ -124,12 +127,24 @@ const collateralCPData = reactive<any>({
     collaterals: 0
   }
 })
+const countdown = ref(310)
 
 async function getAllCPsData() {
   cpsLoad.value = true
   try{
     const cpsRes = await getCPsData(route.params.cp_addr)
     cpsData.value = cpsRes?.data ?? {}
+  }catch{console.error}
+  cpsLoad.value = false
+}
+async function getStatusCPsData() {
+  cpsLoad.value = true
+  try{
+    const cpsRes = await getCPsStatusData(route.params.cp_addr)
+    cpsStatusData.value = cpsRes?.data ?? {}
+    now.value = new Date()
+    countdown.value = 310
+    startCountdown()
   }catch{console.error}
   cpsLoad.value = false
 }
@@ -173,7 +188,6 @@ async function getECPColleralData() {
     ecpCollateral()
   } catch { console.error }
 }
-const countdown = ref(310)
 function startCountdown() {
   setTimeout(() => {
     countdown.value--; 
@@ -181,16 +195,17 @@ function startCountdown() {
       startCountdown(); 
     } else {
       console.log('dao')
-      countdown.value = 310
+      getAllCPsData()
+      getStatusCPsData()
     }
   }, 1000);
 }
 onMounted(async () => {
   getAllCPsData()
+  getStatusCPsData()
   getCPsBalanceData()
   getFCPColleralData()
   getECPColleralData()
-  startCountdown()
 })
 
 function fcpCollateral() {

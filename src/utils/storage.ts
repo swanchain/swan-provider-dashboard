@@ -6,7 +6,7 @@ export const token = ref(getToken())
 export const isLogin = computed(() => !!token.value)
 // export const currentNetwork = ref(window.location.hostname.indexOf('testnet') > -1 ? 'Proxima' : 'Mainnet')
 export const currentNetwork = ref(import.meta.env.VITE_NODEENV === 'testnet' ? 'Proxima' : 'Mainnet')
-export const metaAddress = ref('')
+export const metaAddress = ref(getMetamask())
 export const signature = ref('')
 export const locationAll = ref([])
 export const explorerLink = ref(currentNetwork.value === 'Proxima' ? ELINK.PROXIMAEXPLORER : ELINK.MAINNETEXPLORER)
@@ -77,6 +77,11 @@ export function getLocation() {
 export function getToken() {
   const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
   return localStorage.getItem(storageEnv.TOKEN) ?? ''
+}
+
+export function getMetamask() {
+  const storageEnv = window.location.hostname.indexOf('testnet') > -1 ? EStorageTestnet : EStorage
+  return localStorage.getItem(storageEnv.METAADDRESS) ?? ''
 }
 
 export function setAccountInfo(accountInfo: { account: string; password: string }) {

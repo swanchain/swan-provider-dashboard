@@ -96,7 +96,7 @@
 
 <script setup lang="ts">
 import XyIcon from '@/base-ui/xy-icon.vue'
-import { getCPsFCPListData } from '@/api/overview';
+import { getCPsECPListData, getCPsFCPListData } from '@/api/overview';
 import { copyContent, hiddAddress, replaceFormat, unifyNumber } from '@/utils/common';
 import type { TabsPaneContext } from 'element-plus'
 import { toPage } from '@/hooks/router';
@@ -122,10 +122,12 @@ async function initFCPList () {
     const paramsCont = {
       "page_no": page,
       "page_size": pagin.pageSize,
-      "status": 'active'
+      "order": 'tasks', // tasks、score、completion_rate
+      "desc": true,
+      "status": 'Online'
     }
-    const providerFCPRes = await getCPsFCPListData(paramsCont)
-    providersData.value = providerFCPRes?.data?.list ?? []
+    const providerECPRes = await getCPsECPListData(paramsCont)
+    providersData.value = providerECPRes?.data?.list ?? []
   }catch{console.error}
   providersFCPLoad.value = false
 }

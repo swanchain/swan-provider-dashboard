@@ -189,10 +189,11 @@ export function dataDelta (data: any, type:string, param: string) {
     // const time_end = getDateTime(parseInt(item.timestamp) * 1000)
     const time_end = formatDate(item.date)
     // if (timeArr.indexOf(time_end) === -1) {
-      timeArr.push(time_end)
-      if(type === 'delta' && index > 0) datum.push(item[param] - data[index-1][param])
-      else if(type === 'delta' && index === 0) datum.push(0)
-      else datum.push(item[type])
+    timeArr.push(time_end)
+    const n = type.indexOf('-cu') === -1 ? 1 : 100
+    if(['delta', 'delta-cu'].includes(type) && index > 0) datum.push((item[param] - data[index-1][param])/n)
+    else if(['delta', 'delta-cu'].includes(type) && index === 0) datum.push(0)
+    else datum.push(item[param] / n)
     // } else {
     //   datum[timeArr.indexOf(time_end)] = Number(datum[timeArr.indexOf(time_end)]) + Number(type === 'delta' && index > 0 ? item.total - data[index-1].total : item[type])
     // }

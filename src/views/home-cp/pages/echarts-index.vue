@@ -3,22 +3,6 @@
     <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
       <div class="module-container">
         <div class="title flex flex-ai-center">
-          <i class="icon icon-provider"></i>
-          <span class="font-16 weight-4">Computing Provider</span>
-        </div>
-        <div class='chart-trends' id='chart-CPs' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
-        <div class="date">
-          <el-select v-model="weekList.value" placeholder="Select" size="small" @change="initEcharts">
-            <el-option v-for="item in weekList.options" :key="item.value" :label="item.label" :value="item.value">
-              <div class="flex flex-ai-center font-12">{{item.label}}</div>
-            </el-option>
-          </el-select>
-        </div>
-      </div>
-    </el-col>
-    <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-      <div class="module-container">
-        <div class="title flex flex-ai-center">
           <i class="icon icon-gpu"></i>
           <span class="font-16 weight-4">GPU</span>
         </div>
@@ -36,9 +20,9 @@
       <div class="module-container">
         <div class="title flex flex-ai-center">
           <i class="icon icon-provider"></i>
-          <span class="font-16 weight-4">CU</span>
+          <span class="font-16 weight-4">Fog Computing Provider</span>
         </div>
-        <div class='chart-trends' id='chart-cu' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
+        <div class='chart-trends' id='chart-Fog' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
         <div class="date">
           <el-select v-model="weekList.value" placeholder="Select" size="small" @change="initEcharts">
             <el-option v-for="item in weekList.options" :key="item.value" :label="item.label" :value="item.value">
@@ -64,13 +48,29 @@
         </div>
       </div>
     </el-col>
+    <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+      <div class="module-container">
+        <div class="title flex flex-ai-center">
+          <i class="icon icon-provider"></i>
+          <span class="font-16 weight-4">Edge Computing Provider</span>
+        </div>
+        <div class='chart-trends' id='chart-Edge' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
+        <div class="date">
+          <el-select v-model="weekList.value" placeholder="Select" size="small" @change="initEcharts">
+            <el-option v-for="item in weekList.options" :key="item.value" :label="item.label" :value="item.value">
+              <div class="flex flex-ai-center font-12">{{item.label}}</div>
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+    </el-col>
   </el-row>
 </template>
 
 <script setup lang="ts">
 import * as echarts from "echarts"
 import { statsEchartsData } from "@/api/overview"
-import { cutArraysToShortestLength, dataDelta, dataGPU, dataResource, getDateRange, replaceFormat, sizeChange } from '@/utils/common';
+import { dataDelta, dataGPU, dataResource, getDateRange, replaceFormat, sizeChange } from '@/utils/common';
 
 const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
 const providersLoad = ref(false)
@@ -112,10 +112,10 @@ async function initEcharts () {
   }catch{ cpLoad.value = false}
 }
 const changetype = async (data: any) => {
-  const machart_cps = echarts.init(document.getElementById("chart-CPs")!);
-  const machart_resource = echarts.init(document.getElementById("chart-Resource")!);
-  const machart_gpu = echarts.init(document.getElementById("chart-GPU")!);
-  const machart_cu = echarts.init(document.getElementById("chart-cu")!);
+  const machart_resource = echarts.init(document.getElementById("chart-Resource"));
+  const machart_fog = echarts.init(document.getElementById("chart-Fog"));
+  const machart_gpu = echarts.init(document.getElementById("chart-GPU"));
+  const machart_edge = echarts.init(document.getElementById("chart-Edge"));
 
   const gpuData = await dataGPU(data.gpu, 'active')
   const gpuTotalData = await dataGPU(data.gpu, 'total')
@@ -133,34 +133,29 @@ const changetype = async (data: any) => {
   const memoryData = await dataResource(data.memory, 'active')
   const storageData = await dataResource(data.storage, 'active')
 
-  const cuData = await dataDelta(data.cu, 'active-cu', 'active')
-  const cuDeltaData = await dataDelta(data.cu, 'delta-cu', 'active')
-  const cuNumberMax = Math.max(...cuData.datum) >= 0 ? 1.1 : 0.9
-  const cuMax = Math.ceil(Math.max(...cuData.datum) * cuNumberMax)
-  const cuNumber = Math.min(...cuData.datum) >= 0 ? 0.9 : 1.1
-  const cuMin = Math.floor(Math.min(...cuData.datum)*cuNumber)
-  const cuInterval = Math.ceil((cuMax-cuMin)/(cuMin===0?4:5))
-  const cuDeltaNumberMax = Math.max(...cuDeltaData.datum) >= 0 ? 1.1 : 0.9
-  const cuDeltaMax = Math.ceil(Math.max(...cuDeltaData.datum)*cuDeltaNumberMax)
-  const cuDeltaNumber = Math.min(...cuDeltaData.datum) >= 0 ? 0.9 : 1.1
-  const cuDeltaMin = Math.floor(Math.min(...cuDeltaData.datum) * cuDeltaNumber)
+  const fcpData = await dataDelta(data.fcp, 'total', 'total')
+  const fcpDeltaData = await dataDelta(data.fcp, 'delta', 'total')
+  const fcpNumberMax = Math.max(...fcpData.datum) >= 0 ? 1.1 : 0.9
+  const fcpMax = Math.ceil(Math.max(...fcpData.datum) * fcpNumberMax)
+  const fcpNumber = Math.min(...fcpData.datum) >= 0 ? 0.9 : 1.1
+  const fcpMin = Math.floor(Math.min(...fcpData.datum)*fcpNumber)
+  const fcpInterval = Math.ceil((fcpMax-fcpMin)/(fcpMin===0?4:5))
+  const fcpDeltaNumberMax = Math.max(...fcpDeltaData.datum) >= 0 ? 1.1 : 0.9
+  const fcpDeltaMax = Math.ceil(Math.max(...fcpDeltaData.datum)*fcpDeltaNumberMax)
+  const fcpDeltaNumber = Math.min(...fcpDeltaData.datum) >= 0 ? 0.9 : 1.1
+  const fcpDeltaMin = Math.floor(Math.min(...fcpDeltaData.datum)*fcpDeltaNumber)
 
-  const [fcpAllData, ecpAllData] = cutArraysToShortestLength(data.fcp, data.ecp);
-  const result = fcpAllData.map((item:any, index:number) => ({
-    value: item.total + ecpAllData[index].active,
-    ...item
-  }));
-  const allcpData = await dataDelta(result, 'value', 'value')
-  const allcpDeltaData = await dataDelta(result, 'delta', 'value')
-  const allcpNumberMax = Math.max(...allcpData.datum) >= 0 ? 1.1 : 0.9
-  const allcpMax = Math.ceil(Math.max(...allcpData.datum) * allcpNumberMax)
-  const allcpNumber = Math.min(...allcpData.datum) >= 0 ? 0.9 : 1.1
-  const allcpMin = Math.floor(Math.min(...allcpData.datum)*allcpNumber)
-  const allcpInterval = Math.ceil((allcpMax-allcpMin)/(allcpMin===0?4:5))
-  const allcpDeltaNumberMax = Math.max(...allcpDeltaData.datum) >= 0 ? 1.1 : 0.9
-  const allcpDeltaMax = Math.ceil(Math.max(...allcpDeltaData.datum)*allcpDeltaNumberMax)
-  const allcpDeltaNumber = Math.min(...allcpDeltaData.datum) >= 0 ? 0.9 : 1.1
-  const allcpDeltaMin = Math.floor(Math.min(...allcpDeltaData.datum) * allcpDeltaNumber)
+  const ecpData = await dataDelta(data.ecp, 'active', 'active')
+  const ecpDeltaData = await dataDelta(data.ecp, 'delta', 'active')
+  const ecpNumberMax = Math.max(...ecpData.datum) >= 0 ? 1.1 : 0.9
+  const ecpMax = Math.ceil(Math.max(...ecpData.datum) * ecpNumberMax)
+  const ecpNumber = Math.min(...ecpData.datum) >= 0 ? 0.9 : 1.1
+  const ecpMin = Math.floor(Math.min(...ecpData.datum)*ecpNumber)
+  const ecpInterval = Math.ceil((ecpMax-ecpMin)/(ecpMin===0?4:5))
+  const ecpDeltaNumberMax = Math.max(...ecpDeltaData.datum) >= 0 ? 1.1 : 0.9
+  const ecpDeltaMax = Math.ceil(Math.max(...ecpDeltaData.datum)*ecpDeltaNumberMax)
+  const ecpDeltaNumber = Math.min(...ecpDeltaData.datum) >= 0 ? 0.9 : 1.1
+  const ecpDeltaMin = Math.floor(Math.min(...ecpDeltaData.datum) * ecpDeltaNumber)
 
   const option1 = {
     tooltip: {
@@ -221,12 +216,6 @@ const changetype = async (data: any) => {
       axisTick: {
         show: false
       },
-      // axisLine: {
-      //     show: false,
-      //     lineStyle: {
-      //         color: '#e0e6f1'
-      //     }
-      // },
       axisLabel: {
         fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
         // interval: 6,
@@ -292,12 +281,12 @@ const changetype = async (data: any) => {
         fontFamily: 'HELVETICA-ROMAN'
       },
       icon: 'roundRect',
-      formatter: function (params:any) {
+      formatter: function (params) {
         var result = params[0].name + '<br/>'; 
-        params.forEach(function (item:any) {
+        params.forEach(function (item) {
           var color = item.color.colorStops ? item.color.colorStops[0].color : item.color;
           let colorDot = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:' + color + ';"></span>';
-          result += colorDot + item.seriesName + ': ' + replaceFormat(item.value) + '<br/>';
+          result += colorDot + item.seriesName + ': ' + item.value + '<br/>';
         });
         return result;
       }
@@ -309,7 +298,7 @@ const changetype = async (data: any) => {
       containLabel: true
     },
     legend: {
-      data: ['CP', 'Delta'],
+      data: ['FCP', 'Delta'],
       right: document.documentElement.clientWidth >= 1280 ? '110px' : 'auto',
       top: document.documentElement.clientWidth >= 1280 ? '0' : '25px',
       // icon: 'circle',
@@ -332,27 +321,21 @@ const changetype = async (data: any) => {
     xAxis: [
       {
         type: 'category',
-        data: allcpData.timeArr,
+        data: fcpData.timeArr,
         boundaryGap: false,
         axisTick: {
           show: false
         },
-        // axisLine: {
-        //     show: false,
-        //     lineStyle: {
-        //         color: '#e0e6f1'
-        //     }
-        // },
         axisLabel: {
           // interval: 6,
         fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
           color: '#7c889b',
-          interval: function (index:any, value:any) {
+          interval: function (index, value) {
             var count = 7;
-            var step = Math.ceil(allcpData.timeArr.length / count); 
+            var step = Math.ceil(fcpData.timeArr.length / count); 
             return index % step === 0 ? value : false;
           },
-          formatter: function (value:any) {
+          formatter: function (value) {
             return value.split(' ').join('\n');
           }
         },
@@ -370,15 +353,15 @@ const changetype = async (data: any) => {
           color: '#7c889b',
           //   formatter: '{value}'
         },
-        min: allcpMin,
-        max: allcpMax,
-        interval: allcpInterval,
+        min: fcpMin,
+        max: fcpMax,
+        interval: fcpInterval,
         // minInterval: 150,
       },
       {
         type: 'value',
-        min: allcpDeltaMin,
-        max: allcpDeltaMax,
+        min: fcpDeltaMin,
+        max: fcpDeltaMax,
         // minInterval: 20,
         axisLabel: {
           fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
@@ -392,13 +375,13 @@ const changetype = async (data: any) => {
     ],
     series: [
       {
-        name: 'CP',
+        name: 'FCP',
         type: 'line',
         smooth: false,
         showSymbol: true,
         yAxisIndex: 0,
         color: 'rgba(105,155,255,1)',
-        data: allcpData.datum
+        data: fcpData.datum
       },
       {
         name: 'Delta',
@@ -412,7 +395,7 @@ const changetype = async (data: any) => {
         //   }
         // },
         color: '#52ce7c',
-        data: allcpDeltaData.datum
+        data: fcpDeltaData.datum
       }
     ]
   }
@@ -449,7 +432,7 @@ const changetype = async (data: any) => {
           if(i < 2) {
             var color = item.color.colorStops ? item.color.colorStops[0].color : item.color; 
             let colorDot = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:' + color + ';"></span>';
-            result += colorDot + item.seriesName + ': ' + replaceFormat(item.value)  + '<br/>'; 
+            result += colorDot + item.seriesName + ': ' + item.value  + '<br/>'; 
           }
         });
         return result;
@@ -488,12 +471,6 @@ const changetype = async (data: any) => {
       axisTick: {
         show: false
       },
-      // axisLine: {
-      //     show: false,
-      //     lineStyle: {
-      //         color: '#e0e6f1'
-      //     }
-      // },
       axisLabel: {
         fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
         // interval: 6,
@@ -558,10 +535,10 @@ const changetype = async (data: any) => {
       icon: 'roundRect',
       formatter: function (params) {
         var result = params[0].name + '<br/>'; 
-        params.forEach(function (item:any) {
+        params.forEach(function (item) {
           var color = item.color.colorStops ? item.color.colorStops[0].color : item.color; 
           let colorDot = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:' + color + ';"></span>';
-          result += colorDot + item.seriesName + ': ' + replaceFormat(item.value) + '<br/>'; 
+          result += colorDot + item.seriesName + ': ' + item.value + '<br/>'; 
         });
         return result;
       }
@@ -573,7 +550,7 @@ const changetype = async (data: any) => {
       containLabel: true
     },
     legend: {
-      data: ['CU', 'Delta'],
+      data: ['ECP', 'Delta'],
       right: document.documentElement.clientWidth >= 1280 ? '110px' : 'auto',
       top: document.documentElement.clientWidth >= 1280 ? '0' : '25px',
       // icon: 'circle',
@@ -596,27 +573,21 @@ const changetype = async (data: any) => {
     xAxis: [
       {
         type: 'category',
-        data: cuData.timeArr,
+        data: ecpData.timeArr,
         boundaryGap: false,
         axisTick: {
           show: false
         },
-        // axisLine: {
-        //     show: false,
-        //     lineStyle: {
-        //         color: '#e0e6f1'
-        //     }
-        // },
         axisLabel: {
           // interval: 6,
           fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
           color: '#7c889b',
-          interval: function (index:any, value:any) {
+          interval: function (index, value) {
             var count = 7;
-            var step = Math.ceil(cuData.timeArr.length / count); 
+            var step = Math.ceil(ecpData.timeArr.length / count); 
             return index % step === 0 ? value : false;
           },
-          formatter: function (value:any) {
+          formatter: function (value) {
             return value.split(' ').join('\n');
           }
         },
@@ -637,15 +608,15 @@ const changetype = async (data: any) => {
           color: '#7c889b',
           //   formatter: '{value}'
         },
-        min: cuMin,
-        max: cuMax,
-        interval: cuInterval
+        min: ecpMin,
+        max: ecpMax,
+        interval: ecpInterval
         // minInterval: 150
       },
       {
         type: 'value',
-        min: cuDeltaMin,
-        max: cuDeltaMax,
+        min: ecpDeltaMin,
+        max: ecpDeltaMax,
         axisLabel: {
           fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
           color: '#7c889b',
@@ -663,13 +634,13 @@ const changetype = async (data: any) => {
     ],
     series: [
       {
-        name: 'CU',
+        name: 'ECP',
         type: 'line',
         smooth: false,
         showSymbol: true,
         yAxisIndex: 0,
         color: 'rgba(147,198,5,1)',
-        data: cuData.datum
+        data: ecpData.datum
       },
       {
         name: 'Delta',
@@ -683,14 +654,14 @@ const changetype = async (data: any) => {
         //   }
         // },
         color: '#0046b7',
-        data: cuDeltaData.datum
+        data: ecpDeltaData.datum
       }
     ]
   }
   machart_resource.setOption(option1);
-  machart_cps.setOption(option2);
+  machart_fog.setOption(option2);
   machart_gpu.setOption(option3);
-  machart_cu.setOption(option4);
+  machart_edge.setOption(option4);
 
   if (typeof ResizeObserver !== 'undefined') {
     let observer = new ResizeObserver(entries => {
@@ -699,22 +670,22 @@ const changetype = async (data: any) => {
         const height = entry.contentRect.height;
         // console.log(`Element resized to width: ${width}, height: ${height}`);
         machart_resource.resize();
-        machart_cps.resize();
+        machart_fog.resize();
         machart_gpu.resize();
-        machart_cu.resize();
+        machart_edge.resize();
       }
     });
 
-    let element = document.getElementById('main-container')!;
+    let element = document.getElementById('main-container');
     observer.observe(element);
   } else {
     console.log('ResizeObserver is not supported in this browser.');
   }
   window.addEventListener("resize", function () {
     machart_resource.resize();
-    machart_cps.resize();
+    machart_fog.resize();
     machart_gpu.resize();
-    machart_cu.resize();
+    machart_edge.resize();
   })
   cpLoad.value = false
 }

@@ -12,6 +12,15 @@ export default [
     }
   },
   {
+    path: '/overview-cp',
+    name: 'dashboardCP',
+    component: () => import("../views/home-cp/home-index.vue"),
+    meta: {
+      keepAlive: true,
+      title: 'Swan Provider'
+    }
+  },
+  {
     path: '/rankings/fcp',
     name: 'rankingsFCP',
     component: () => import("../views/rankings/rankings-FCP.vue"),

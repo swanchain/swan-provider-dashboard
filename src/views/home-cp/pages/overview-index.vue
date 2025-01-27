@@ -1,0 +1,1095 @@
+<template>
+  <el-row :gutter="bodyWidth">
+    <el-col :xs="24" :sm="24" :md="24" :lg="13" :xl="13" class="flex flex-ai-center baseline">
+      <div class="module-container">
+        <div class="title flex flex-ai-center">
+          <i class="icon icon-figures"></i>
+          <span class="font-16 weight-4">Provider Figures</span>
+        </div>
+
+        <div class="tabs-container">
+          <div @click="tabsSwitch(0)" class="tabs-button text-center tabs-prev" :class="{'is-disabled': activeName === 0}">&lt;</div>
+          <div @click="tabsSwitch(1)" class="tabs-button text-center tabs-next" :class="{'is-disabled': activeName === 3}">&gt;</div>
+
+          <el-tabs v-model="activeName" class="demo-tabs">
+            <el-tab-pane :name="0">
+              <template #label>
+                <span class="font-12">Overview Data</span>
+              </template>
+              <el-row :gutter="6">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Computing Provider</h6>
+                    <template v-if="overviewData.value.fcp.length>0 && overviewData.value.ecp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp?.[0].online_cps)+Number(overviewData.value.ecp?.[0].online_cps))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1 || overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].online_cps+overviewData.value.ecp[0].online_cps) >= Number(overviewData.value.fcp[1].online_cps+overviewData.value.ecp[1].online_cps) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].online_cps+overviewData.value.ecp[0].online_cps) >= Number(overviewData.value.fcp[1].online_cps+overviewData.value.ecp[1].online_cps)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].online_cps + overviewData.value.ecp[0].online_cps - overviewData.value.fcp[1].online_cps - overviewData.value.ecp[1].online_cps))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1 || overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <b v-else class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">-</b>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Active FCP Number</h6>
+                    <template v-if="overviewData.value.fcp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].online_cps))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].online_cps) >= Number(overviewData.value.fcp[1].online_cps) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].online_cps) >= Number(overviewData.value.fcp[1].online_cps)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].online_cps - overviewData.value.fcp[1].online_cps))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Active ECP numbers</h6>
+                    <template v-if="overviewData.value.ecp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.ecp[0].online_cps))}}
+                      </b>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].online_cps) >= Number(overviewData.value.ecp[1].online_cps) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].online_cps) >= Number(overviewData.value.ecp[1].online_cps)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].online_cps - overviewData.value.ecp[1].online_cps))}}</h6>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <b v-else class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">-</b>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Provider Locations</h6>
+                    <template v-if="overviewData.value.fcp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(overviewData.totalLocation)}}
+                      </b>
+                    </template>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total GPU Number</h6>
+                    <template v-if="overviewData.value.fcp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(gpuNum)}}
+                      </b>
+                    </template>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total ZK tasks</h6>
+                    <template v-if="overviewData.value.ecp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.ecp[0].tasks))}}
+                      </b>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].tasks) >= Number(overviewData.value.ecp[1].tasks) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].tasks) >= Number(overviewData.value.ecp[1].tasks)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].tasks - overviewData.value.ecp[1].tasks))}}</h6>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <b v-else class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">-</b>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6" v-if="overviewData.value.fcp && overviewData.value.fcp.length>0">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Deployments</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0].deployments))}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].deployments) >= Number(overviewData.value.fcp[1].deployments) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].deployments) >= Number(overviewData.value.fcp[1].deployments)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].deployments - overviewData.value.fcp[1].deployments))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total UBI</h6>
+                    <template v-if="overviewData.value.fcp.length>0 && overviewData.value.ecp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards)+Number(overviewData.value.ecp[0].ubi_rewards))}}
+                      </b>
+                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards) && (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards)" class="font-16 weight-4 text-right mb-4 t" :class="`${(overviewData.value.fcp[0].ubi_rewards+overviewData.value.ecp[0].ubi_rewards) >= ((overviewData.value.fcp[1].ubi_rewards)+(overviewData.value.ecp[1].ubi_rewards)) ? 'up': 'down'}`">{{(overviewData.value.fcp[0].ubi_rewards+overviewData.value.ecp[0].ubi_rewards) >= ((overviewData.value.fcp[1].ubi_rewards)+(overviewData.value.ecp[1].ubi_rewards))?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards) - Number(overviewData.value.fcp[1].ubi_rewards) + Number(overviewData.value.ecp[0].ubi_rewards) - Number(overviewData.value.ecp[1].ubi_rewards))}}</h6>
+                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards) && (overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards)" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <b v-else class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">-</b>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Collaterals</h6>
+                    <div class="mb-10">
+                      <b class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center a">{{ replaceFormat(tokenBalance.total) }}</b>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center">
+                      Total CU
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                        </template>
+                        Computing units indicate the computing power in the swan network.
+                      </el-popover>
+                    </h6>
+                    <template v-if="overviewData.value.fcp.length>0 && overviewData.value.ecp.length>0">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat((Number(overviewData.value.fcp[0]?.online_cu/100)||0)+(Number(overviewData.value.ecp[0]?.online_cu/100)||0))}}
+                      </b>
+                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp?.[1]?.online_cu) || (overviewData.value.ecp.length>1 && overviewData.value.ecp?.[1]?.online_cu)" class="font-16 weight-4 text-right mb-4 t" :class="`${Number((overviewData.value.fcp[0]?.online_cu||0)+(overviewData.value.ecp[0]?.online_cu||0)) >= Number((overviewData.value.fcp[1]?.online_cu||0)+(overviewData.value.ecp[1]?.online_cu||0)) ? 'up': 'down'}`">{{Number((overviewData.value.fcp[0]?.online_cu||0)+(overviewData.value.ecp[0]?.online_cu||0)) >= Number((overviewData.value.fcp[1]?.online_cu||0)+(overviewData.value.ecp[1]?.online_cu||0))?'+':''}}{{replaceFormat(Number((overviewData.value.fcp[0]?.online_cu||0) + (overviewData.value.ecp[0]?.online_cu||0) - (overviewData.value.fcp[1]?.online_cu||0) - (overviewData.value.ecp[1]?.online_cu||0))/100)}}</h6>
+                      <h6 v-if="(overviewData.value.fcp.length>1 && overviewData.value.fcp?.[1]?.online_cu) || (overviewData.value.ecp.length>1 && overviewData.value.ecp?.[1]?.online_cu)" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <b v-else class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">-</b>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6" v-if="overviewData.value.fcp && overviewData.value.fcp.length>0">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center">
+                      FCP CU
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                        </template>
+                        Computing units indicate the computing power in the swan network.
+                      </el-popover>
+                    </h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0]?.online_cu)/100)}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1]?.online_cu" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0]?.online_cu) >= Number(overviewData.value.fcp[1]?.online_cu) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0]?.online_cu) >= Number(overviewData.value.fcp[1]?.online_cu)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0]?.online_cu - overviewData.value.fcp[1]?.online_cu)/100)}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1]?.online_cu" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6" v-if="overviewData.value.ecp && overviewData.value.ecp.length>0">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center">
+                      ECP CU
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                        </template>
+                        Computing units indicate the computing power in the swan network.
+                      </el-popover>
+                    </h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.ecp[0]?.online_cu)/100)}}
+                    </b>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1]?.online_cu" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0]?.online_cu) >= Number(overviewData.value.ecp[1]?.online_cu) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0]?.online_cu) >= Number(overviewData.value.ecp[1]?.online_cu)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0]?.online_cu - overviewData.value.ecp[1]?.online_cu)/100)}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1]?.online_cu" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane :name="1">
+              <template #label>
+                <span class="font-12">FCP Summary</span>
+              </template>
+              <el-row :gutter="6" v-if="overviewData.value.fcp && overviewData.value.fcp.length>0">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Active FCP Number</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0]?.online_cps))}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0]?.online_cps) >= Number(overviewData.value.fcp[1]?.online_cps) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0]?.online_cps) >= Number(overviewData.value.fcp[1]?.online_cps)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0]?.online_cps - overviewData.value.fcp[1]?.online_cps))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Active Applications</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0].active_applications))}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].active_applications) >= Number(overviewData.value.fcp[1].active_applications) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].active_applications) >= Number(overviewData.value.fcp[1].active_applications)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].active_applications - overviewData.value.fcp[1].active_applications))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Deployments</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0].deployments))}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].deployments) >= Number(overviewData.value.fcp[1].deployments) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].deployments) >= Number(overviewData.value.fcp[1].deployments)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].deployments - overviewData.value.fcp[1].deployments))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total running jobs</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0].running_jobs))}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].running_jobs) >= Number(overviewData.value.fcp[1].running_jobs) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].running_jobs) >= Number(overviewData.value.fcp[1].running_jobs)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].running_jobs - overviewData.value.fcp[1].running_jobs))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total GPU hours</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(timeFormat(overviewData.value.fcp[0].gpu_hours))}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].gpu_hours) >= Number(overviewData.value.fcp[1].gpu_hours)?'+':''}}{{replaceFormat(timeFormat(Number(overviewData.value.fcp[0].gpu_hours - overviewData.value.fcp[1].gpu_hours)))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total CPU hours</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(timeFormat(overviewData.value.fcp[0].cpu_hours))}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].cpu_hours) >= Number(overviewData.value.fcp[1].cpu_hours) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].cpu_hours) >= Number(overviewData.value.fcp[1].cpu_hours)?'+':''}}{{replaceFormat(timeFormat(Number(overviewData.value.fcp[0].cpu_hours - overviewData.value.fcp[1].cpu_hours)))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total UBI</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards))}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].ubi_rewards) >= Number(overviewData.value.fcp[1].ubi_rewards) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].ubi_rewards) >= Number(overviewData.value.fcp[1].ubi_rewards)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].ubi_rewards - overviewData.value.fcp[1].ubi_rewards))}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].ubi_rewards" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content g-select">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center nowrap">
+                      <el-select v-model="AvgZKRewards.value" placeholder="Select" size="small">
+                        <el-option v-for="item in AvgZKRewards.options" :key="item.value" :label="item.value" :value="item.value">
+                          <div class="font-14">{{item.value}}</div>
+                        </el-option>
+                      </el-select>
+                      Avg UBI
+                    </h6>
+                    <template v-if="AvgZKRewards.value === 'Daily'">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_day))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_day" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].rewards_avg_day) >= Number(overviewData.value.fcp[1].rewards_avg_day) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].rewards_avg_day) >= Number(overviewData.value.fcp[1].rewards_avg_day)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_day - overviewData.value.fcp[1].rewards_avg_day))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_day" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <template v-else-if="AvgZKRewards.value === 'Weekly'">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_week))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_week" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].rewards_avg_week) >= Number(overviewData.value.fcp[1].rewards_avg_week) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].rewards_avg_week) >= Number(overviewData.value.fcp[1].rewards_avg_week)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_week - overviewData.value.fcp[1].rewards_avg_week))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_week" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <template v-else-if="AvgZKRewards.value === 'Monthly'">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_month))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_month" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].rewards_avg_month) >= Number(overviewData.value.fcp[1].rewards_avg_month) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].rewards_avg_month) >= Number(overviewData.value.fcp[1].rewards_avg_month)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_month - overviewData.value.fcp[1].rewards_avg_month))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_month" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <template v-else>
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_year))}}
+                      </b>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_year" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0].rewards_avg_year) >= Number(overviewData.value.fcp[1].rewards_avg_year) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0].rewards_avg_year) >= Number(overviewData.value.fcp[1].rewards_avg_year)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0].rewards_avg_year - overviewData.value.fcp[1].rewards_avg_year))}}</h6>
+                      <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1].rewards_avg_year" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">FCP Collaterals</h6>
+                    <div class="mb-10">
+                      <b class="flex flex-ai-center flex-jc-center font-22 weight-4 text-center a">{{ replaceFormat(tokenBalance.fcp) }}</b>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center">
+                      FCP CU
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                        </template>
+                        Computing units indicate the computing power in the swan network.
+                      </el-popover>
+                    </h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.fcp[0]?.online_cu)/100)}}
+                    </b>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1]?.online_cu" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.fcp[0]?.online_cu) >= Number(overviewData.value.fcp[1]?.online_cu) ? 'up': 'down'}`">{{Number(overviewData.value.fcp[0]?.online_cu) >= Number(overviewData.value.fcp[1]?.online_cu)?'+':''}}{{replaceFormat(Number(overviewData.value.fcp[0]?.online_cu - overviewData.value.fcp[1]?.online_cu)/100)}}</h6>
+                    <h6 v-if="overviewData.value.fcp.length>1 && overviewData.value.fcp[1]?.online_cu" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane :name="2">
+              <template #label>
+                <span class="font-12">ECP Summary</span>
+              </template>
+              <el-row :gutter="6" v-if="overviewData.value.ecp && overviewData.value.ecp.length>0">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Active ECP Number</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.ecp[0]?.online_cps))}}
+                    </b>
+                    <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0]?.online_cps) >= Number(overviewData.value.ecp[1]?.online_cps) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0]?.online_cps) >= Number(overviewData.value.ecp[1]?.online_cps)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0]?.online_cps - overviewData.value.ecp[1]?.online_cps))}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total UBI</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.ecp[0].ubi_rewards))}}
+                    </b>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].ubi_rewards) >= Number(overviewData.value.ecp[1].ubi_rewards) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].ubi_rewards) >= Number(overviewData.value.ecp[1].ubi_rewards)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].ubi_rewards - overviewData.value.ecp[1].ubi_rewards))}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1].ubi_rewards" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total ZK tasks</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.ecp[0].tasks))}}
+                    </b>
+                    <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].tasks) >= Number(overviewData.value.ecp[1].tasks) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].tasks) >= Number(overviewData.value.ecp[1].tasks)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].tasks - overviewData.value.ecp[1].tasks))}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">GPU ZK task</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.ecp[0].tasks_gpu))}}
+                    </b>
+                    <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].tasks_gpu) >= Number(overviewData.value.ecp[1].tasks_gpu) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].tasks_gpu) >= Number(overviewData.value.ecp[1].tasks_gpu)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].tasks_gpu - overviewData.value.ecp[1].tasks_gpu))}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">CPU ZK task</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.ecp[0].tasks_cpu))}}
+                    </b>
+                    <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].tasks_cpu) >= Number(overviewData.value.ecp[1].tasks_cpu) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].tasks_cpu) >= Number(overviewData.value.ecp[1].tasks_cpu)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].tasks_cpu - overviewData.value.ecp[1].tasks_cpu))}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Verified ZK task</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.ecp[0].tasks_verified))}}
+                    </b>
+                    <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].tasks_verified) >= Number(overviewData.value.ecp[1].tasks_verified) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].tasks_verified) >= Number(overviewData.value.ecp[1].tasks_verified)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].tasks_verified - overviewData.value.ecp[1].tasks_verified))}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content g-select">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center nowrap">
+                      <el-select v-model="AvgZKRewards.value" placeholder="Select" size="small">
+                        <el-option v-for="item in AvgZKRewards.options" :key="item.value" :label="item.value" :value="item.value">
+                          <div class="font-14">{{item.value}}</div>
+                        </el-option>
+                      </el-select>
+                      Avg UBI
+                    </h6>
+                    <template v-if="AvgZKRewards.value === 'Daily'">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.ecp[0].rewards_avg_day))}}
+                      </b>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].rewards_avg_day) >= Number(overviewData.value.ecp[1].rewards_avg_day) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].rewards_avg_day) >= Number(overviewData.value.ecp[1].rewards_avg_day)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].rewards_avg_day - overviewData.value.ecp[1].rewards_avg_day))}}</h6>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <template v-else-if="AvgZKRewards.value === 'Weekly'">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.ecp[0].rewards_avg_week))}}
+                      </b>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].rewards_avg_week) >= Number(overviewData.value.ecp[1].rewards_avg_week) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].rewards_avg_week) >= Number(overviewData.value.ecp[1].rewards_avg_week)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].rewards_avg_week - overviewData.value.ecp[1].rewards_avg_week))}}</h6>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <template v-else-if="AvgZKRewards.value === 'Monthly'">
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.ecp[0].rewards_avg_month))}}
+                      </b>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].rewards_avg_month) >= Number(overviewData.value.ecp[1].rewards_avg_month) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].rewards_avg_month) >= Number(overviewData.value.ecp[1].rewards_avg_month)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].rewards_avg_month - overviewData.value.ecp[1].rewards_avg_month))}}</h6>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                    <template v-else>
+                      <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                        {{replaceFormat(Number(overviewData.value.ecp[0].rewards_avg_year))}}
+                      </b>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0].rewards_avg_year) >= Number(overviewData.value.ecp[1].rewards_avg_year) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0].rewards_avg_year) >= Number(overviewData.value.ecp[1].rewards_avg_year)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0].rewards_avg_year - overviewData.value.ecp[1].rewards_avg_year))}}</h6>
+                      <h6 v-if="overviewData.value.ecp.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                    </template>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">ECP Collaterals</h6>
+                    <div class="mb-10">
+                      <b class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center a">{{ replaceFormat(tokenBalance.ecp) }}</b>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center flex flex-ai-center flex-jc-center">
+                      ECP CU
+                      <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" trigger="hover">
+                        <template #reference>
+                          <xy-icon class="icon ml-4 mb-2" :nameProps="'Info-Icon'" :width="'0.18rem'" :height="'0.18rem'"></xy-icon>
+                        </template>
+                        Computing units indicate the computing power in the swan network.
+                      </el-popover>
+                    </h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.ecp[0]?.online_cu)/100)}}
+                    </b>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1]?.online_cu" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.ecp[0]?.online_cu) >= Number(overviewData.value.ecp[1]?.online_cu) ? 'up': 'down'}`">{{Number(overviewData.value.ecp[0]?.online_cu) >= Number(overviewData.value.ecp[1]?.online_cu)?'+':''}}{{replaceFormat(Number(overviewData.value.ecp[0]?.online_cu - overviewData.value.ecp[1]?.online_cu)/100)}}</h6>
+                    <h6 v-if="overviewData.value.ecp.length>1 && overviewData.value.ecp[1]?.online_cu" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane :name="3">
+              <template #label>
+                <span class="font-12">Swan Chain</span>
+              </template>
+              <el-row :gutter="6" v-if="overviewData.value.swan && overviewData.value.swan.length>0">
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Addresses</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.swan[0].total_addresses))}}
+                    </b>
+                    <h6 v-if="overviewData.value.swan.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.swan[0].total_addresses) >= Number(overviewData.value.swan[1].total_addresses) ? 'up': 'down'}`">{{Number(overviewData.value.swan[0].total_addresses) >= Number(overviewData.value.swan[1].total_addresses)?'+':''}}{{replaceFormat(Number(overviewData.value.swan[0].total_addresses - overviewData.value.swan[1].total_addresses))}}</h6>
+                    <h6 v-if="overviewData.value.swan.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Contracts (24H)</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.swan[0].total_contracts))}}
+                    </b>
+                    <h6 v-if="overviewData.value.swan.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.swan[0].total_contracts) >= Number(overviewData.value.swan[1].total_contracts) ? 'up': 'down'}`">{{Number(overviewData.value.swan[0].total_contracts) >= Number(overviewData.value.swan[1].total_contracts)?'+':''}}{{replaceFormat(Number(overviewData.value.swan[0].total_contracts - overviewData.value.swan[1].total_contracts))}}</h6>
+                    <h6 v-if="overviewData.value.swan.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Transactions Today</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{overviewData.value.swan.length>1 ? replaceFormat(Number(overviewData.value.swan[0].total_txns - overviewData.value.swan[1].total_txns)) : replaceFormat(Number(overviewData.value.swan[0].total_txns))}}
+                    </b>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Transactions</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.swan[0].total_txns))}}
+                    </b>
+                    <h6 v-if="overviewData.value.swan.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.swan[0].total_txns) >= Number(overviewData.value.swan[1].total_txns) ? 'up': 'down'}`">{{Number(overviewData.value.swan[0].total_txns) >= Number(overviewData.value.swan[1].total_txns)?'+':''}}{{replaceFormat(Number(overviewData.value.swan[0].total_txns - overviewData.value.swan[1].total_txns))}}</h6>
+                    <h6 v-if="overviewData.value.swan.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total Accounts</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.swan[0].total_accounts))}}
+                    </b>
+                    <h6 v-if="overviewData.value.swan.length>1" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.swan[0].total_accounts) >= Number(overviewData.value.swan[1].total_accounts) ? 'up': 'down'}`">{{Number(overviewData.value.swan[0].total_accounts) >= Number(overviewData.value.swan[1].total_accounts)?'+':''}}{{replaceFormat(Number(overviewData.value.swan[0].total_accounts - overviewData.value.swan[1].total_accounts))}}</h6>
+                    <h6 v-if="overviewData.value.swan.length>1" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="6" :xl="6">
+                  <div class="grid-content">
+                    <h6 class="font-12 weight-4 text-center">Total CP Account</h6>
+                    <b v-loading="overviewLoad" class="flex flex-ai-center flex-jc-center font-20 mtb-2 weight-4 text-center">
+                      {{replaceFormat(Number(overviewData.value.swan[0]?.total_cp_contracts))}}
+                    </b>
+                    <h6 v-if="overviewData.value.swan.length>1 && overviewData.value.swan[1]?.total_cp_contracts" class="font-16 weight-4 text-right mb-4 t" :class="`${Number(overviewData.value.swan[0]?.total_cp_contracts) >= Number(overviewData.value.swan[1]?.total_cp_contracts) ? 'up': 'down'}`">{{Number(overviewData.value.swan[0]?.total_cp_contracts) >= Number(overviewData.value.swan[1]?.total_cp_contracts)?'+':''}}{{replaceFormat(Number(overviewData.value.swan[0]?.total_cp_contracts - overviewData.value.swan[1]?.total_cp_contracts))}}</h6>
+                    <h6 v-if="overviewData.value.swan.length>1 && overviewData.value.swan[1]?.total_cp_contracts" class="font-12 weight-4 text-right t">24h change</h6>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+        <!-- <div class="flex flex-jc-center open pointer mt-10" v-if="activeName === 0">
+          <svg @click="machineShow=!machineShow" :class="`icon ${machineShow?'up':''}`" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3824" width="32" height="32"><path d="M200.874667 311.125333l341.333333 341.333334L512 682.666667l-30.208-30.208 341.333333-341.333334 60.416 60.416-341.333333 341.333334q-2.986667 2.901333-6.485333 5.290666-3.498667 2.304-7.424 3.925334-3.84 1.621333-7.936 2.389333-4.181333 0.853333-8.362667 0.853333-4.266667 0-8.362667-0.853333t-7.936-2.389333q-3.925333-1.621333-7.424-3.925334-3.413333-2.389333-6.485333-5.290666l-341.333333-341.333334 60.416-60.416zM170.666667 384q-4.266667 0-8.362667-0.853333t-7.936-2.389334q-3.925333-1.621333-7.424-3.925333-3.413333-2.389333-6.485333-5.290667-2.901333-2.986667-5.290667-6.485333-2.304-3.498667-3.925333-7.424-1.621333-3.84-2.389334-7.936Q128 345.514667 128 341.333333q0-4.266667 0.853333-8.362666t2.389334-7.936q1.621333-3.925333 3.925333-7.424 2.389333-3.413333 5.290667-6.485334 2.986667-2.901333 6.485333-5.290666 3.498667-2.304 7.424-3.925334 3.84-1.621333 7.936-2.389333 4.181333-0.853333 8.362667-0.853333 4.266667 0 8.362666 0.853333t7.936 2.389333q3.925333 1.621333 7.424 3.925334 3.413333 2.389333 6.485334 5.290666 2.901333 2.986667 5.290666 6.485334 2.304 3.498667 3.925334 7.424 1.621333 3.84 2.389333 7.936 0.853333 4.181333 0.853333 8.362666 0 4.266667-0.853333 8.362667t-2.389333 7.936q-1.621333 3.925333-3.925334 7.424-2.389333 3.413333-5.290666 6.485333-2.986667 2.901333-6.485334 5.290667-3.498667 2.304-7.424 3.925333-3.84 1.621333-7.936 2.389334-4.181333 0.853333-8.362666 0.853333z m682.666666 0q-4.266667 0-8.362666-0.853333t-7.936-2.389334q-3.925333-1.621333-7.424-3.925333-3.413333-2.389333-6.485334-5.290667-2.901333-2.986667-5.290666-6.485333-2.304-3.498667-3.925334-7.424-1.621333-3.84-2.389333-7.936Q810.666667 345.514667 810.666667 341.333333q0-4.266667 0.853333-8.362666t2.389333-7.936q1.621333-3.925333 3.925334-7.424 2.389333-3.413333 5.290666-6.485334 2.986667-2.901333 6.485334-5.290666 3.498667-2.304 7.424-3.925334 3.84-1.621333 7.936-2.389333 4.181333-0.853333 8.362666-0.853333 4.266667 0 8.362667 0.853333t7.936 2.389333q3.925333 1.621333 7.424 3.925334 3.413333 2.389333 6.485333 5.290666 2.901333 2.986667 5.290667 6.485334 2.304 3.498667 3.925333 7.424 1.621333 3.84 2.389334 7.936 0.853333 4.181333 0.853333 8.362666 0 4.266667-0.853333 8.362667t-2.389334 7.936q-1.621333 3.925333-3.925333 7.424-2.389333 3.413333-5.290667 6.485333-2.986667 2.901333-6.485333 5.290667-3.498667 2.304-7.424 3.925333-3.84 1.621333-7.936 2.389334-4.181333 0.853333-8.362667 0.853333z" fill="#999999" p-id="3825"></path></svg>
+        </div> -->
+      </div>
+    </el-col>
+    <el-col :xs="24" :sm="24" :md="24" :lg="11" :xl="11" class="flex flex-ai-center baseline">
+      <div class="module-container world">
+        <div class="title flex flex-ai-center">
+          <i class="icon icon-world"></i>
+          <span class="font-16 weight-4">Location Overview</span>
+        </div>
+        <div class="world-buttom">
+          <svg @click="resetMap" t="1717382052739" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8179" width="18" height="18">
+            <path d="M713.536 255.232l-58.624 72.192L960 355.712 868.8 64l-72.512 89.344A458.88 458.88 0 0 0 523.52 64C269.76 64 64 269.184 64 522.24c0 253.12 205.76 458.24 459.52 458.24a459.648 459.648 0 0 0 429.44-294.72 65.408 65.408 0 0 0-37.824-84.48 65.728 65.728 0 0 0-84.8 37.76A328.32 328.32 0 0 1 523.584 849.6c-181.312 0-328.32-146.56-328.32-327.36 0-180.736 147.008-327.296 328.32-327.296 69.376 0 135.232 21.504 189.952 60.288"
+              fill="#ffffff" p-id="8180"></path>
+          </svg>
+          <svg @click="roamMap(0)" t="1717381974237" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6091" width="18" height="18">
+            <path d="M580.722174 437.990403 580.722174 78.171384 436.794158 78.171384 436.794158 437.990403 76.975139 437.990403 76.975139 581.918419 436.794158 581.918419 436.794158 941.737438 580.722174 941.737438 580.722174 581.918419 940.542216 581.918419 940.542216 437.990403Z"
+              fill="#ffffff" p-id="6092"></path>
+          </svg>
+          <svg @click="roamMap(1)" t="1717382018337" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7130" width="18" height="18">
+            <path d="M587.229378 437.990403 580.722174 437.990403 76.975139 437.990403 76.975139 581.918419 580.722174 581.918419 587.229378 581.918419 940.542216 581.918419 940.542216 437.990403Z" fill="#ffffff" p-id="7131"></path>
+          </svg>
+        </div>
+        <div class='chart-world flex flex-ai-end' id='chart-world' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
+      </div>
+    </el-col>
+  </el-row>
+</template>
+
+<script setup lang="ts">
+import * as echarts from "echarts"
+import worldGeoJSON from '@/assets/js/world.ts'
+import { statsOverviewData } from "@/api/overview"
+import { replaceFormat, timeFormat, timeout } from '@/utils/common';
+import { ecpDeposit, fcpDeposit, locationAll, rpcLink, setLocation, tokenSwan } from "@/utils/storage";
+import tokenABI from '@/utils/abi/SwanToken.json'
+import XyIcon from '@/base-ui/xy-icon.vue'
+
+const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
+const overviewData = reactive<any>({
+  value: {
+    fcp: [],
+    ecp: [],
+    location: [],
+    swan: []
+  },
+  totalLocation: 0
+})
+const overviewLoad = ref(false)
+const providersLoad = ref(false)
+const activeName = ref(0)
+const AvgZKRewards = reactive({
+  value: 'Daily',
+  options: [
+    {
+      value: 'Daily'
+    },
+    {
+      value: 'Weekly'
+    },
+    {
+      value: 'Monthly'
+    },
+    {
+      value: 'Yearly'
+    }]
+})
+const tokenBalance = reactive<any>({
+  fcp: '',
+  ecp: '',
+  total: ''
+})
+const machineShow = ref(true)
+
+function tabsSwitch (index:number) {
+  if (index > 0 && activeName.value < 3) activeName.value += 1
+  else if (index === 0 && activeName.value > 0) activeName.value -= 1
+}
+async function init () {
+  try{
+    providersLoad.value = true
+    overviewLoad.value = true
+    const overviewRes = await statsOverviewData()
+    overviewData.value = overviewRes?.data ?? {}
+    overviewLoad.value = false
+    const location = overviewRes?.data?.location ?? []
+    overviewData.totalLocation = location.length ?? 0
+    setLocation(location)
+    await timeout(500)
+    drawChart(location)
+  }catch{overviewLoad.value = false}
+}
+let chart:any = null
+function resetMap () {
+  chart.setOption({
+    geo: {
+      center: undefined,
+      zoom: 1.1
+    }
+  })
+}
+function roamMap (flag: number) {
+  const currentZoom = chart.getOption().geo[0].zoom
+  let increaseAmplitude = 1.1
+  if (flag === 1) {
+    increaseAmplitude = 0.8
+    if (currentZoom < 1) increaseAmplitude = 1
+  } else if (flag == 2) {
+    increaseAmplitude = 0 //reset
+  }
+  chart.setOption({
+    geo: {
+      zoom: currentZoom * increaseAmplitude < 1 ? 1 : currentZoom * increaseAmplitude
+    },
+  })
+}
+function drawChart (dataArr: any) {
+  chart = echarts.init(document.getElementById('chart-world'))
+  window.addEventListener('resize', function () {
+    chart.resize()
+  })
+  chart.setOption({
+    roam: true,
+    grid: {
+      top: '0',
+      left: '0',
+      right: '0',
+      bottom: '0',
+      containLabel: true
+    },
+    toolbox: {
+      orient: 'vertical',
+      top: '2%',
+      right: '2%',
+      feature: {
+        dataZoom: { show: false },
+        restore: {
+          show: false,
+          textStyle: {
+            color: 'transparent' 
+          },
+          iconStyle: {
+            borderColor: '#fff',
+            borderWidth: 2,
+            color: 'transparent' 
+          },
+          emphasis: {
+            iconStyle: {
+              borderColor: '#fff', 
+              borderWidth: 2, 
+              color: 'transparent' 
+            }
+          }
+        },
+
+        // zoom: { show: true },
+      },
+      textStyle: {
+        color: '#fff',
+      }
+    },
+    tooltip: {
+      trigger: "item",
+      formatter: function (val: any) {
+        if (val.data && val.data.city) return val.data.city
+        else return val.name
+      },
+      // show: false,
+      padding: 5,
+      textStyle: {
+        fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+        lineHeight: 10,
+        align: "left"
+      }
+    },
+    legend: {
+      orient: 'vertical',
+      left: '2%',
+      bottom: '2%',
+      itemGap: 5,
+      itemWidth: 10,
+      itemHeight: 10,
+      icon: 'roundRect',
+      // formatter: function (name) {
+      //     return echarts.format.truncateText(name, 50);
+      // },
+      textStyle: {
+        color: '#fff',
+        fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+        fontFamily: 'HELVETICA-ROMAN',
+        // lineHeight: 14,
+        rich: {
+          a: {
+            verticalAlign: 'middle',
+          },
+        },
+        padding: [0, 0, -2, -1]
+      }
+    },
+    geo: {
+      show: true,
+      map: 'worldHq',
+      label: {
+        normal: {
+          show: false
+        },
+        emphasis: {
+          show: false
+        }
+      },
+      // aspectScale: 0.75,
+      roam: true, 
+      toolbox: {
+        show: true,
+        feature: {
+          dataZoom: {
+            yAxisIndex: 'none'
+          },
+          restore: {},
+          move: {}
+        }
+      },
+      itemStyle: {
+        normal: {
+          areaColor: '#565658',
+          borderColor: '#404042'
+        },
+        // emphasis: {
+        //   areaColor: '#a467d1',
+        //   label: {
+        //     show: false
+        //   }
+        // }
+      },
+      emphasis: {
+        focus: 'none'
+      },
+      silent: true,
+      zoom: 1,
+      scaleLimit: {
+        min: 1
+      },
+      // left: '5%',
+      // right: '5%'
+    },
+    series: [
+      {
+        name: 'Computing Provider',
+        type: 'scatter',
+        coordinateSystem: 'geo',
+        itemStyle: {
+          // borderWidth: 1,
+          // borderColor: '#fff',
+          // color: 'rgba(89, 152, 14, 1)',
+          color: '#447dff',
+          shadowBlur: 2,
+          // shadowColor: '#7ca3fb'
+          shadowColor: '#7ca3fb'
+        },
+        data: dataArr,
+        roam: true,
+        symbolSize: 8,
+        zlevel: 1
+      },
+    ]
+  })
+  providersLoad.value = false
+}
+
+async function getBalanceNum() {
+  try {
+    let web3 = new Web3(new Web3.providers.HttpProvider(rpcLink.value));
+    let tokenContract = new web3.eth.Contract(tokenABI, tokenSwan)
+    const tokenBalanceFCP = await tokenContract.methods.balanceOf(import.meta.env.VITE_FCP_DEPOSIT_ADDRESS).call()
+    const tokenBalanceECP = await tokenContract.methods.balanceOf(import.meta.env.VITE_ECP_DEPOSIT_ADDRESS).call()
+    tokenBalance.fcp = web3.utils.fromWei(tokenBalanceFCP, 'ether')
+    tokenBalance.ecp = web3.utils.fromWei(tokenBalanceECP, 'ether')
+    tokenBalance.total = Number(tokenBalance.fcp) + Number(tokenBalance.ecp)
+  } catch {
+    tokenBalance.fcp = ''
+    tokenBalance.ecp = ''
+    tokenBalance.total = ''
+  }
+}
+
+const gpuNum = ref()
+const props = withDefaults(
+  defineProps<{
+    gpuNumber?: number
+  }>(),
+  {
+    gpuNumber: 0
+  }
+)
+onMounted(async () => {
+  echarts.registerMap('worldHq', worldGeoJSON)
+  getBalanceNum()
+  init()
+  gpuNum.value = props.gpuNumber
+})
+watch(() => props.gpuNumber, () => gpuNum.value = props.gpuNumber)
+</script>
+
+<style lang="less" scoped>
+.el-row {
+  .el-col {
+    margin: 0.1rem 0;
+    &.flex {
+      display: flex;
+    }
+    .module-container {
+      position: relative;
+      width: calc(100% - 0.4rem);
+      height: calc(100% - 0.3rem);
+      padding: 0.2rem 0.2rem 0.1rem;
+      background-color: var(--color-light);
+      border-radius: 0.14rem;
+      @media screen and (max-width: 768px) {
+      }
+      &.world {
+        width: 100%;
+        height: 100%;
+        min-height: 4.2rem;
+        padding: 0;
+        background-color: #0d0e12;
+        .title {
+          position: absolute;
+          left: 0.25rem;
+          right: 0.25rem;
+          top: 0.32rem;
+          width: calc(100% - 0.5rem) !important;
+          color: var(--color-light);
+          z-index: 9;
+        }
+      }
+      .el-col {
+        margin: 0;
+      }
+      .title {
+        margin: 0;
+        .icon {
+          width: 0.24rem;
+          height: 0.24rem;
+          margin: 0 0.09rem 0 0;
+          @media screen and (max-width: 1024px) {
+            width: 16px;
+            height: 16px;
+          }
+          &.icon-world {
+            background: url(../../../assets/images/icons/icon-05.png)
+              no-repeat;
+            background-size: 100%;
+          }
+          &.icon-figures {
+            background: url(../../../assets/images/icons/icon-04.png)
+              no-repeat;
+            background-size: 100%;
+          }
+          &.icon-gpu {
+            background: url(../../../assets/images/icons/icon-08.png)
+              no-repeat;
+            background-size: 100%;
+          }
+          &.icon-resource {
+            background: url(../../../assets/images/icons/icon-06.png)
+              no-repeat;
+            background-size: 100%;
+          }
+          &.icon-provider {
+            background: url(../../../assets/images/icons/icon-07.png)
+              no-repeat;
+            background-size: 100%;
+          }
+          &.icon-list {
+            background: url(../../../assets/images/icons/icon-09.png)
+              no-repeat;
+            background-size: 100%;
+          }
+        }
+      }
+      .grid-content {
+        height: calc(100% - 0.4rem);
+        margin: 0.06rem 0 0;
+        background: #edf2ff;
+        &.g-select {
+          height: calc(100% - 0.4rem);
+          padding-top: 0.05rem;
+        }
+      }
+      .tabs-container {
+        .tabs-button{
+          top: 0.3rem;
+          bottom: auto;
+          height: auto;
+        }
+      }
+    }
+    .grid-content {
+      position: relative;
+      height: calc(100% - 0.3rem);
+      padding: 0.12rem 0.08rem 0.18rem;
+      background: var(--color-light);
+      border-radius: 0.18rem;
+      // box-shadow: 0 0 12px #e6e7eb;
+      @media screen and (max-width: 1440px) {
+        padding: 0.18rem 0.04rem 0.12rem;
+      }
+    }
+    h6 {
+      width: 100%;
+      line-height: 1.2;
+      text-transform: capitalize;
+      color: #7c889b;
+      &.t {
+        width: auto;
+        padding: 0.03rem 0.16rem 0;
+        line-height: 1;
+      }
+      &.up {
+        color: #38a169;
+      }
+      &.down {
+        color: #e53e3e;
+      }
+      small {
+        margin: 0;
+        font-family: "Montserrat-Regular";
+        font-weight: normal;
+        color: #a0a0a0;
+        font-size: 0.14rem;
+        @media screen and (min-width: 1800px) {
+          font-size: 0.16rem;
+        }
+        @media screen and (max-width: 768px) {
+          font-size: 13px;
+        }
+      }
+      small {
+        margin: 0 0 0 5px;
+        font-family: "Montserrat-Regular";
+        font-weight: normal;
+        color: #a0a0a0;
+        font-size: 0.13rem;
+        @media screen and (min-width: 1800px) {
+          font-size: 0.15rem;
+        }
+        @media screen and (max-width: 768px) {
+          font-size: 12px;
+        }
+      }
+      :deep(.el-select) {
+        width: auto;
+        font-size: inherit;
+        .el-tooltip__trigger {
+          width: 70px;
+          padding: 2px 4px;
+          margin: 0 3px 0 0;
+          background-color: transparent;
+        }
+        .el-select__wrapper {
+          font-size: inherit;
+        }
+      }
+    }
+    b {
+      position: relative;
+      padding: 0.1rem 0 0;
+      margin: 0;
+      line-height: 1;
+      &.a {
+        word-break: break-all;
+      }
+      small {
+        margin: 0 0 0 4px;
+        font-size: 0.16rem;
+        @media screen and (min-width: 1800px) {
+          font-size: 0.18rem;
+        }
+        @media screen and (max-width: 768px) {
+          font-size: 15px;
+        }
+      }
+    }
+    .world-buttom {
+      position: absolute;
+      right: 0.25rem;
+      top: 0.32rem;
+      z-index: 10;
+      svg {
+        display: block;
+        cursor: pointer;
+        &:nth-child(2) {
+          margin: 7px 0 3px;
+        }
+      }
+    }
+    .chart-world {
+      width: 100%;
+      height: 4.2rem;
+      height: 100%;
+      margin: 0;
+      @media screen and (max-width: 768px) {
+        height: 300px;
+      }
+    }
+    :deep(.el-tabs) {
+      width: 100%;
+      .el-tabs__nav-scroll {
+        overflow: auto;
+      }
+      .el-tabs__header {
+        padding: 0.22rem 0 0.1rem;
+        margin: 0;
+        .el-tabs__nav-wrap {
+          @media screen and (max-width: 600px) {
+            padding: 0 20px;
+          }
+        }
+        .el-tabs__active-bar,
+        .el-tabs__nav-wrap:after {
+          display: none;
+        }
+        .el-tabs__nav {
+          .el-tabs__item {
+            height: auto;
+            padding: 0.08rem 0.13rem;
+            margin: 0 0.15rem 0 0;
+            background-color: #f3f4f8;
+            border: 1px solid #ced4e1;
+            border-radius: 0.5rem;
+            color: #313132;
+            line-height: 1.1;
+            &.is-active {
+              background-color: #edf2ff;
+              border-color: #8eb0ff;
+              color: var(--color-primary);
+            }
+          }
+        }
+        .el-tabs__nav-next,
+        .el-tabs__nav-prev {
+          display: none;
+          line-height: 24px;
+        }
+      }
+    }
+    .open {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      padding: 0 0.1rem;
+      background-color: var(--color-light);
+      transform: translate(-50%, 50%);
+      // border: 1px solid #b4b4b4;
+      border-radius: 0.06rem;
+      @media screen and (max-width: 768px) {
+        transform: translate(-50%, 35%);
+      }
+      svg, path{
+        width: 24px;
+        height: 24px;
+        fill: #1890ff;
+        transition: all 0.2s;
+        &.up {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+}
+</style>

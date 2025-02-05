@@ -302,15 +302,15 @@ const contractAddress = ref('')
       tx_hash: ''
     })
     const explorerList = reactive({
-      value: currentNetwork.value === 'Proxima' ? 'Swan Chain Proxima' : 'Swan Chain Mainnet',
+      value: currentNetwork.value === 'Proxima' ? 'Proxima' : 'Mainnet',
       options: [
         {
-          value: 'Swan Chain Mainnet',
-          label: 'Swan Chain Mainnet'
+          value: 'Mainnet',
+          label: 'Mainnet'
         },
         {
-          value: 'Swan Chain Proxima',
-          label: 'Swan Chain Proxima'
+          value: 'Proxima',
+          label: 'Proxima'
         }
       ]
     })

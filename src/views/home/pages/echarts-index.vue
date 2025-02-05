@@ -139,8 +139,9 @@ const changetype = async (data: any) => {
   const cuMax = Math.ceil(Math.max(...cuData.datum) * cuNumberMax)
   const cuNumber = Math.min(...cuData.datum) >= 0 ? 0.9 : 1.1
   const cuMin = Math.floor(Math.min(...cuData.datum)*cuNumber)
-  const cuInterval = Math.ceil((cuMax-cuMin)/(cuMin===0?4:5))
-  const cuDeltaNumberMax = Math.max(...cuDeltaData.datum) >= 0 ? 1.1 : 0.9
+  // const cuInterval = Math.ceil((cuMax-cuMin)/(cuMin===0?4:5))
+  const cuInterval = Math.ceil((cuMax)/(4))
+  const cuDeltaNumberMax = Math.max(...cuDeltaData.datum) >= 0 ? 2 : 0.9
   const cuDeltaMax = Math.ceil(Math.max(...cuDeltaData.datum)*cuDeltaNumberMax)
   const cuDeltaNumber = Math.min(...cuDeltaData.datum) >= 0 ? 0.9 : 1.1
   const cuDeltaMin = Math.floor(Math.min(...cuDeltaData.datum) * cuDeltaNumber)
@@ -156,10 +157,11 @@ const changetype = async (data: any) => {
   const allcpMax = Math.ceil(Math.max(...allcpData.datum) * allcpNumberMax)
   const allcpNumber = Math.min(...allcpData.datum) >= 0 ? 0.9 : 1.1
   const allcpMin = Math.floor(Math.min(...allcpData.datum)*allcpNumber)
-  const allcpInterval = Math.ceil((allcpMax-allcpMin)/(allcpMin===0?4:5))
-  const allcpDeltaNumberMax = Math.max(...allcpDeltaData.datum) >= 0 ? 1.1 : 0.9
+  // const allcpInterval = Math.ceil((allcpMax-allcpMin)/(allcpMin===0?4:5))
+  const allcpInterval = Math.ceil((allcpMax)/(4))
+  const allcpDeltaNumberMax = Math.max(...allcpDeltaData.datum) >= 0 ? 2 : 0.9
   const allcpDeltaMax = Math.ceil(Math.max(...allcpDeltaData.datum)*allcpDeltaNumberMax)
-  const allcpDeltaNumber = Math.min(...allcpDeltaData.datum) >= 0 ? 0.9 : 1.1
+  const allcpDeltaNumber = Math.min(...allcpDeltaData.datum) >= 0 ? 0.9 : 1.6
   const allcpDeltaMin = Math.floor(Math.min(...allcpDeltaData.datum) * allcpDeltaNumber)
 
   const option1 = {
@@ -361,22 +363,6 @@ const changetype = async (data: any) => {
     yAxis: [
       {
         type: 'value',
-        // name: 'FCP',
-        // min: 0,
-        // max: 240,
-        // interval: 80,
-        axisLabel: {
-          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
-          color: '#7c889b',
-          //   formatter: '{value}'
-        },
-        min: allcpMin,
-        max: allcpMax,
-        interval: allcpInterval,
-        // minInterval: 150,
-      },
-      {
-        type: 'value',
         min: allcpDeltaMin,
         max: allcpDeltaMax,
         // minInterval: 20,
@@ -388,7 +374,24 @@ const changetype = async (data: any) => {
         splitLine: {
             show: false 
         }
-      }
+      },
+      {
+        type: 'value',
+        // name: 'FCP',
+        // min: 0,
+        // max: 240,
+        // interval: 80,
+        axisLabel: {
+          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+          color: '#7c889b',
+          //   formatter: '{value}'
+        },
+        // min: allcpMin,
+        min: 0,
+        max: allcpMax,
+        interval: allcpInterval,
+        // minInterval: 150,
+      },
     ],
     series: [
       {
@@ -396,16 +399,19 @@ const changetype = async (data: any) => {
         type: 'line',
         smooth: false,
         showSymbol: true,
-        yAxisIndex: 0,
+        yAxisIndex: 1,
         color: 'rgba(105,155,255,1)',
         data: allcpData.datum
       },
       {
         name: 'Delta',
         type: 'line',
+        // barCategoryGap: '0%',
+        barGap: '0%',
+        barMaxWidth: '10',
         smooth: false,
         showSymbol: true,
-        yAxisIndex: 1,
+        yAxisIndex: 0,
         // tooltip: {
         //   valueFormatter: function (value) {
         //     return value + ' °C';
@@ -625,25 +631,6 @@ const changetype = async (data: any) => {
     yAxis: [
       {
         type: 'value',
-        // name: 'ECP',
-        // min: 0,
-        // max: 1500,
-        // interval: 750,
-        // axisLabel: {
-        //   formatter: '{value}'
-        // }
-        axisLabel: {
-          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
-          color: '#7c889b',
-          //   formatter: '{value}'
-        },
-        min: cuMin,
-        max: cuMax,
-        interval: cuInterval
-        // minInterval: 150
-      },
-      {
-        type: 'value',
         min: cuDeltaMin,
         max: cuDeltaMax,
         axisLabel: {
@@ -659,7 +646,27 @@ const changetype = async (data: any) => {
         // axisLabel: {
         //   formatter: '{value} °C'
         // }
-      }
+      },
+      {
+        type: 'value',
+        // name: 'ECP',
+        // min: 0,
+        // max: 1500,
+        // interval: 750,
+        // axisLabel: {
+        //   formatter: '{value}'
+        // }
+        axisLabel: {
+          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+          color: '#7c889b',
+          //   formatter: '{value}'
+        },
+        // min: cuMin,
+        min: 0,
+        max: cuMax,
+        interval: cuInterval,
+        // minInterval: 150
+      },
     ],
     series: [
       {
@@ -667,16 +674,19 @@ const changetype = async (data: any) => {
         type: 'line',
         smooth: false,
         showSymbol: true,
-        yAxisIndex: 0,
+        yAxisIndex: 1,
         color: 'rgba(147,198,5,1)',
         data: cuData.datum
       },
       {
         name: 'Delta',
         type: 'line',
+        // barCategoryGap: '0%',
+        barGap: '0%',
+        barMaxWidth: '10',
         smooth: false,
         showSymbol: true,
-        yAxisIndex: 1,
+        yAxisIndex: 0,
         // tooltip: {
         //   valueFormatter: function (value) {
         //     return value + ' °C';

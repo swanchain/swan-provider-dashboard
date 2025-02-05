@@ -129,14 +129,14 @@
                       </div>
                     </div>
                   </el-dropdown-item>
-                  <el-dropdown-item command="myCPs" v-if="token">
+                  <!-- <el-dropdown-item command="myCPs" v-if="token">
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon icon-cps"></i>
                         <span>My CPs</span>
                       </div>
                     </div>
-                  </el-dropdown-item>
+                  </el-dropdown-item> -->
                   <el-dropdown-item command="cp-ubi" divided>
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">

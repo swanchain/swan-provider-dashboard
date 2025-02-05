@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { createWeb3Modal, defaultWagmiConfig, useWeb3Modal } from '@web3modal/wagmi/vue'
+import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/vue'
 import { reconnect, disconnect, getChainId, connect } from '@wagmi/core'
 import { injected } from '@wagmi/connectors'
 import { getAccount, watchAccount } from '@wagmi/core'
 import configJS from './../utils/config'
 import { Init, login } from '@/utils/login';
-import { addCollateral, clearMetaAddress, metaAddress, setMetaAddress, signature, token } from '@/utils/storage';
+import { addCollateral, clearMetaAddress, metaAddress, setMetaAddress, signature } from '@/utils/storage';
 import { signOutFun, throttleLast, timeout } from '@/utils/common';
 
 const projectId = configJS.projectId
@@ -39,16 +39,16 @@ async function login2 () {
   // console.log(account)
   const time = await throttleLast()
   if (!time) return false
-  Init(async (addr:string) => {
-    if(addr) setMetaAddress(addr)
-    await timeout(500)
-    login()
+  Init(async (addr, chain) => {
+    setMetaAddress(addr)
+    // await timeout(500)
+    // login(config)
   })
 }
 
 async function signout2() {
-  // clearMetaAddress()
-  await signOutFun('disconnect')
+  clearMetaAddress()
+  // await signOutFun('disconnect')
   // console.log("in signout function")
   // window.location.reload()
 }
@@ -60,16 +60,14 @@ watchAccount(config, {
       // console.log('watch', account)
       // console.log('prev', prevAccount)
       // console.log("changed", account ?.isConnected)
-      if (account?.isConnected && token.value === '' && metaAddress.value === '') {
+      if (account ?.isConnected && signature.value === '' && metaAddress.value === '') {
         console.log("prompted")
-        if(account?.address) setMetaAddress(account?.address)
         login2()
       } else if (!account?.isConnected && prevAccount?.isConnected) {
-        console.log('watchAccount:', account, prevAccount)
         console.log('clear')
         signout2()
       }
-    } catch{ console.error }
+    } catch{ }
   },
 })
 
@@ -93,29 +91,14 @@ async function test () {
   // console.log("here")
 }
 
-onMounted(() => {
-  // console.log(metaAddress.value)
-  // console.log(token.value)
-})
 watch(() => addCollateral.value, () => connect(config, { connector: injected() }))
 </script>
 
 <template>
   <div class="flex flex-ai-center">
     <w3m-button balance="hide" size="sm" @click="test" />
-    <div @click="login2" v-if="metaAddress !== '' && token === ''" class="button ml-10">Login</div>
+    <!-- <el-button @click="login2" v-if="metaAddress !== '' && signature === ''" class="m-button">Login</el-button> -->
   </div>
 </template>
 
-<style lang="less" scoped>
-.button {
-  display: inline-block;
-  padding: 0.1rem 0.16rem;
-  background-color: var(--color-light);
-  cursor: pointer;
-  border-radius: 0.08rem;
-  line-height: 18px;
-  transition: all 0.2s;
-  color: var(--color-primary);
-}
-</style>
+<style lang="less" scoped></style>

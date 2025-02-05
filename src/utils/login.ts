@@ -1,5 +1,5 @@
 import { Buffer } from "buffer"
-import { metaAddress, setMetaAddress, setToken } from "./storage"
+import { metaAddress, setMetaAddress } from "./storage"
 import { chainIdSWAN, messageTip, timeout } from "./common"
 import { setSignature } from './storage.js'
 import { performSignin } from '@/api/login'
@@ -50,10 +50,6 @@ export async function login () {
   if (!signature) return [false, signErr]
   const reqOpts = [metaAddress.value, signature]
   const token = await performSignin(reqOpts)
-  if (token?.data?.token) {
-    setToken(token?.data?.token)
-    setMetaAddress(metaAddress.value)
-  }
   return [!!token, '']
 }
 

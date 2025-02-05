@@ -41,12 +41,12 @@
             <span class="font-14">Calculator</span>
           </template>
         </el-menu-item>
-        <el-menu-item index="myCPs" v-if="token && metaAddress">
+        <!-- <el-menu-item index="myCPs" v-if="token && metaAddress">
           <i class="icon icon-cps"></i>
           <template #title>
             <span class="font-14">My CPs</span>
           </template>
-        </el-menu-item>
+        </el-menu-item> -->
         <el-sub-menu index="cp-ubi">
           <template #title>
             <i class="icon icon-AAR"></i>

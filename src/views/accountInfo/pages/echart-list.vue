@@ -520,7 +520,7 @@ const changetype = async (data: any) => {
         type: 'bar',
         // barCategoryGap: '0%',
         barGap: '0%',
-        barWidth: '10',
+        barMaxWidth: '10',
         yAxisIndex: 1,
         data: fcpRunningData.datum,
         color: '#0000bf'
@@ -651,7 +651,7 @@ const changetype = async (data: any) => {
         type: 'bar',
         // barCategoryGap: '0%',
         barGap: '0%',
-        barWidth: '10',
+        barMaxWidth: '10',
         yAxisIndex: 1,
         data: fcpSamplingData.datum,
         color: '#0000bf'
@@ -884,7 +884,7 @@ const changetype = async (data: any) => {
         type: 'bar',
         // barCategoryGap: '0%',
         barGap: '0%',
-        barWidth: '10',
+        barMaxWidth: '10',
         yAxisIndex: 1,
         data: ecpGrowthData.datum,
         color: '#56cfb2'
@@ -1015,7 +1015,7 @@ const changetype = async (data: any) => {
         type: 'bar',
         // barCategoryGap: '0%',
         barGap: '0%',
-        barWidth: '10',
+        barMaxWidth: '10',
         yAxisIndex: 1,
         data: ecpZKTaskData.datum,
         color: '#56cfb2'

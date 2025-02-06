@@ -30,36 +30,38 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="active_deployments" min-width="120">
+            <el-table-column prop="type" min-width="120">
               <template #header>
                 <div class="font-14 weight-4 ">Account Type</div>
               </template>
               <template #default="scope">
-                <div>{{ replaceFormat(scope.row.active_deployments) }}</div>
+                <span v-if="scope.row.type === 1">FCP</span>
+                <span v-else-if="scope.row.type === 2">ECP</span>
+                <span v-else>ECP & FCP</span>
               </template>
             </el-table-column>
-            <el-table-column prop="score" min-width="60">
+            <el-table-column prop="cu" min-width="60">
               <template #header>
                 <div class="font-14 weight-4">CU</div>
               </template>
               <template #default="scope">
-                <div>{{ replaceFormat(scope.row.score) }}</div>
+                <div>{{ replaceFormat(scope.row.cu/100) }}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="score" min-width="60">
+            <el-table-column prop="status" min-width="60">
               <template #header>
                 <div class="font-14 weight-4">Status</div>
               </template>
               <template #default="scope">
-                <div>{{ replaceFormat(scope.row.score) }}</div>
+                <div>{{ scope.row.status }}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="score" min-width="60">
+            <el-table-column prop="created_at" min-width="60">
               <template #header>
                 <div class="font-14 weight-4">Create Time</div>
               </template>
               <template #default="scope">
-                <div>{{ replaceFormat(scope.row.score) }}</div>
+                <div>{{ momentFun(scope.row.created_at) }}</div>
               </template>
             </el-table-column>
             <el-table-column width="80">
@@ -88,6 +90,13 @@
               </template>
             </el-table-column>
           </el-table>
+
+          <div class="flex flex-ai-center flex-jc-center pagination-style mt-32">
+            <span class="showing">Showing {{pagin.pageNo > 0 ? (pagin.pageNo - 1) * pagin.pageSize + 1 : 0 }}-{{pagin.pageNo > 0 ? (pagin.pageNo - 1) * pagin.pageSize + providersData.length : 0 + providersData.length }} /&nbsp;</span>
+            <!-- hide-on-single-page -->
+            <el-pagination :page-size="pagin.pageSize" :page-sizes="[10, 20, 50, 100]" :current-page="pagin.pageNo" :pager-count="5" :small="small" :background="background" :layout="paginationWidth ? 'total, prev, pager, next, sizes, jumper' : 'total, prev, pager, next'"
+              :total="pagin.total" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -96,10 +105,8 @@
 
 <script setup lang="ts">
 import XyIcon from '@/base-ui/xy-icon.vue'
-import { getCPsECPListData, getCPsFCPListData } from '@/api/overview';
-import { copyContent, hiddAddress, replaceFormat, unifyNumber } from '@/utils/common';
-import type { TabsPaneContext } from 'element-plus'
-import { toPage } from '@/hooks/router';
+import { copyContent, hiddAddress, momentFun, paginationWidth, replaceFormat } from '@/utils/common';
+import { getOwnerCPsData } from '@/api/cp-profile';
 
 const router = useRouter()
 const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
@@ -107,27 +114,39 @@ const providersFCPLoad = ref(false)
 const providersData = ref([])
 const pagin = reactive({
   pageSize: 10,
-  pageNo: 1
+  pageNo: 1,
+  total: 0
 })
+const small = ref(false)
+const background = ref(false)
 const activeName = ref('online')
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
+const handleClick = (tab: any) => {
+  console.log(tab.props.name)
+  activeName.value = tab.props.name ?? 'online'
+  handleCurrentChange(1)
+}
+function handleSizeChange (val: number) {
+  pagin.pageSize = val
+  pagin.pageNo = 1
+  initList()
+}
+async function handleCurrentChange (currentPage: number) {
+  pagin.pageNo = currentPage
+  initList()
 }
 
-async function initFCPList () {
+async function initList () {
   providersFCPLoad.value = true
   try{
     const page = pagin.pageNo > 0 ? pagin.pageNo - 1 : 0
     const paramsCont = {
       "page_no": page,
       "page_size": pagin.pageSize,
-      "order": 'tasks', // tasks、score、completion_rate
-      "desc": true,
-      "status": 'Online'
+      "status": activeName.value
     }
-    const providerECPRes = await getCPsECPListData(paramsCont)
-    providersData.value = providerECPRes?.data?.list ?? []
+    const providerRes = await getOwnerCPsData(paramsCont)
+    providersData.value = providerRes?.data?.list ?? []
   }catch{console.error}
   providersFCPLoad.value = false
 }
@@ -147,7 +166,7 @@ async function handleSelect(key: string, addr: string) {
   } 
 }
 onMounted(async () => {
-  initFCPList()
+  initList()
 })
 </script>
 

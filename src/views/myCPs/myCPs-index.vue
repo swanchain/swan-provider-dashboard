@@ -11,7 +11,15 @@
 </template>
 
 <script setup lang="ts">
+import { metaAddress, token } from '@/utils/storage';
 import tableList from './pages/table-list.vue'
+import { toHome } from '@/hooks/router';
+
+watch(() => token.value, () => {
+  if (!token.value) {
+    toHome()
+  }
+})
 </script>
 
 <style lang="less" scoped>

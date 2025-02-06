@@ -13,9 +13,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    // if (token.value) {
-    //   config.headers.Authorization = `Bear ${token.value}`
-    // }
+    if (token.value && !config.headers.Authorization) {
+      config.headers.Authorization = `Bearer ${token.value}`
+    }
     // config.url = (config.base || import.meta.env.VITE_BASEAPI) + config.url
     return config
   },

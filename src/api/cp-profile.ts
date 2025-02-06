@@ -87,3 +87,12 @@ export function getCPsStatusData(addr: any) {
       method: 'get'
   })
 }
+
+export function getOwnerCPsData(params: any) {
+  return request({
+      headers: {},
+      url: `${import.meta.env.VITE_BASE_URL}v1/owner/cps`,
+      method: 'get',
+      params
+  })
+}

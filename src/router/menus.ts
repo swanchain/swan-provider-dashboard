@@ -102,7 +102,7 @@ export default [
     }
   },
   {
-    path: '/my-cps/:cp_addr/UBI-Tasks',
+    path: '/my-cps/:cp_addr/UBI-Tasks/:type',
     name: 'myCPsUBITasksPage',
     component: () => import("../views/myCPs/pages/UBI-tasks.vue"),
     meta: {
@@ -130,7 +130,7 @@ export default [
     }
   },
   {
-    path: '/my-cps/:cp_addr/application-tasks',
+    path: '/my-cps/:cp_addr/application-tasks/:type',
     name: 'myCPsApplicationTasksPage',
     component: () => import("../views/myCPs/pages/application-tasks.vue"),
     meta: {

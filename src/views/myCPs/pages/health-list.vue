@@ -11,7 +11,7 @@
     <div class="health-container font-14">
       <div class="progress-container mt-16 flex flex-ai-center nowrap w-100">
         <div :class="`piece ${((collateralCPData.fcp.collaterals<100||!collateralCPData.fcp.Current)&&cpsData.type===1) || ((collateralCPData.ecp.collaterals<100||!collateralCPData.ecp.Current)&&cpsData.type===2) || ((collateralCPData.fcp.collaterals<100||collateralCPData.ecp.collaterals<100||!collateralCPData.fcp.Current||!collateralCPData.ecp.Current)&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">Collaterals</div>
-        <div :class="`piece ${(cpsStatusData?.fcp?.status!=='active'&&cpsData.type===1) || (cpsStatusData?.ecp?.status!=='active'&&cpsData.type===2) || ((cpsStatusData?.fcp?.status!=='active'||cpsStatusData?.ecp?.status!=='active')&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">CP Status</div>
+        <div :class="`piece ${(!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.fcp?.status)&&cpsData.type===1) || (!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.ecp?.status)&&cpsData.type===2) || ((!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.fcp?.status)||!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.ecp?.status))&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">CP Status</div>
         <div :class="`piece ${!cpsStatusData?.gpu?.total?'danger' : ''} flex flex-ai-center flex-jc-center`">GPU Status</div>
         <div :class="`piece ${((['failed', 'Failed'].includes(cpsStatusData?.fcp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.fcp?.last_task?.started_at) || !cpsStatusData?.fcp?.last_task)&&cpsData.type===1) || ((['failed', 'Failed'].includes(cpsStatusData?.ecp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.ecp?.last_task?.started_at) || !cpsStatusData?.ecp?.last_task)&&cpsData.type===2) || ((['failed', 'Failed'].includes(cpsStatusData?.fcp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.fcp?.last_task?.started_at)||['failed', 'Failed'].includes(cpsStatusData?.ecp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.ecp?.last_task?.started_at) || !cpsStatusData?.fcp?.last_task || !cpsStatusData?.ecp?.last_task)&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">Last Task</div>
         <div :class="`piece ${countdown<0?'danger' : ''} flex flex-ai-center flex-jc-center`">Last Updated</div>
@@ -49,7 +49,9 @@
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between capitalize">
             <div class="font-16 font-medium">Last Task</div>
-            Task ID: {{ cpsStatusData?.fcp?.last_task?.id ?? '-' }}, status: {{ cpsStatusData?.fcp?.last_task?.status ?? '-' }}, msg: {{ cpsStatusData?.fcp?.last_task?.msg ?? '-' }}, Started At: {{ momentFun(cpsStatusData?.ecp?.last_task?.started_at) }}
+            <div class="flex flex-ai-center">
+              Task ID: {{ cpsStatusData?.fcp?.last_task?.id ?? '-' }}, status: <span class="font-bold capitalize">{{ cpsStatusData?.fcp?.last_task?.status ?? '-' }}</span>, msg: {{ cpsStatusData?.fcp?.last_task?.msg ?? '-' }}, Started At: {{ momentFun(cpsStatusData?.ecp?.last_task?.started_at) }}
+            </div>
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
@@ -89,9 +91,9 @@
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between capitalize">
             <div class="font-16 font-medium">Last Task</div>
-            <span>
-              Task ID: {{ cpsStatusData?.ecp?.last_task?.id ?? '-' }}, status: {{ cpsStatusData?.ecp?.last_task?.status ?? '-' }}, msg: {{ cpsStatusData?.ecp?.last_task?.msg ?? '-' }}, Started At: {{ momentFun(cpsStatusData?.ecp?.last_task?.started_at) }}
-            </span>
+            <div class="flex flex-ai-center">
+              Task ID: {{ cpsStatusData?.ecp?.last_task?.id ?? '-' }}, status: <span class="font-bold capitalize">{{ cpsStatusData?.ecp?.last_task?.status ?? '-' }}</span>, msg: {{ cpsStatusData?.ecp?.last_task?.msg ?? '-' }}, Started At: {{ momentFun(cpsStatusData?.ecp?.last_task?.started_at) }}
+            </div>
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">

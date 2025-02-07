@@ -96,3 +96,21 @@ export function getOwnerCPsData(params: any) {
       params
   })
 }
+
+export function getOwnerUBIEcpData(params: any, addr: any) {
+  return request({
+      headers: {},
+      url: `${import.meta.env.VITE_BASE_URL}v1/ecps/${addr}/ubi_tasks`,
+      method: 'get',
+      params
+  })
+}
+
+export function getOwnerUBIFcpData(params: any, addr: any) {
+  return request({
+      headers: {},
+      url: `${import.meta.env.VITE_BASE_URL}v1/fcps/${addr}/ubi_tasks`,
+      method: 'get',
+      params
+  })
+}

@@ -72,7 +72,7 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="type" min-width="90">
+        <el-table-column prop="type" width="80">
           <template #header>
             <div class="font-14 weight-4">Type</div>
           </template>
@@ -86,7 +86,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="status" min-width="120">
+        <el-table-column prop="status" min-width="90">
           <template #header>
             <div class="font-14 weight-4">Status</div>
           </template>
@@ -137,7 +137,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="Note" min-width="140">
+        <el-table-column prop="Note" min-width="160">
           <template #header>
             <div class="font-14 weight-4">Note</div>
           </template>
@@ -226,9 +226,14 @@ async function getAllData() {
       page_no: page,
       uuid: paramsContent.owner_addr
     }
-    const dataRes = await getCPsfcpRewardsData(params, route.params.cp_addr)
-    paymentData.value = dataRes?.data?.list ?? []
-    pagin.total = dataRes?.data?.total ?? 0
+    if (paramsContent.type.value === 'ECP') {
+      console.log('ecp')
+    } else {
+      paramsContent.type.value = 'FCP'
+      const dataRes = await getCPsfcpRewardsData(params, route.params.cp_addr)
+      paymentData.value = dataRes?.data?.list ?? []
+      pagin.total = dataRes?.data?.total ?? 0
+    }
   } catch{console.error}
   paymentLoad.value = false
 }
@@ -249,6 +254,7 @@ function clearProvider() {
   paramsContent.searchFor = false
 }
 onMounted(() => {
+  paramsContent.type.value = String(route.params.type) === '2' ? 'ECP' : 'FCP'
   // getAllData()
 })
 </script>

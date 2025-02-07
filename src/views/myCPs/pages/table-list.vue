@@ -75,13 +75,13 @@
                     <template #dropdown>
                       <el-dropdown-menu>
                         <el-dropdown-item command="UBI-Tasks">
-                          <div class="pointer pt-6 pb-6 w-100" @click="handleSelect('UBI-Tasks', scope.row.addr)">UBI Tasks</div>
+                          <div class="pointer pt-6 pb-6 w-100" @click="handleSelect('UBI-Tasks', scope.row.addr, scope.row.type)">UBI Tasks</div>
                         </el-dropdown-item>
                         <el-dropdown-item command="Application-Tasks">
-                          <div class="pointer pt-6 pb-6 w-100" @click="handleSelect('Application-Tasks', scope.row.addr)">Application Tasks</div>
+                          <div class="pointer pt-6 pb-6 w-100" @click="handleSelect('Application-Tasks', scope.row.addr, scope.row.type)">Application Tasks</div>
                         </el-dropdown-item>
                         <el-dropdown-item command="Health">
-                          <div class="pointer pt-6 pb-6 w-100" @click="handleSelect('Health', scope.row.addr)">Health</div>
+                          <div class="pointer pt-6 pb-6 w-100" @click="handleSelect('Health', scope.row.addr, scope.row.type)">Health</div>
                         </el-dropdown-item>
                       </el-dropdown-menu>
                     </template>
@@ -122,7 +122,6 @@ const background = ref(false)
 const activeName = ref('online')
 
 const handleClick = (tab: any) => {
-  console.log(tab.props.name)
   activeName.value = tab.props.name ?? 'online'
   handleCurrentChange(1)
 }
@@ -155,12 +154,12 @@ function handleCP (row:string) {
   router.push({ name: 'accountInfo', params: { cp_addr: row }, query: { type: 'mycps'} })
 }
 
-async function handleSelect(key: string, addr: string) {
+async function handleSelect(key: string, addr: string, type: number) {
   // console.log(key, keyPath) //  
   if (key === 'UBI-Tasks') {
-    router.push({ name: 'myCPsUBITasksPage', params: { cp_addr: addr } })
+    router.push({ name: 'myCPsUBITasksPage', params: { cp_addr: addr, type: type || 1 } })
   } else if (key === 'Application-Tasks') {
-    router.push({ name: 'myCPsApplicationTasksPage', params: { cp_addr: addr } })
+    router.push({ name: 'myCPsApplicationTasksPage', params: { cp_addr: addr, type: type || 1 } })
   } else if (key === 'Health') {
     router.push({ name: 'myCPsHealthPage', params: { cp_addr: addr } })
   } 

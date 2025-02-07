@@ -37,13 +37,13 @@
 
       <!-- @filter-change="handleFilterChange" -->
       <el-table v-loading="paymentLoad" element-loading-text="Please do not refresh the page" :data="paymentData" stripe style="width: 100%">
-        <el-table-column prop="task_uuid" min-width="120">
+        <el-table-column prop="uuid" min-width="120">
           <template #header>
             <div class="font-14 weight-4">task UUID</div>
           </template>
           <template #default="scope">
-            <div class="flex flex-ai-center flex-jc-center copy-style" @click="copyContent(scope.row.task_uuid, 'Copied')">
-              {{ hiddAddress(scope.row.task_uuid) || '-' }}
+            <div class="flex flex-ai-center flex-jc-center copy-style" @click="copyContent(scope.row.uuid, 'Copied')">
+              {{ hiddAddress(scope.row.uuid) || '-' }}
               <svg t="1717142367802" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6467" width="16" height="16">
                 <path d="M809.19 310.68H398.37a87.79 87.79 0 0 0-87.69 87.69v410.82a87.79 87.79 0 0 0 87.69 87.69h410.82a87.79 87.79 0 0 0 87.69-87.69V398.37a87.79 87.79 0 0 0-87.69-87.69z m29.69 498.51a29.73 29.73 0 0 1-29.69 29.69H398.37a29.73 29.73 0 0 1-29.69-29.69V398.37a29.73 29.73 0 0 1 29.69-29.69h410.82a29.73 29.73 0 0 1 29.69 29.69z"
                   fill="#3d3d3d" p-id="6468"></path>
@@ -53,49 +53,49 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="reward_tx_hash" min-width="120">
+        <el-table-column prop="tx_hash" min-width="120">
           <template #header>
             <div class="font-14 weight-4">TxHash</div>
           </template>
           <template #default="scope">
-            <a v-if="scope.row.reward_tx_hash" :href="`${explorerLink}tx/${scope.row.reward_tx_hash}`" target="_blank" class="name-style font-14">{{hiddAddress(scope.row.reward_tx_hash)}}</a>
+            <a v-if="scope.row.tx_hash" :href="`${explorerLink}tx/${scope.row.tx_hash}`" target="_blank" class="name-style font-14">{{hiddAddress(scope.row.tx_hash)}}</a>
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column prop="reward_tx_hash" min-width="120">
+        <el-table-column prop="slash_tx_hash" min-width="120">
           <template #header>
             <div class="font-14 weight-4">SlashHash</div>
           </template>
           <template #default="scope">
-            <a v-if="scope.row.reward_tx_hash" :href="`${explorerLink}tx/${scope.row.reward_tx_hash}`" target="_blank" class="name-style font-14">{{hiddAddress(scope.row.reward_tx_hash)}}</a>
+            <a v-if="scope.row.slash_tx_hash" :href="`${explorerLink}tx/${scope.row.slash_tx_hash}`" target="_blank" class="name-style font-14">{{hiddAddress(scope.row.slash_tx_hash)}}</a>
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column prop="created_at" min-width="120">
+        <el-table-column prop="started_at" min-width="120">
           <template #header>
             <div class="font-14 weight-4">Create Time</div>
           </template>
           <template #default="scope">
             <span>
-              {{ momentFun(scope.row.created_at) }}
+              {{ momentFun(scope.row.started_at) }}
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="type" min-width="90">
+        <el-table-column prop="type" width="80">
           <template #header>
             <div class="font-14 weight-4">Type</div>
           </template>
           <template #default="scope">
-            <div :class="`${scope.row.type?'method-style':''}`">
-              <span v-if="scope.row.type === 1">Fil-c2</span>
+            <div :class="`${scope.row.type?'method-style':''}`" v-if="paramsContent.type.value === 'ECP'">
+              <span v-if="scope.row.type === 1">512</span>
               <span v-else-if="scope.row.type === 2">Mining</span>
-              <span v-else-if="scope.row.type === 3">AI</span>
-              <span v-else-if="scope.row.type === 4">Inference</span>
-              <span v-else-if="scope.row.type === 5">NodePort</span>
+              <span v-else-if="scope.row.type === 4">32</span>
+              <span v-else>-</span>
             </div>
+            <div v-else>{{ scope.row.name }}</div>
           </template>
         </el-table-column>
-        <el-table-column prop="status" min-width="100">
+        <el-table-column prop="status" min-width="90">
           <template #header>
             <div class="font-14 weight-4">Status</div>
           </template>
@@ -146,14 +146,18 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="Note" min-width="140">
+        <el-table-column prop="msg" min-width="160">
           <template #header>
             <div class="font-14 weight-4">Note</div>
           </template>
           <template #default="scope">
-            <span>
-              {{ replaceFormat(scope.row.reward) }}
-            </span>
+            <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" :content="scope.row.msg" trigger="hover">
+              <template #reference>
+                <div class="line-1">
+                  {{ scope.row.msg }}
+                </div>
+              </template>
+            </el-popover>
           </template>
         </el-table-column>
       </el-table>
@@ -168,7 +172,7 @@
 </template>
 
 <script setup lang="ts">
-import { getCPsfcpRewardsData } from '@/api/cp-profile';
+import { getOwnerUBIEcpData, getOwnerUBIFcpData } from '@/api/cp-profile';
 import { copyContent, debounce, hiddAddress, momentFun, paginationWidth, replaceFormat } from '@/utils/common';
 import { explorerLink } from '@/utils/storage';
 import { Search, ArrowRight } from '@element-plus/icons-vue'
@@ -235,7 +239,7 @@ async function getAllData() {
       page_no: page,
       uuid: paramsContent.owner_addr
     }
-    const dataRes = await getCPsfcpRewardsData(params, route.params.cp_addr)
+    const dataRes = paramsContent.type.value === 'ECP' ? await getOwnerUBIEcpData(params, route.params.cp_addr) : await getOwnerUBIFcpData(params, route.params.cp_addr)
     paymentData.value = dataRes?.data?.list ?? []
     pagin.total = dataRes?.data?.total ?? 0
   } catch{console.error}
@@ -258,7 +262,8 @@ function clearProvider() {
   paramsContent.searchFor = false
 }
 onMounted(() => {
-  // getAllData()
+  paramsContent.type.value = String(route.params.type) === '2' ? 'ECP' : 'FCP'
+  getAllData()
 })
 </script>
 

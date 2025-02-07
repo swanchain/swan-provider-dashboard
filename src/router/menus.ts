@@ -99,11 +99,6 @@ export default [
     meta: {
       keepAlive: true,
       title: 'My CPs'
-    },
-    beforeEnter: () => {
-      if (!token.value || !metaAddress.value) {
-        toHome()
-      }
     }
   },
   {

@@ -280,7 +280,7 @@ async function init() {
       "status": networkInput.status
     }
     if (networkInput.status) paramsCont.status = networkInput.status === 'all' ? '' : networkInput.status
-    else paramsCont.status = activeChecked.value ? 'inactive' : 'active'
+    else paramsCont.status = activeChecked.value ? '' : 'active'
     const providerFCPRes = await getCPsFCPListData(paramsCont)
     providersData.value = providerFCPRes?.data?.list ?? []
     pagin.total = providerFCPRes?.data?.total ?? 0

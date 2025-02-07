@@ -259,7 +259,7 @@ async function init () {
       "status": paramsFilter.data.status
     }
     if (paramsFilter.data.status) paramsCont.status = paramsFilter.data.status === 'all' ? '' : paramsFilter.data.status
-    else paramsCont.status = activeChecked.value ? 'inactive' : 'active'
+    else paramsCont.status = activeChecked.value ? '' : 'active'
     const providerFCPRes = await getUBI0FCPListData(paramsCont)
     providersData.value = providerFCPRes?.data?.list ?? []
     pagin.total = providerFCPRes?.data?.total ?? 0

@@ -4,13 +4,17 @@
       <h1 class="font-20 font-bold">My CPs</h1>
     </div>
 
-    <div class="providers-overview">
+    <div class="providers-overview" v-if="token && metaAddress">
       <table-list></table-list>
+    </div>
+    <div class="web3Modal-style flex flex-jc-center flex-ai-center" v-else>
+      <web3-modal />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import web3Modal from "@/components/web3-modal.vue"
 import { metaAddress, token } from '@/utils/storage';
 import tableList from './pages/table-list.vue'
 import { toHome } from '@/hooks/router';
@@ -56,6 +60,9 @@ watch(() => token.value, () => {
         }
       }
     }
+  }
+  .web3Modal-style {
+    min-height: 250px;
   }
 }
 </style>

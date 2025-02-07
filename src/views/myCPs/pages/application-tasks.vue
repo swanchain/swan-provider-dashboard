@@ -175,11 +175,8 @@ const pagin = reactive({
 const paramsContent = reactive({
   owner_addr: '',
   type: {
-    value: 'All',
+    value: 'FCP',
     options: [{
-      label: 'All',
-      value: 'All'
-    },{
       label: 'FCP',
       value: 'FCP'
     },{
@@ -252,7 +249,7 @@ function clearProvider() {
   paramsContent.searchFor = false
 }
 onMounted(() => {
-  getAllData()
+  // getAllData()
 })
 </script>
 

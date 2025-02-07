@@ -95,7 +95,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="status" min-width="120">
+        <el-table-column prop="status" min-width="100">
           <template #header>
             <div class="font-14 weight-4">Status</div>
           </template>
@@ -184,11 +184,8 @@ const pagin = reactive({
 const paramsContent = reactive({
   owner_addr: '',
   type: {
-    value: 'All',
+    value: 'FCP',
     options: [{
-      label: 'All',
-      value: 'All'
-    },{
       label: 'FCP',
       value: 'FCP'
     },{
@@ -261,7 +258,7 @@ function clearProvider() {
   paramsContent.searchFor = false
 }
 onMounted(() => {
-  getAllData()
+  // getAllData()
 })
 </script>
 

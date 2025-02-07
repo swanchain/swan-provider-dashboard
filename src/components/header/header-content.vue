@@ -129,7 +129,7 @@
                       </div>
                     </div>
                   </el-dropdown-item>
-                  <el-dropdown-item command="myCPs" v-if="token">
+                  <el-dropdown-item command="myCPs">
                     <div class="profile router-link b">
                       <div class="flex flex-ai-center font-16">
                         <i class="icon icon-cps"></i>

@@ -10,10 +10,11 @@
 
     <div class="health-container font-14">
       <div class="progress-container mt-16 flex flex-ai-center nowrap w-100">
-        <div class="piece flex flex-ai-center flex-jc-center">Collaterals</div>
-        <div class="piece flex flex-ai-center flex-jc-center">Status</div>
-        <div class="piece flex flex-ai-center flex-jc-center">Last Task</div>
-        <div :class="`piece ${true?'danger' : ''} flex flex-ai-center flex-jc-center`">Last Updated</div>
+        <div :class="`piece ${((collateralCPData.fcp.collaterals<100||!collateralCPData.fcp.Current)&&cpsData.type===1) || ((collateralCPData.ecp.collaterals<100||!collateralCPData.ecp.Current)&&cpsData.type===2) || ((collateralCPData.fcp.collaterals<100||collateralCPData.ecp.collaterals<100||!collateralCPData.fcp.Current||!collateralCPData.ecp.Current)&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">Collaterals</div>
+        <div :class="`piece ${(cpsStatusData?.fcp?.status!=='active'&&cpsData.type===1) || (cpsStatusData?.ecp?.status!=='active'&&cpsData.type===2) || ((cpsStatusData?.fcp?.status!=='active'||cpsStatusData?.ecp?.status!=='active')&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">CP Status</div>
+        <div :class="`piece ${!cpsStatusData?.gpu?.total?'danger' : ''} flex flex-ai-center flex-jc-center`">GPU Status</div>
+        <div :class="`piece ${((['failed', 'Failed'].includes(cpsStatusData?.fcp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.fcp?.last_task?.started_at) || !cpsStatusData?.fcp?.last_task)&&cpsData.type===1) || ((['failed', 'Failed'].includes(cpsStatusData?.ecp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.ecp?.last_task?.started_at) || !cpsStatusData?.ecp?.last_task)&&cpsData.type===2) || ((['failed', 'Failed'].includes(cpsStatusData?.fcp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.fcp?.last_task?.started_at)||['failed', 'Failed'].includes(cpsStatusData?.ecp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.ecp?.last_task?.started_at) || !cpsStatusData?.fcp?.last_task || !cpsStatusData?.ecp?.last_task)&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">Last Task</div>
+        <div :class="`piece ${countdown<0?'danger' : ''} flex flex-ai-center flex-jc-center`">Last Updated</div>
       </div>
 
       <!-- 1 : FCP, 2 : ECP, else : ECP & FCP -->
@@ -33,19 +34,22 @@
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
+            <div class="font-16 font-medium">CP status</div>
             <div class="flex flex-ai-center flex-wrap">
-              CP status:
               <span class="font-bold ml-8 mr-8 capitalize" :style="taskColor(cpsStatusData?.fcp?.status)">{{ cpsStatusData?.fcp?.status ?? '-' }}</span>
             </div>  
+          </div>
+          <el-divider />
+          <div class="flex flex-wrap flex-ai-center flex-jc-between">
+            <div class="font-16 font-medium">GPU status</div>
             <div class="flex flex-ai-center flex-wrap">
-              GPU status: 
               <span class="ml-8">{{ replaceFormat(cpsStatusData?.gpu?.available) }} available, {{ replaceFormat(cpsStatusData?.gpu?.total) }} total</span>
             </div>
           </div>
           <el-divider />
-          <div class="flex flex-wrap flex-ai-center flex-jc-between">
+          <div class="flex flex-wrap flex-ai-center flex-jc-between capitalize">
             <div class="font-16 font-medium">Last Task</div>
-            Task ID: {{ cpsStatusData?.fcp?.last_task?.id ?? '-' }}, status: {{ cpsStatusData?.fcp?.last_task?.status ?? '-' }}, msg: {{ cpsStatusData?.fcp?.last_task?.msg ?? '-' }}
+            Task ID: {{ cpsStatusData?.fcp?.last_task?.id ?? '-' }}, status: {{ cpsStatusData?.fcp?.last_task?.status ?? '-' }}, msg: {{ cpsStatusData?.fcp?.last_task?.msg ?? '-' }}, Started At: {{ momentFun(cpsStatusData?.ecp?.last_task?.started_at) }}
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
@@ -70,20 +74,23 @@
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
+            <div class="font-16 font-medium">CP status</div>
             <div class="flex flex-ai-center flex-wrap">
-              CP status:
               <span class="font-bold ml-8 mr-8 capitalize" :style="taskColor(cpsStatusData?.ecp?.status)">{{ cpsStatusData?.ecp?.status ?? '-' }}</span>
             </div>  
+          </div>
+          <el-divider />
+          <div class="flex flex-wrap flex-ai-center flex-jc-between">
+            <div class="font-16 font-medium">GPU status</div>
             <div class="flex flex-ai-center flex-wrap">
-              GPU status: 
               <span class="ml-8">{{ replaceFormat(cpsStatusData?.gpu?.available) }} available, {{ replaceFormat(cpsStatusData?.gpu?.total) }} total</span>
             </div>
           </div>
           <el-divider />
-          <div class="flex flex-wrap flex-ai-center flex-jc-between">
+          <div class="flex flex-wrap flex-ai-center flex-jc-between capitalize">
             <div class="font-16 font-medium">Last Task</div>
             <span>
-              Task ID: {{ cpsStatusData?.ecp?.last_task?.id ?? '-' }}, status: {{ cpsStatusData?.ecp?.last_task?.status ?? '-' }}, msg: {{ cpsStatusData?.ecp?.last_task?.msg ?? '-' }}
+              Task ID: {{ cpsStatusData?.ecp?.last_task?.id ?? '-' }}, status: {{ cpsStatusData?.ecp?.last_task?.status ?? '-' }}, msg: {{ cpsStatusData?.ecp?.last_task?.msg ?? '-' }}, Started At: {{ momentFun(cpsStatusData?.ecp?.last_task?.started_at) }}
             </span>
           </div>
           <el-divider />
@@ -127,7 +134,7 @@ const collateralCPData = reactive<any>({
     collaterals: 0
   }
 })
-const countdown = ref(310)
+const countdown = ref(300)
 
 async function getAllCPsData() {
   cpsLoad.value = true
@@ -143,7 +150,7 @@ async function getStatusCPsData() {
     const cpsRes = await getCPsStatusData(route.params.cp_addr)
     cpsStatusData.value = cpsRes?.data ?? {}
     now.value = new Date()
-    countdown.value = 310
+    countdown.value = 300
     startCountdown()
   }catch{console.error}
   cpsLoad.value = false
@@ -200,6 +207,12 @@ function startCountdown() {
     }
   }, 1000);
 }
+function isTimestampMoreThan2HoursOld(timestamp: any) {
+    const now = Date.now();
+    const givenDate = new Date(timestamp);
+    const diff = now - givenDate.getTime();
+    return diff > 7200000;
+}
 onMounted(async () => {
   getAllCPsData()
   getStatusCPsData()
@@ -227,13 +240,13 @@ function ecpCollateral() {
 .mycps-health {
   .progress-container {
     .piece {
-      width: calc(25% - 1px);
+      width: calc(20% - 1px);
       height: 0.65rem;
       background-color: var(--color-success);
       color: var(--color-light-opacity-80);
       border-right: 1px solid #c3c3c3;
       &:last-child {
-        width: 25%;
+        width: 20%;
         border: 0;
       }
       &.danger {

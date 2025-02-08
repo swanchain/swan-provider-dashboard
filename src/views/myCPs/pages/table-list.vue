@@ -146,6 +146,7 @@ async function initList () {
     }
     const providerRes = await getOwnerCPsData(paramsCont)
     providersData.value = providerRes?.data?.list ?? []
+    pagin.total = providerRes?.data?.total ?? 0
   }catch{console.error}
   providersFCPLoad.value = false
 }

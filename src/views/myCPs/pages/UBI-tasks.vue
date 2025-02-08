@@ -81,15 +81,16 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="type" width="80">
+        <el-table-column prop="type" min-width="80">
           <template #header>
             <div class="font-14 weight-4">Type</div>
           </template>
           <template #default="scope">
             <div :class="`${scope.row.type?'method-style':''}`" v-if="paramsContent.type.value === 'ECP'">
-              <span v-if="scope.row.type === 1">512</span>
+              <span v-if="scope.row.type === 1">Fil-C2-512M</span>
               <span v-else-if="scope.row.type === 2">Mining</span>
-              <span v-else-if="scope.row.type === 4">32</span>
+              <span v-else-if="scope.row.type === 3">AI</span>
+              <span v-else-if="scope.row.type === 4">Fil-C2-32G</span>
               <span v-else>-</span>
             </div>
             <div v-else>{{ scope.row.name }}</div>

@@ -9,6 +9,7 @@
     </div>
 
     <div class="health-container font-14">
+      {{ isTimestampMoreThan2HoursOld(cpsStatusData?.fcp?.last_task?.started_at) }}
       <div class="progress-container mt-16 flex flex-ai-center nowrap w-100">
         <div :class="`piece ${((collateralCPData.fcp.collaterals<100||!collateralCPData.fcp.Current)&&cpsData.type===1) || ((collateralCPData.ecp.collaterals<100||!collateralCPData.ecp.Current)&&cpsData.type===2) || ((collateralCPData.fcp.collaterals<100||collateralCPData.ecp.collaterals<100||!collateralCPData.fcp.Current||!collateralCPData.ecp.Current)&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">Collaterals</div>
         <div :class="`piece ${(!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.fcp?.status)&&cpsData.type===1) || (!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.ecp?.status)&&cpsData.type===2) || ((!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.fcp?.status)||!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.ecp?.status))&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">CP Status</div>
@@ -210,10 +211,13 @@ function startCountdown() {
   }, 1000);
 }
 function isTimestampMoreThan2HoursOld(timestamp: any) {
+  try {
+    if (!timestamp) return true
     const now = Date.now();
-    const givenDate = new Date(timestamp);
-    const diff = now - givenDate.getTime();
+    const givenDate = timestamp*1000;
+    const diff = now - givenDate;
     return diff > 7200000;
+  } catch { return true }
 }
 onMounted(async () => {
   getAllCPsData()

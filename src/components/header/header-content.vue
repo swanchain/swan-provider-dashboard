@@ -1166,6 +1166,16 @@ const contractAddress = ref('')
           // text-decoration: underline;
         }
       }
+      &.is-disabled {
+        &:hover,
+        &:focus {
+          background-color: transparent;
+          color: var(--el-text-color-disabled);
+          * {
+            cursor: no-drop;
+          }
+        }
+      }
       .link {
         padding: 5px 0;
         cursor: pointer;

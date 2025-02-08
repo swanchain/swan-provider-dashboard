@@ -9,12 +9,11 @@
     </div>
 
     <div class="health-container font-14">
-      {{ isTimestampMoreThan2HoursOld(cpsStatusData?.fcp?.last_task?.started_at) }}
       <div class="progress-container mt-16 flex flex-ai-center nowrap w-100">
-        <div :class="`piece ${((collateralCPData.fcp.collaterals<100||!collateralCPData.fcp.Current)&&cpsData.type===1) || ((collateralCPData.ecp.collaterals<100||!collateralCPData.ecp.Current)&&cpsData.type===2) || ((collateralCPData.fcp.collaterals<100||collateralCPData.ecp.collaterals<100||!collateralCPData.fcp.Current||!collateralCPData.ecp.Current)&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">Collaterals</div>
-        <div :class="`piece ${(!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.fcp?.status)&&cpsData.type===1) || (!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.ecp?.status)&&cpsData.type===2) || ((!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.fcp?.status)||!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.ecp?.status))&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">CP Status</div>
-        <div :class="`piece ${!cpsStatusData?.gpu?.total?'danger' : ''} flex flex-ai-center flex-jc-center`">GPU Status</div>
-        <div :class="`piece ${((['failed', 'Failed'].includes(cpsStatusData?.fcp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.fcp?.last_task?.started_at) || !cpsStatusData?.fcp?.last_task)&&cpsData.type===1) || ((['failed', 'Failed'].includes(cpsStatusData?.ecp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.ecp?.last_task?.started_at) || !cpsStatusData?.ecp?.last_task)&&cpsData.type===2) || ((['failed', 'Failed'].includes(cpsStatusData?.fcp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.fcp?.last_task?.started_at)||['failed', 'Failed'].includes(cpsStatusData?.ecp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.ecp?.last_task?.started_at) || !cpsStatusData?.fcp?.last_task || !cpsStatusData?.ecp?.last_task)&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center`">Last Task</div>
+        <div :class="`piece ${((collateralCPData.fcp.collaterals<100||!collateralCPData.fcp.Current)&&cpsData.type===1) || ((collateralCPData.ecp.collaterals<100||!collateralCPData.ecp.Current)&&cpsData.type===2) || ((collateralCPData.fcp.collaterals<100||collateralCPData.ecp.collaterals<100||!collateralCPData.fcp.Current||!collateralCPData.ecp.Current)&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center capitalize`">Collaterals</div>
+        <div :class="`piece ${(!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.fcp?.status)&&cpsData.type===1) || (!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.ecp?.status)&&cpsData.type===2) || ((!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.fcp?.status)||!['active', 'online', 'Active', 'Online'].includes(cpsStatusData?.ecp?.status))&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center capitalize`">CP Status</div>
+        <div :class="`piece ${!cpsStatusData?.gpu?.total?'danger' : ''} flex flex-ai-center flex-jc-center capitalize`">GPU Status</div>
+        <div :class="`piece ${((['failed', 'Failed'].includes(cpsStatusData?.fcp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.fcp?.last_task?.started_at) || !cpsStatusData?.fcp?.last_task)&&cpsData.type===1) || ((['failed', 'Failed'].includes(cpsStatusData?.ecp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.ecp?.last_task?.started_at) || !cpsStatusData?.ecp?.last_task)&&cpsData.type===2) || ((['failed', 'Failed'].includes(cpsStatusData?.fcp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.fcp?.last_task?.started_at)||['failed', 'Failed'].includes(cpsStatusData?.ecp?.last_task?.status)||isTimestampMoreThan2HoursOld(cpsStatusData?.ecp?.last_task?.started_at) || !cpsStatusData?.fcp?.last_task || !cpsStatusData?.ecp?.last_task)&&cpsData.type===3)?'danger' : ''} flex flex-ai-center flex-jc-center capitalize`">Last Task</div>
         <div :class="`piece ${countdown<0?'danger' : ''} flex flex-ai-center flex-jc-center`">Last Updated</div>
       </div>
 
@@ -23,7 +22,7 @@
         <div class="font-20 font-bold mb-32 m">FCP</div>
         <div class="fcp-list-body">
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
-            <div class="font-16 font-medium">Collaterals</div>
+            <div class="font-16 font-medium capitalize">Collaterals</div>
             <div class="flex flex-wrap flex-ai-center">
               <span>{{ replaceNumberFormat(balanceData?.requried, 2) }} required,</span>
               <span class="color-success">&nbsp;{{ replaceNumberFormat(collateralCPData.fcp.Current, 2) }} current,</span>
@@ -35,29 +34,47 @@
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
-            <div class="font-16 font-medium">CP status</div>
+            <div class="font-16 font-medium capitalize">CP status</div>
             <div class="flex flex-ai-center flex-wrap">
               <span class="font-bold ml-8 mr-8 capitalize" :style="taskColor(cpsStatusData?.fcp?.status)">{{ cpsStatusData?.fcp?.status ?? '-' }}</span>
             </div>  
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
-            <div class="font-16 font-medium">GPU status</div>
+            <div class="font-16 font-medium mr-8 capitalize">GPU status</div>
             <div class="flex flex-ai-center flex-wrap">
-              <span class="ml-8">{{ replaceFormat(cpsStatusData?.gpu?.available) }} available, {{ replaceFormat(cpsStatusData?.gpu?.total) }} total</span>
+              <span class="color-success">{{ replaceFormat(cpsStatusData?.gpu?.available) }} available</span>, {{ replaceFormat(cpsStatusData?.gpu?.total) }} total
             </div>
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between capitalize">
-            <div class="font-16 font-medium">Last Task</div>
-            <div class="flex flex-ai-center">
-              Task ID: {{ cpsStatusData?.fcp?.last_task?.id ?? '-' }}, status: <span class="font-bold capitalize">{{ cpsStatusData?.fcp?.last_task?.status ?? '-' }}</span>, msg: {{ cpsStatusData?.fcp?.last_task?.msg ?? '-' }}, Started At: {{ momentFun(cpsStatusData?.ecp?.last_task?.started_at) }}
+            <div class="font-16 font-medium capitalize">Last Task</div>
+            <div class="task-last">
+              <div class="flex flex-ai-center flex-jc-between mb-4">
+                <span class="label-task">Task ID: </span>
+                <span>{{ cpsStatusData?.fcp?.last_task?.id ?? '-' }}</span>
+              </div>
+              <div class="flex flex-ai-center flex-jc-between mb-4">
+                <span class="label-task">status:&nbsp; </span>
+                <span class="font-bold capitalize">{{ cpsStatusData?.fcp?.last_task?.status ?? '-' }}</span>
+              </div>
+              <div class="flex flex-ai-center flex-jc-between mb-4">
+                <span class="label-task">msg: </span>
+                <span>{{ cpsStatusData?.fcp?.last_task?.msg ?? '-' }}</span>
+              </div>
+              <div class="flex flex-ai-center flex-jc-between">
+                <span class="label-task">Started At: </span>
+                <span>{{ momentFun(cpsStatusData?.fcp?.last_task?.started_at) }}</span>
+              </div>
             </div>
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
-            <div class="font-16 font-medium">Last Updated: {{ momentFun(now/1000) }}</div>
-            <span>Refresh in: {{ millisecondsToHMS(countdown*1000) }}</span>
+            <div class="font-16 font-medium capitalize">Last Updated</div>
+            <div class="text-right">
+              {{ momentFun(now/1000) }} <br />
+              <div class="mt-4">Refresh in: {{ millisecondsToHMS(countdown*1000) }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -65,7 +82,7 @@
         <div class="font-20 font-bold mb-32 m">ECP</div>
         <div class="ecp-list-body">
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
-            <div class="font-16 font-medium">Collaterals</div>
+            <div class="font-16 font-medium capitalize">Collaterals</div>
             <div class="flex flex-ai-center flex-jc-right flex-wrap">
               <span>{{ replaceNumberFormat(balanceData?.requried, 2) }} required,</span>
               <span class="color-success">&nbsp;{{ replaceNumberFormat(collateralCPData.ecp.Current, 2) }} current,</span>
@@ -77,29 +94,47 @@
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
-            <div class="font-16 font-medium">CP status</div>
+            <div class="font-16 font-medium capitalize">CP status</div>
             <div class="flex flex-ai-center flex-wrap">
               <span class="font-bold ml-8 mr-8 capitalize" :style="taskColor(cpsStatusData?.ecp?.status)">{{ cpsStatusData?.ecp?.status ?? '-' }}</span>
             </div>  
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
-            <div class="font-16 font-medium">GPU status</div>
+            <div class="font-16 font-medium mr-8 capitalize">GPU Status</div>
             <div class="flex flex-ai-center flex-wrap">
-              <span class="ml-8">{{ replaceFormat(cpsStatusData?.gpu?.available) }} available, {{ replaceFormat(cpsStatusData?.gpu?.total) }} total</span>
+              <span class="color-success">{{ replaceFormat(cpsStatusData?.gpu?.available) }} available</span>, {{ replaceFormat(cpsStatusData?.gpu?.total) }} total
             </div>
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between capitalize">
-            <div class="font-16 font-medium">Last Task</div>
-            <div class="flex flex-ai-center">
-              Task ID: {{ cpsStatusData?.ecp?.last_task?.id ?? '-' }}, status: <span class="font-bold capitalize">{{ cpsStatusData?.ecp?.last_task?.status ?? '-' }}</span>, msg: {{ cpsStatusData?.ecp?.last_task?.msg ?? '-' }}, Started At: {{ momentFun(cpsStatusData?.ecp?.last_task?.started_at) }}
+            <div class="font-16 font-medium capitalize">Last Task</div>
+            <div class="task-last">
+              <div class="flex flex-ai-center flex-jc-between mb-4">
+                <span class="label-task">Task ID: </span>
+                <span>{{ cpsStatusData?.ecp?.last_task?.id ?? '-' }}</span>
+              </div>
+              <div class="flex flex-ai-center flex-jc-between mb-4">
+                <span class="label-task">status:&nbsp; </span>
+                <span class="font-bold capitalize">{{ cpsStatusData?.ecp?.last_task?.status ?? '-' }}</span>
+              </div>
+              <div class="flex flex-ai-center flex-jc-between mb-4">
+                <span class="label-task">msg: </span>
+                <span>{{ cpsStatusData?.ecp?.last_task?.msg ?? '-' }}</span>
+              </div>
+              <div class="flex flex-ai-center flex-jc-between">
+                <span class="label-task">Started At: </span>
+                <span>{{ momentFun(cpsStatusData?.ecp?.last_task?.started_at) }}</span>
+              </div>
             </div>
           </div>
           <el-divider />
           <div class="flex flex-wrap flex-ai-center flex-jc-between">
-            <div class="font-16 font-medium">Last Updated: {{ momentFun(now/1000) }}</div>
-            <span>Refresh in: {{ millisecondsToHMS(countdown*1000) }}</span>
+            <div class="font-16 font-medium capitalize">Last Updated</div>
+            <div class="text-right">
+              {{ momentFun(now/1000) }} <br />
+              <div class="mt-4">Refresh in: {{ millisecondsToHMS(countdown*1000) }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -267,7 +302,10 @@ function ecpCollateral() {
     padding: 0.25rem 0.32rem 0.4rem;
     background-color: var(--color-light);
     border-radius: 0.14rem;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 600px) {
+      width: calc(100% - 0.4rem);
+      height: calc(100% - 0.4rem);
+      padding: 0.2rem;
     }
     .m {
       padding: 0.1rem 0;
@@ -296,6 +334,13 @@ function ecpCollateral() {
       :deep(.el-divider) {
         border-color: #eee;
       }
+    }
+  }
+  .task-last {
+    // width: 30%;
+    // min-width: 3.2rem;
+    .label-task {
+      width: 1rem;
     }
   }
 }

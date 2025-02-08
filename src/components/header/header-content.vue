@@ -400,7 +400,7 @@ const contractAddress = ref('')
       else if (key === 'accountInfo') router.push({ name: 'accountInfo', params: { cp_addr: metaAddress.value } })
       else if (key === 'resource') router.push({ name: 'resource' })
       else if (key === 'calculator') router.push({ name: 'calculator' })
-      else if (key === 'myCPs') router.push({ name: 'myCPs' })
+      else if (key === 'myCPs') router.push({ name: 'myCPsPage' })
     }
     async function cpCollateral () {
       cpCollateralCont.show = true

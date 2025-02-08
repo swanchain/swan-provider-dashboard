@@ -67,6 +67,7 @@
               <span v-else-if="scope.row.type === 3">AI</span>
               <span v-else-if="scope.row.type === 4">Inference</span>
               <span v-else-if="scope.row.type === 5">NodePort</span>
+              <span v-else-if="scope.row.type === 100">Exit</span>
             </div>
           </template>
         </el-table-column>

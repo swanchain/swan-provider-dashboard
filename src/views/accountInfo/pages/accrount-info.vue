@@ -38,6 +38,7 @@
                     <span v-else-if="t === 3">AI</span>
                     <span v-else-if="t === 4">Inference</span>
                     <span v-else-if="t === 5">NodePort</span>
+                    <span v-else-if="t === 100">Exit</span>
                   </div>
                 </div>
               </template>

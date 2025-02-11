@@ -589,5 +589,9 @@ export function taskColor(type: string) {
       return 'color: var(--color-danger)'
     case 'Sibyl':
       return 'color: var(--color-danger)'
+    case 'Cheating':
+      return 'color: var(--color-danger)'
+    case 'Version Too Low':
+      return 'color: var(--color-danger)'
   }
 }

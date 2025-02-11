@@ -165,10 +165,14 @@
             column-key="status" filterable :filters="[
               { text: 'active', value: 'active' },
               { text: 'inactive', value: 'inactive' },
-              { text: 'Sibyl', value: 'Sibyl' }
+              { text: 'Online', value: 'Online' },
+              { text: 'Offline', value: 'Offline' },
+              { text: 'Sibyl', value: 'Sibyl' },
+              { text: 'Cheating', value: 'Cheating' },
+              { text: 'Version Too Low', value: 'Version Too Low' },
             ]" filter-placement="bottom-end" :filter-multiple="false">
             <template #default="scope">
-              <div>
+              <div :style="taskColor(scope.row.status)">
                 {{scope.row.status || '-'}}
               </div>
             </template>
@@ -200,7 +204,7 @@
 <script setup lang="ts">
 import { getCPsFCPListData, statsOverviewData } from "@/api/overview";
 import { ELINK } from "@/constant/envLink";
-import { copyContent, debounce, hiddAddress, paginationWidth, replaceFormat, unifyNumber } from "@/utils/common";
+import { copyContent, debounce, hiddAddress, paginationWidth, replaceFormat, taskColor, unifyNumber } from "@/utils/common";
 import { getLocation, setLocation } from "@/utils/storage";
 import {
   Search

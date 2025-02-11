@@ -154,9 +154,16 @@
               { text: 'NSR', value: 'NSR' },
               { text: 'Declined', value: 'Declined' },
               { text: 'Suspended', value: 'Suspended' },
-              { text: 'Sibyl', value: 'Sibyl' }]" filter-placement="bottom-end" :filter-multiple="false" min-width="90">
+              { text: 'Sibyl', value: 'Sibyl' },
+              { text: 'Cheating', value: 'Cheating' },
+              { text: 'Version Too Low', value: 'Version Too Low' },]" filter-placement="bottom-end" :filter-multiple="false" min-width="90">
             <template #header>
               <div class="font-14 weight-4">status</div>
+            </template>
+            <template #default="scope">
+              <div :style="taskColor(scope.row.status)">
+                {{scope.row.status || '-'}}
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="region" column-key="region" filterable :filters="regionFilters" filter-placement="bottom-end" :filter-multiple="false" min-width="100">
@@ -206,7 +213,7 @@
 <script setup lang="ts">
 import { getCPsECPListData, statsOverviewData } from "@/api/overview";
 import { ELINK } from "@/constant/envLink";
-import { copyContent, debounce, hiddAddress, paginationWidth, replaceFormat, unifyNumber } from "@/utils/common";
+import { copyContent, debounce, hiddAddress, paginationWidth, replaceFormat, taskColor, unifyNumber } from "@/utils/common";
 import { getLocation, setLocation } from "@/utils/storage";
 import {
   Search

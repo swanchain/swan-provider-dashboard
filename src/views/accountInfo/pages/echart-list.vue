@@ -4,7 +4,7 @@
       <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mt-10">
         <div class="module-container">
           <div class="m w-100 flex flex-ai-start flex-jc-between">
-            <div class='chart-pie' id='chart-pie-fcp' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
+            <div class='chart-pie' id='chart-pie-fcp' v-loading="providersPieLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
             <div class="chart-pie-balance flex flex-ai-start baseline">
               <el-row class="m w-100">
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
@@ -97,6 +97,16 @@
             </div>
           </div>
 
+          <div class="module-echarts flex flex-jc-right mt-16 mb-32">
+            <div class="date r">
+              <el-select v-model="weekList.value" placeholder="Select" size="small" @change="initEcharts(true)">
+                <el-option v-for="item in weekList.options" :key="item.value" :label="item.label" :value="item.value">
+                  <div class="flex flex-ai-center font-12">{{item.label}}</div>
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+
           <div class="module-echarts mt-16 mb-32">
             <div class='chart-trends' id='chart-job-fcp-task' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
           </div>
@@ -119,7 +129,7 @@
       <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mt-10">
         <div class="module-container">
           <div class="m w-100 flex flex-ai-start flex-jc-between">
-            <div class='chart-pie' id='chart-pie-ecp' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
+            <div class='chart-pie' id='chart-pie-ecp' v-loading="providersPieLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
             <div class="chart-pie-balance flex flex-ai-start baseline">
               <el-row class="m w-100">
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="flex flex-ai-center baseline">
@@ -228,6 +238,16 @@
             </div>
           </div>
 
+          <div class="module-echarts flex flex-jc-right mt-16 mb-32">
+            <div class="date r">
+              <el-select v-model="weekList.value" placeholder="Select" size="small" @change="initEcharts(true)">
+                <el-option v-for="item in weekList.options" :key="item.value" :label="item.label" :value="item.value">
+                  <div class="flex flex-ai-center font-12">{{item.label}}</div>
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+
           <div class="module-echarts mt-16 mb-32">
             <div class='chart-trends' id='chart-job-ecp-task' v-loading="providersLoad" element-loading-background="rgba(255, 255, 255, 0.8)"></div>
           </div>
@@ -267,8 +287,9 @@ import sequencerABI from '@/utils/abi/Sequencer.json'
 const route = useRoute()
 const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
 const providersLoad = ref(false)
+const providersPieLoad = ref(false)
 const weekList = reactive({
-  value: 'Week',
+  value: 'all',
   options: [
     {
       value: 'Week',
@@ -281,6 +302,10 @@ const weekList = reactive({
     {
       value: 'Year',
       label: '1 Year'
+    },
+    {
+      value: 'all',
+      label: 'All'
     }]
 })
 const totalJob = ref(0)
@@ -1200,6 +1225,7 @@ const changetype = async (data: any) => {
     machart_collateral_fcp.resize();
     machart_collateral_ecp.resize();
   })
+  providersLoad.value = false
 }
 const changePietype = async (data: any) => {
   const machart_pie_fcp = echarts.init(document.getElementById("chart-pie-fcp"));
@@ -1334,23 +1360,28 @@ const changePietype = async (data: any) => {
     machart_pie_fcp.resize();
     machart_pie_ecp.resize();
   })
+  providersPieLoad.value = false
 }
-async function initEcharts () {
+async function initEcharts (type: boolean) {
   try{
     providersLoad.value = true
+    providersPieLoad.value = type ? false : true
 
     const weekRange = getDateRange(weekList.value);
     const params = {
-      from: '',
-      to: ''
-      // from: weekRange.start,
-      // to: weekRange.end
+      // from: '',
+      // to: ''
+      from: weekRange.start,
+      to: weekRange.end
     }
     const echartsRes = await getCPsEchartsData(params, route.params.cp_addr)
     const data = echartsRes?.data ?? {}
     changetype(data)
-    changePietype(data)
-  }catch{ providersLoad.value = false}
+    if (!type) changePietype(data)
+  } catch {
+    providersLoad.value = false
+    providersPieLoad.value = false
+  }
 }
 async function getCPsBalanceData() {
   balanceLoad.value = true
@@ -1404,12 +1435,12 @@ onMounted(async () => {
   getECPColleralData()
   getECPSequencerData()
   getCPsBalanceData()
-  initEcharts()
+  initEcharts(false)
 })
 watch(route, (to:any) => {
   if (to.name === "accountInfo") {
     getCPsBalanceData()
-    initEcharts()
+    initEcharts(false)
   }
 })
 

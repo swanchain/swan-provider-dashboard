@@ -577,6 +577,10 @@ export function taskColor(type: string) {
       return 'color: var(--color-success)'
     case 'Online':
       return 'color: var(--color-success)'
+    case 'Success':
+      return 'color: var(--color-success)'
+    case 'COMPLETED':
+      return 'color: var(--color-success)'
     case 'Inconsistent':
       return 'color: var(--color-danger)'
     case 'NSC':

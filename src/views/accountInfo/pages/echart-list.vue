@@ -289,7 +289,7 @@ const bodyWidth = ref(document.body.clientWidth > 1440 ? 24 : 10)
 const providersLoad = ref(false)
 const providersPieLoad = ref(false)
 const weekList = reactive({
-  value: 'all',
+  value: 'Month',
   options: [
     {
       value: 'Week',

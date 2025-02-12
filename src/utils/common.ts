@@ -563,39 +563,52 @@ export function cutArraysToShortestLength(arr1: any, arr2: any) {
   }
 }
 
-export function taskColor(type: string) {
-  switch (type) {
-    case 'Inactive':
-      return 'color: var(--color-text)'
-    case 'inactive':
-      return 'color: var(--color-text)'
-    case 'Offline':
-      return 'color: var(--color-text)'
-    case 'Active':
-      return 'color: var(--color-success)'
-    case 'active':
-      return 'color: var(--color-success)'
-    case 'Online':
-      return 'color: var(--color-success)'
-    case 'Success':
-      return 'color: var(--color-success)'
-    case 'COMPLETED':
-      return 'color: var(--color-success)'
-    case 'Inconsistent':
-      return 'color: var(--color-danger)'
-    case 'NSC':
-      return 'color: var(--color-danger)'
-    case 'NSR':
-      return 'color: var(--color-danger)'
-    case 'Declined':
-      return 'color: var(--color-danger)'
-    case 'Suspended':
-      return 'color: var(--color-danger)'
-    case 'Sibyl':
-      return 'color: var(--color-danger)'
-    case 'Cheating':
-      return 'color: var(--color-danger)'
-    case 'Version Too Low':
-      return 'color: var(--color-danger)'
+export function taskColor(str: string) {
+  try {
+    const type = str.charAt(0).toUpperCase() + str.slice(1)
+    switch (type) {
+      case 'Inactive':
+        return 'color: var(--color-text)'
+      case 'inactive':
+        return 'color: var(--color-text)'
+      case 'Offline':
+        return 'color: var(--color-text)'
+      case 'Active':
+        return 'color: var(--color-success)'
+      case 'active':
+        return 'color: var(--color-success)'
+      case 'Online':
+        return 'color: var(--color-success)'
+      case 'Success':
+        return 'color: var(--color-success)'
+      case 'COMPLETED':
+        return 'color: var(--color-success)'
+      case 'Verified':
+        return 'color: var(--color-success)'
+      case 'Sent':
+        return 'color: var(--color-success)'
+      case 'Submitted':
+        return 'color: var(--color-success)'
+      case 'Rewarded':
+        return 'color: var(--color-success)'
+      case 'Inconsistent':
+        return 'color: var(--color-danger)'
+      case 'NSC':
+        return 'color: var(--color-danger)'
+      case 'NSR':
+        return 'color: var(--color-danger)'
+      case 'Declined':
+        return 'color: var(--color-danger)'
+      case 'Suspended':
+        return 'color: var(--color-danger)'
+      case 'Sibyl':
+        return 'color: var(--color-danger)'
+      case 'Cheating':
+        return 'color: var(--color-danger)'
+      case 'Version Too Low':
+        return 'color: var(--color-danger)'
+    }
+  } catch {
+    return 'color: var(--color-danger)'
   }
 }

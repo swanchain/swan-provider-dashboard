@@ -93,7 +93,15 @@
               <span v-else-if="scope.row.type === 4">Fil-C2-32G</span>
               <span v-else>-</span>
             </div>
-            <div v-else>{{ scope.row.name }}</div>
+            <div v-else>
+              <el-popover placement="top" effect="dark" popper-style="width:auto; max-width:300px;word-break: break-word; text-align: left;font-size:12px;" :content="scope.row.name" trigger="hover">
+                <template #reference>
+                  <div class="line-2">
+                    {{ scope.row.name }}
+                  </div>
+                </template>
+              </el-popover>
+            </div>
           </template>
         </el-table-column>
         <el-table-column prop="status" min-width="90">

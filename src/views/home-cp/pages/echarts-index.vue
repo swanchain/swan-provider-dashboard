@@ -133,8 +133,8 @@ const changetype = async (data: any) => {
   const memoryData = await dataResource(data.memory, 'active')
   const storageData = await dataResource(data.storage, 'active')
 
-  const fcpData = await dataDelta(data.fcp, 'total', 'total')
-  const fcpDeltaData = await dataDelta(data.fcp, 'delta', 'total')
+  const fcpData = await dataDelta(data.fcp, 'active', 'active')
+  const fcpDeltaData = await dataDelta(data.fcp, 'delta', 'active')
   const fcpNumberMax = Math.max(...fcpData.datum) >= 0 ? 1.1 : 0.9
   const fcpMax = Math.ceil(Math.max(...fcpData.datum) * fcpNumberMax)
   const fcpNumber = Math.min(...fcpData.datum) >= 0 ? 0.9 : 1.1

@@ -148,7 +148,7 @@ const changetype = async (data: any) => {
 
   const [fcpAllData, ecpAllData] = cutArraysToShortestLength(data.fcp, data.ecp);
   const result = fcpAllData.map((item:any, index:number) => ({
-    value: item.total + ecpAllData[index].active,
+    value: item.active + ecpAllData[index].active,
     ...item
   }));
   const allcpData = await dataDelta(result, 'value', 'value')

@@ -117,16 +117,14 @@ const changetype = async (data: any) => {
   const machart_gpu = echarts.init(document.getElementById("chart-GPU"));
   const machart_edge = echarts.init(document.getElementById("chart-Edge"));
 
-  const gpuData = await dataGPU(data.gpu, 'active')
+  const gpuData = await dataResource(data.gpu_cu, 'active')
   const gpuTotalData = await dataGPU(data.gpu, 'total')
-  const gMax = Math.max(...gpuData.datum)
   const gTotalMax = Math.max(...gpuTotalData.datum)
-  const gpuDataNumberMax = Math.max(gMax, gTotalMax) >= 0 ? 1.1 : 0.9
-  const gpuDataMax = Math.ceil(Math.max(gMax, gTotalMax)*gpuDataNumberMax)
-  const gMin = Math.min(...gpuData.datum)
+  const gpuDataNumberMax = gTotalMax >= 0 ? 1.1 : 0.9
+  const gpuDataMax = Math.ceil(gTotalMax*gpuDataNumberMax)
   const gTotalMin = Math.min(...gpuTotalData.datum)
-  const gpuNumber = Math.min(gMin, gTotalMin) >= 0 ? 0.9 : 1.1
-  const gpuDataMin = Math.floor(Math.min(gMin, gTotalMin)*gpuNumber)
+  const gpuNumber = gTotalMin >= 0 ? 0.9 : 1.1
+  const gpuDataMin = Math.floor(gTotalMin*gpuNumber)
   const gpuTotalInterval = Math.ceil((gpuDataMax - gpuDataMin) / 5)
   
   const cpuData = await dataResource(data.cpu, 'active')
@@ -431,8 +429,9 @@ const changetype = async (data: any) => {
           // result += colorDot + item.seriesName + ' ' + item.value + 'Used 26Free' + '<br/>'; 
           if(i < 2) {
             var color = item.color.colorStops ? item.color.colorStops[0].color : item.color; 
+            const unit = item.seriesName.includes('Used') ? '%' : ''
             let colorDot = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:' + color + ';"></span>';
-            result += colorDot + item.seriesName + ': ' + item.value  + '<br/>'; 
+            result += colorDot + item.seriesName + ': ' + item.value  + unit + '<br/>'; 
           }
         });
         return result;
@@ -497,6 +496,17 @@ const changetype = async (data: any) => {
         interval: gpuTotalInterval,
         min: gpuDataMin,
         max: gpuDataMax
+      },
+      {
+        type: 'value',
+        axisLabel: {
+          fontSize: document.documentElement.clientWidth >= 1920 ? 17 : 12,
+          color: '#7c889b',
+          formatter: '{value}%'
+        },
+        interval: 20,
+        min: 0,
+        max: 100
       }
     ],
     series: [
@@ -504,7 +514,7 @@ const changetype = async (data: any) => {
         name: 'Used GPU',
         type: 'line',
         showSymbol: true,
-        // yAxisIndex: 1,
+        yAxisIndex: 1,
         color: '#ed5da0',
         smooth: false,
         data: gpuData.datum
@@ -513,7 +523,7 @@ const changetype = async (data: any) => {
         name: 'Total GPU',
         type: 'line',
         showSymbol: true,
-        // yAxisIndex: 0,
+        yAxisIndex: 0,
         color: '#5871fa',
         smooth: false,
         data: gpuTotalData.datum

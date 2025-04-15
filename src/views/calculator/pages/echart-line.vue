@@ -25,7 +25,9 @@ const cpLoad = ref(false)
 const changetype = async () => {
   cpLoad.value = true
   await timeout(500)
-  const machart_price = echarts.init(document.getElementById("chart-price")!)
+  const machart_price = echarts.init(document.getElementById("chart-price")!, undefined, {
+    renderer: 'svg'
+  })
   try { 
     const priceData = await dataPrice(props.profitData, 'price')
     const p = replaceNumberFormat(props.priceDefault, 2)
@@ -130,7 +132,7 @@ const changetype = async () => {
       yAxis: [
         {
           type: 'value',
-          name: 'ROI (%)',
+          name: 'ROI{icon|ⓘ}(%)',
           nameLocation: 'end',
           nameTextStyle: { 
             padding: [0, 0, 5, 20],
@@ -138,6 +140,13 @@ const changetype = async () => {
             fontWeight: 600,
             fontSize: document.documentElement.clientWidth >= 2200 ? 20 : document.documentElement.clientWidth >= 1920 ? 17 : 12,
             color: 'rgba(68, 125, 255, 1)',
+            rich: {
+              icon: {
+                fontSize: 12,
+                color: 'rgba(68, 125, 255, 1)',
+                padding: [0, 3, 0, 3]
+              }
+            }
           },
           axisLabel: {
             fontFamily: 'HELVETICA-ROMAN',
@@ -161,11 +170,15 @@ const changetype = async () => {
           interval: roiInterval,
           // splitNumber: 5,
           max: roiMax,
-          min: roiNumberMin
+          min: roiNumberMin,
+          tooltip: {
+            show: true,
+            formatter: '(Daily FCP Profit × 365) / CU / (Market Price of Baseline GPU / Swan Token Price + Base Collateral)',
+          },
         },
         {
           type: 'value',
-          name: 'Return ($/Year)',
+          name: 'Return{icon|ⓘ}($/Year)',
           nameLocation: 'end',
           nameTextStyle: { 
             padding: [0, 0, 5, 80],
@@ -173,6 +186,13 @@ const changetype = async () => {
             fontWeight: 600,
             fontSize: document.documentElement.clientWidth >= 2200 ? 20 : document.documentElement.clientWidth >= 1920 ? 17 : 12,
             color: 'rgba(118, 185, 0, 1)',
+            rich: {
+              icon: {
+                fontSize: 12,
+                color: 'rgba(118, 185, 0, 1)',
+                padding: [0, 3, 0, 3]
+              }
+            }
           },
           axisLabel: {
             fontFamily: 'HELVETICA-ROMAN',
@@ -196,12 +216,16 @@ const changetype = async () => {
           interval: profitInterval,
           // splitNumber: 5,
           max: profitMax,
-          min: profitNumberMin
+          min: profitNumberMin,
+          tooltip: {
+            show: true,
+            formatter: 'Daily FCP Profit × Swan Token Price × 365',
+          },
         }
       ],
       series: [
         {
-          name: 'ROI',
+          name: 'ROI (%)',
           type: 'line',
           yAxisIndex: 0,
           areaStyle: {
@@ -261,10 +285,9 @@ const changetype = async () => {
           showSymbol: false,
           data: profitData
         }
-      ]
+      ],
     }
     machart_price.setOption(option1)
-
     if (typeof ResizeObserver !== 'undefined') {
       let observer = new ResizeObserver(entries => {
         for (let entry of entries) {
@@ -292,7 +315,13 @@ watch(() => props.profitData, () => changetype())
 
 <style lang="less" scoped>
 .echart-calculator {
+  position: relative;
   overflow-x: auto;
+  .echart-tips {
+    position: absolute;
+    left: 150px;
+    top: 6px;
+  }
   .chart-trends {
     width: 100%;
     min-width: 600px;

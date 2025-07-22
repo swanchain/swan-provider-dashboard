@@ -9,7 +9,7 @@
         Swan Provider is a SWAN provider explorer and data service platform, providing one-stop data services, including provider details and visualization charts.
       </div>
       <div class="font-12 desc">
-        © 2024 SWAN CHAIN. ALL RIGHTS RESERVED.
+        © 2023 SWAN. ALL RIGHTS RESERVED
       </div>
     </el-col>
     <el-col :xs="24" :sm="12" :md="10" :lg="10" :xl="10" class="m">
